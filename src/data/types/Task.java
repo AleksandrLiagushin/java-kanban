@@ -8,13 +8,7 @@ public class Task {
     private String description;
     private TaskStatus status;
     private Date creationDate;
-/*
-    public Task(String taskName, String description, TaskStatus status) {
-        this.taskName = taskName;
-        this.description = description;
-        this.status = status;
-    }
-*/
+
     public String getTaskName() {
         return taskName;
     }
