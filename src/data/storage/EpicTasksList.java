@@ -1,6 +1,7 @@
 package data.storage;
 
 import data.types.EpicTask;
+import data.types.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,27 +33,15 @@ public class EpicTasksList {
         this.epicTasksList.clear();
     }
 
-    public void addSubTaskByID(int epicID, int subTaskID) {
-        EpicTask epic;
-        for (Integer ID : this.epicTasksList.keySet()) {
-            if (ID == epicID) {
-                epic = this.epicTasksList.get(ID);
-                epic.addToSubTasksList(subTaskID);
-                this.epicTasksList.put(epicID, epic);
-                return;
-            }
-        }
-    }
-
     public void changeEpicStatus(int epicID, SubTasksList subTasksList) {
         ArrayList<Integer> tasksByEpic = getTaskByID(epicID).getSubTasksList();
         EpicTask epic = getTaskByID(epicID);
-        String status = "NEW";
+        TaskStatus status = TaskStatus.NEW;
         if (!tasksByEpic.isEmpty()) {
             status = subTasksList.getTaskByID(tasksByEpic.get(0)).getStatus();
             for (Integer integer : tasksByEpic) {
                 if (!status.equals(subTasksList.getTaskByID(integer).getStatus())) {
-                    status = "IN_PROGRESS";
+                    status = TaskStatus.IN_PROGRESS;
                     break;
                 }
             }
@@ -67,7 +56,10 @@ public class EpicTasksList {
         StringBuilder out = new StringBuilder("EpicTasks{");
         for (Integer id : ids) {
             EpicTask epic = getTaskByID(id);
-            out.append("TaskID='").append(id).append("' Task{").append(Arrays.toString(new EpicTask[]{epic})).append("}\n");
+            out.append("TaskID='").append(id).append("' Task{")
+                    .append(Arrays.toString(new EpicTask[]{epic})).append("}")
+                    .append("SubTasksIDs=")
+                    .append(epic.getSubTasksList()).append("\n");
         }
         return out.toString();
     }

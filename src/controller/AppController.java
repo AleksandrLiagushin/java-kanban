@@ -1,5 +1,7 @@
 package controller;
 
+import data.types.EpicTask;
+import data.types.SubTask;
 import data.types.Task;
 import servises.TaskManager;
 
@@ -30,11 +32,11 @@ public class AppController {
                 command = userInput.nextInt();
                 userInput.nextLine();
                 if (command == 1) {
-                    taskManager.createNewTask(userInput);
+                    taskManager.createNewTask(new Task(), userInput);
                 } else if (command == 2) {
-                    taskManager.createNewEpic(userInput);
+                    taskManager.createNewEpic(new EpicTask(), userInput);
                 } else if (command == 3) {
-                    taskManager.createSubTask(userInput);
+                    taskManager.createSubTask(new SubTask(), userInput);
                 }
             } else if (command == CHANGE_STATUS) {
                 System.out.println("input task id");
@@ -42,56 +44,40 @@ public class AppController {
                 userInput.nextLine();
                 taskManager.changeTaskStatus(id, userInput);
             } else if (command == CHANGE_TASK) {
-                System.out.println("Какую задачу переместить? 1 - задача 2 - подзадача");
-                command = userInput.nextInt();
+                System.out.println("Input ID");
+                id = userInput.nextInt();
                 userInput.nextLine();
-                if (command == 1) {
-                    id = userInput.nextInt();
-                    userInput.nextLine();
-                    Task task = taskManager.getTasksList().getTaskByID(id);
-                    if (task != null) {
-                        System.out.println("1 - переместить в эпик 2 - переместить в подзадачи");
-                        command = userInput.nextInt();
-                        userInput.nextLine();
-                        if (command == 1) {
-                            System.out.println("Ввести ID");
-                            id = userInput.nextInt();
-                            userInput.nextLine();
-                            taskManager.moveTaskToEpic(id);
-                        } else if (command == 2) {
-                            System.out.println("Ввести ID");
-                            id = userInput.nextInt();
-                            userInput.nextLine();
-                            taskManager.moveTaskToSubTask(userInput, id);
-                        }
-                    }
-                } else if (command == 2) {
-                    System.out.println("1 - переместить в эпик 2 - переместить в задачи");
-                    command = userInput.nextInt();
-                    userInput.nextLine();
-                    if (command == 1) {
-                        System.out.println("Ввести ID");
-                        id = userInput.nextInt();
-                        userInput.nextLine();
-                        taskManager.moveSubTaskToTask(id);
-                        taskManager.moveTaskToEpic(id);
-                    } else if (command == 2) {
-                        System.out.println("Ввести ID");
-                        id = userInput.nextInt();
-                        userInput.nextLine();
-                        taskManager.moveSubTaskToTask(id);
-                    }
+                if (taskManager.findTaskByID(id) != null) {
+                    taskManager.getTasksList()
+                            .addNewTaskToList(id, taskManager.refreshTask(taskManager.findTaskByID(id), userInput));
+                }
+                if (taskManager.findEpicByID(id) != null) {
+                    taskManager.getEpicTasksList()
+                            .addEpicTaskToList(id, taskManager.refreshEpicTask(taskManager.findEpicByID(id),
+                                    userInput));
+                }
+                if (taskManager.findSubTaskByID(id) != null) {
+                    taskManager.getSubTasksList()
+                            .addSubTaskToList(id, taskManager.refreshSubTask(taskManager.findSubTaskByID(id),
+                                    userInput));
+                    taskManager.getEpicTasksList()
+                            .changeEpicStatus(taskManager.findSubTaskByID(id).getOwnedByEpic(),
+                                    taskManager.getSubTasksList());
                 }
             } else if (command == FIND_TASK) {
+                System.out.println("Input ID");
                 id = userInput.nextInt();
-                taskManager.findTaskByID(id);
+                Task task = taskManager.findTaskByID(id);
+                EpicTask epic = taskManager.findEpicByID(id);
+                SubTask subTask = taskManager.findSubTaskByID(id);
             } else if (command == DELETE_TASK) {
+                System.out.println("Input ID");
                 id = userInput.nextInt();
-                taskManager.deleteAnyTaskByID(id);
+                taskManager.deleteTaskByID(id);
+                taskManager.deleteEpicTaskByID(id);
+                taskManager.deleteSubTaskByID(id);
             } else if (command == DELETE_ALL_TASKS) {
-                taskManager.getTasksList().deleteAllTasks();
-                taskManager.getSubTasksList().deleteAllTasks();
-                taskManager.getEpicTasksList().deleteAllTasks();
+                taskManager.deleteAllTasks();
             } else if (command == SHOW_STATISTICS) {
                 System.out.println(taskManager.getEpicTasksList());
                 System.out.println(taskManager.getTasksList());

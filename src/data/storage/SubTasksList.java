@@ -24,16 +24,16 @@ public class SubTasksList {
         return null;
     }
 
-   /* public HashMap<Integer, SubTask> getSubTasksByEpicID(int epicID) {
+    public HashMap<Integer, SubTask> getSubTasksByEpicID(int epicID) {
         HashMap<Integer, SubTask> subTasksByEpic = new HashMap<>();
-       /* for (Integer subTaskID : this.subTasksList.keySet()) {
+        for (Integer subTaskID : this.subTasksList.keySet()) {
             if (subTasksList.get(subTaskID).getOwnedByEpic() == epicID) {
                 subTasksByEpic.put(subTaskID, subTasksList.get(subTaskID));
             }
         }
         return subTasksByEpic;
     }
-*/
+
     public void deleteTaskByID(int taskID) {
         this.subTasksList.remove(taskID);
     }

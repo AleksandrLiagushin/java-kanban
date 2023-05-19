@@ -6,31 +6,40 @@ import java.util.Objects;
 public class Task {
     private String taskName;
     private String description;
-    private String status;
+    private TaskStatus status;
     private Date creationDate;
-
+/*
+    public Task(String taskName, String description, TaskStatus status) {
+        this.taskName = taskName;
+        this.description = description;
+        this.status = status;
+    }
+*/
     public String getTaskName() {
         return taskName;
     }
 
-    public void setTaskName(String taskName) {
+    public Task setTaskName(String taskName) {
         this.taskName = taskName;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Task setDescription(String description) {
         this.description = description;
+        return this;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public Task setStatus(TaskStatus status) {
         this.status = status;
+        return this;
     }
 
     public void setCreationDate() {
