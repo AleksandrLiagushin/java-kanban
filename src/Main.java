@@ -1,11 +1,9 @@
-import controller.AppController;
+import servises.TaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
+        TaskManager taskManager = new TaskManager();
 
-        System.out.println("Поехали!");
-        AppController appController = new AppController();
-        appController.startApp();
     }
 }
