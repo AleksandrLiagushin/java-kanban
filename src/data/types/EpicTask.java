@@ -3,14 +3,18 @@ package data.types;
 import java.util.ArrayList;
 
 public class EpicTask extends Task {
-    private ArrayList<Integer> subTasksList = new ArrayList<>();
+    private ArrayList<Integer> subTasksIDsList = new ArrayList<>();
 
-    public ArrayList<Integer> getSubTasksList() {
-        return subTasksList;
+    public EpicTask(String taskName, String description, TaskStatus status) {
+        super(taskName, description, status);
+    }
+
+    public ArrayList<Integer> getSubTasksIDsList() {
+        return subTasksIDsList;
     }
 
     public void addSubIDToSubTasksList(int subID) {
-        this.subTasksList.add(subID);
+        this.subTasksIDsList.add(subID);
     }
 
 }
