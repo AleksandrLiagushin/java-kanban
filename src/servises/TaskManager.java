@@ -21,15 +21,18 @@ public class TaskManager {
 
     public void createNewTask(Task task) {
         setTaskID();
+        task.setCreationDate();
         tasksList.addNewTaskToList(getTaskID(), task);
     }
 
     public void createNewEpic(EpicTask epic) {
         setTaskID();
+        epic.setCreationDate();
         epicTasksList.addEpicTaskToList(getTaskID(), epic);
     }
     public void createSubTask(SubTask sub) {
         setTaskID();
+        sub.setCreationDate();
         if (epicTasksList.getTaskByID(sub.getOwnedByEpic()) != null) {
             EpicTask epic = findEpicByID(sub.getOwnedByEpic());
             epic.addSubIDToSubTasksList(getTaskID());
