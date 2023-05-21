@@ -1,10 +1,7 @@
 package data.storage;
 
 import data.types.EpicTask;
-import data.types.TaskStatus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -26,40 +23,27 @@ public class EpicTasksList {
     }
 
     public void deleteTaskByID(int taskID) {
-        this.epicTasksList.remove(taskID);
+        epicTasksList.remove(taskID);
     }
 
     public void deleteAllTasks() {
-        this.epicTasksList.clear();
+        epicTasksList.clear();
     }
 
-    public void changeEpicStatus(int epicID, SubTasksList subTasksList) {
-        ArrayList<Integer> tasksByEpic = getTaskByID(epicID).getSubTasksList();
-        EpicTask epic = getTaskByID(epicID);
-        TaskStatus status = TaskStatus.NEW;
-        if (!tasksByEpic.isEmpty()) {
-            status = subTasksList.getTaskByID(tasksByEpic.get(0)).getStatus();
-            for (Integer integer : tasksByEpic) {
-                if (!status.equals(subTasksList.getTaskByID(integer).getStatus())) {
-                    status = TaskStatus.IN_PROGRESS;
-                    break;
-                }
-            }
-        }
-        epic.setStatus(status);
-        addEpicTaskToList(epicID, epic);
+    public HashMap<Integer, EpicTask> getEpicTasksList() {
+        return epicTasksList;
     }
 
     @Override
     public String toString() {
-        Set<Integer> ids = this.epicTasksList.keySet();
+        Set<Integer> ids = epicTasksList.keySet();
         StringBuilder out = new StringBuilder("EpicTasks{");
         for (Integer id : ids) {
             EpicTask epic = getTaskByID(id);
             out.append("TaskID='").append(id).append("' Task{")
-                    .append(Arrays.toString(new EpicTask[]{epic})).append("}")
+                    .append(epic).append("}")
                     .append("SubTasksIDs=")
-                    .append(epic.getSubTasksList()).append("\n");
+                    .append(epic.getSubTasksIDsList()).append("\n");
         }
         return out.toString();
     }

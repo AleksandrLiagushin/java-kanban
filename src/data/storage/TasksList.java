@@ -2,7 +2,6 @@ package data.storage;
 
 import data.types.Task;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -10,7 +9,7 @@ public class TasksList {
     private HashMap<Integer, Task> tasksList = new HashMap<>();
 
     public void addNewTaskToList(Integer taskID, Task task) {
-        this.tasksList.put(taskID, task);
+        tasksList.put(taskID, task);
     }
 
     public Task getTaskByID(int taskID) {
@@ -24,20 +23,24 @@ public class TasksList {
     }
 
     public void deleteTaskByID(int taskID) {
-        this.tasksList.remove(taskID);
+        tasksList.remove(taskID);
     }
 
     public void deleteAllTasks() {
-        this.tasksList.clear();
+        tasksList.clear();
+    }
+
+    public HashMap<Integer, Task> getTasksList() {
+        return tasksList;
     }
 
     @Override
     public String toString() {
-        Set<Integer> ids = this.tasksList.keySet();
+        Set<Integer> ids = tasksList.keySet();
         StringBuilder out = new StringBuilder("NewTasks{");
         for (Integer id : ids) {
             Task task = getTaskByID(id);
-            out.append("TaskID='").append(id).append("' Task{").append(Arrays.toString(new Task[]{task})).append("}\n");
+            out.append("TaskID='").append(id).append("' Task{").append(task).append("}\n");
         }
         return out.toString();
     }

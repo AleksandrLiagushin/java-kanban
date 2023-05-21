@@ -3,7 +3,6 @@ package data.storage;
 import data.types.SubTask;
 import data.types.Task;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -24,32 +23,26 @@ public class SubTasksList {
         return null;
     }
 
-    public HashMap<Integer, SubTask> getSubTasksByEpicID(int epicID) {
-        HashMap<Integer, SubTask> subTasksByEpic = new HashMap<>();
-        for (Integer subTaskID : this.subTasksList.keySet()) {
-            if (subTasksList.get(subTaskID).getOwnedByEpic() == epicID) {
-                subTasksByEpic.put(subTaskID, subTasksList.get(subTaskID));
-            }
-        }
-        return subTasksByEpic;
-    }
-
     public void deleteTaskByID(int taskID) {
-        this.subTasksList.remove(taskID);
+        subTasksList.remove(taskID);
     }
 
     public void deleteAllTasks() {
-        this.subTasksList.clear();
+        subTasksList.clear();
+    }
+
+    public HashMap<Integer, SubTask> getSubTasksList() {
+        return subTasksList;
     }
 
     @Override
     public String toString() {
-        Set<Integer> ids = this.subTasksList.keySet();
+        Set<Integer> ids = subTasksList.keySet();
         StringBuilder out = new StringBuilder("SubTasks{");
         for (Integer id : ids) {
-            SubTask sub = this.subTasksList.get(id);
-            out.append("TaskID='").append(id).append("' Task{").append(Arrays.toString(new SubTask[]{sub}))
-                    .append("' Epic='").append(sub.getOwnedByEpic()).append("}\n");
+            SubTask sub = subTasksList.get(id);
+            out.append("TaskID='").append(id).append("' Task{").append(sub)
+                    .append("' Epic='").append(sub.getOwnedByEpic()).append("}\n\t\t ");
         }
         return out.toString();
     }
