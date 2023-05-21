@@ -9,31 +9,34 @@ public class Task {
     private TaskStatus status;
     private Date creationDate;
 
+    public Task(String taskName, String description, TaskStatus status) {
+        this.taskName = taskName;
+        this.description = description;
+        this.status = status;
+    }
+
     public String getTaskName() {
         return taskName;
     }
 
-    public Task setTaskName(String taskName) {
+    public void setTaskName(String taskName) {
         this.taskName = taskName;
-        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public Task setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
-        return this;
     }
 
     public TaskStatus getStatus() {
         return status;
     }
 
-    public Task setStatus(TaskStatus status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
-        return this;
     }
 
     public void setCreationDate() {
