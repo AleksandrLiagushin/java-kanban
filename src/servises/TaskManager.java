@@ -27,6 +27,7 @@ public class TaskManager {
 
     public void createNewEpic(EpicTask epic) {
         setTaskID();
+        epic.setStatus(TaskStatus.NEW);
         epic.setCreationDate();
         epicTasksList.addEpicTaskToList(getTaskID(), epic);
     }
@@ -95,6 +96,13 @@ public class TaskManager {
 
     public void refreshSubTask(SubTask sub, int subID) {
         SubTask refSub = findSubTaskByID(subID);
+        EpicTask epic = findEpicByID(refSub.getOwnedByEpic());
+        if (refSub.getOwnedByEpic() != sub.getOwnedByEpic()) {
+            epic.removeSubIDFromIDsList(subID);
+            changeEpicStatus(refSub.getOwnedByEpic());
+            epic = findEpicByID(sub.getOwnedByEpic());
+            epic.addSubIDToSubTasksList(subID);
+        }
         refSub.setTaskName(sub.getTaskName());
         refSub.setDescription(sub.getDescription());
         refSub.setStatus(sub.getStatus());
@@ -109,14 +117,14 @@ public class TaskManager {
 
     public void deleteEpicTaskByID(int epicID) {
         for (Integer id : findEpicByID(epicID).getSubTasksIDsList()) {
-            deleteSubTaskByID(id);
+            subTasksList.deleteTaskByID(id);
         }
         epicTasksList.deleteTaskByID(epicID);
     }
 
     public void deleteSubTaskByID(int subID) {
         int epicID = findSubTaskByID(subID).getOwnedByEpic();
-        findEpicByID(findSubTaskByID(subID).getOwnedByEpic()).getSubTasksIDsList().remove(subID);
+        findEpicByID(epicID).removeSubIDFromIDsList(subID);
         changeEpicStatus(epicID);
         subTasksList.deleteTaskByID(subID);
     }
@@ -127,9 +135,7 @@ public class TaskManager {
 
     public void deleteAllEpics() {
         epicTasksList.deleteAllTasks();
-        for (Integer id : subTasksList.getSubTasksList().keySet()) {
-            findSubTaskByID(id).setOwnedByEpic(0);
-        }
+        subTasksList.deleteAllTasks();
     }
 
     public void deleteAllSubs() {
@@ -171,5 +177,17 @@ public class TaskManager {
 
     public void setTaskID() {
         this.taskID += 1;
+    }
+
+    public TasksList getTasksList() {
+        return tasksList;
+    }
+
+    public SubTasksList getSubTasksList() {
+        return subTasksList;
+    }
+
+    public EpicTasksList getEpicTasksList() {
+        return epicTasksList;
     }
 }

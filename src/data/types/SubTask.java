@@ -13,7 +13,7 @@ public class SubTask extends Task {
     }
 
     public void setOwnedByEpic(int epicID) {
-        this.ownedByEpic = epicID;
+        ownedByEpic = epicID;
     }
 
 }

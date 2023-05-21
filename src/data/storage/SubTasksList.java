@@ -3,7 +3,6 @@ package data.storage;
 import data.types.SubTask;
 import data.types.Task;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -38,12 +37,12 @@ public class SubTasksList {
 
     @Override
     public String toString() {
-        Set<Integer> ids = this.subTasksList.keySet();
+        Set<Integer> ids = subTasksList.keySet();
         StringBuilder out = new StringBuilder("SubTasks{");
         for (Integer id : ids) {
-            SubTask sub = this.subTasksList.get(id);
-            out.append("TaskID='").append(id).append("' Task{").append(Arrays.toString(new SubTask[]{sub}))
-                    .append("' Epic='").append(sub.getOwnedByEpic()).append("}\n");
+            SubTask sub = subTasksList.get(id);
+            out.append("TaskID='").append(id).append("' Task{").append(sub)
+                    .append("' Epic='").append(sub.getOwnedByEpic()).append("}\n\t\t ");
         }
         return out.toString();
     }

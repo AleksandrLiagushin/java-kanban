@@ -15,6 +15,11 @@ public class Task {
         this.status = status;
     }
 
+    public Task(String taskName, String description) {
+        this.taskName = taskName;
+        this.description = description;
+    }
+
     public String getTaskName() {
         return taskName;
     }
@@ -40,7 +45,7 @@ public class Task {
     }
 
     public void setCreationDate() {
-        this.creationDate = new Date();
+        creationDate = new Date();
     }
 
     @Override

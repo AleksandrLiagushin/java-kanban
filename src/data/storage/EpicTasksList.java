@@ -2,7 +2,6 @@ package data.storage;
 
 import data.types.EpicTask;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -24,11 +23,11 @@ public class EpicTasksList {
     }
 
     public void deleteTaskByID(int taskID) {
-        this.epicTasksList.remove(taskID);
+        epicTasksList.remove(taskID);
     }
 
     public void deleteAllTasks() {
-        this.epicTasksList.clear();
+        epicTasksList.clear();
     }
 
     public HashMap<Integer, EpicTask> getEpicTasksList() {
@@ -37,12 +36,12 @@ public class EpicTasksList {
 
     @Override
     public String toString() {
-        Set<Integer> ids = this.epicTasksList.keySet();
+        Set<Integer> ids = epicTasksList.keySet();
         StringBuilder out = new StringBuilder("EpicTasks{");
         for (Integer id : ids) {
             EpicTask epic = getTaskByID(id);
             out.append("TaskID='").append(id).append("' Task{")
-                    .append(Arrays.toString(new EpicTask[]{epic})).append("}")
+                    .append(epic).append("}")
                     .append("SubTasksIDs=")
                     .append(epic.getSubTasksIDsList()).append("\n");
         }
