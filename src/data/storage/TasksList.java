@@ -31,6 +31,10 @@ public class TasksList {
         this.tasksList.clear();
     }
 
+    public HashMap<Integer, Task> getTasksList() {
+        return tasksList;
+    }
+
     @Override
     public String toString() {
         Set<Integer> ids = this.tasksList.keySet();
