@@ -8,6 +8,11 @@ public class SubTask extends Task {
         this.ownedByEpic = ownedByEpic;
     }
 
+    public SubTask(int id, String taskName, String description, TaskStatus status, int ownedByEpic) {
+        super(id, taskName, description, status);
+        this.ownedByEpic = ownedByEpic;
+    }
+
     public int getOwnedByEpic() {
         return ownedByEpic;
     }
