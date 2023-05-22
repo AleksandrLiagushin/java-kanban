@@ -1,13 +1,12 @@
 package data.types;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class Task {
+    private int id;
     private String taskName;
     private String description;
     private TaskStatus status;
-    private Date creationDate;
 
     public Task(String taskName, String description, TaskStatus status) {
         this.taskName = taskName;
@@ -15,9 +14,30 @@ public class Task {
         this.status = status;
     }
 
+    public Task(int id, String taskName, String description, TaskStatus status) {
+        this.id = id;
+        this.taskName = taskName;
+        this.description = description;
+        this.status = status;
+    }
+
+    public Task(int id, String taskName, String description) {
+        this.id = id;
+        this.taskName = taskName;
+        this.description = description;
+    }
+
     public Task(String taskName, String description) {
         this.taskName = taskName;
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTaskName() {
@@ -44,29 +64,25 @@ public class Task {
         this.status = status;
     }
 
-    public void setCreationDate() {
-        creationDate = new Date();
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Task task = (Task) obj;
-        return (taskName.equals(task.taskName)
+        return (id == task.id
+                && taskName.equals(task.taskName)
                 && description.equals(task.description)
-                && status.equals(task.status)
-                && creationDate.equals(task.creationDate));
+                && status.equals(task.status));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskName, description, status, creationDate);
+        return Objects.hash(taskName, description, status);
     }
 
     @Override
     public String toString() {
-        String info = "Task{";
+        String info = "Task{" + "id='" + id + '\'';
 
         if (taskName != null) {
             info += "taskName='" + taskName + '\'';
