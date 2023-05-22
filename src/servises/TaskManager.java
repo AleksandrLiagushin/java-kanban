@@ -20,24 +20,24 @@ public class TaskManager {
 
     public void createNewTask(Task task) {
         generateTaskID();
-        task.setId(getTaskID());
-        tasksList.addNewTaskToList(getTaskID(), task);
+        task.setId(taskID);
+        tasksList.addNewTaskToList(taskID, task);
     }
 
     public void createNewEpic(EpicTask epic) {
         generateTaskID();
-        epic.setId(getTaskID());
+        epic.setId(taskID);
         epic.setStatus(TaskStatus.NEW);
-        epicTasksList.addEpicTaskToList(getTaskID(), epic);
+        epicTasksList.addEpicTaskToList(taskID, epic);
     }
     public void createSubTask(SubTask sub) {
         generateTaskID();
-        sub.setId(getTaskID());
+        sub.setId(taskID);
         if (epicTasksList.getTaskByID(sub.getOwnedByEpic()) != null) {
             EpicTask epic = findEpicByID(sub.getOwnedByEpic());
-            epic.addSubIDToSubTasksList(getTaskID());
+            epic.addSubIDToSubTasksList(taskID);
             epicTasksList.addEpicTaskToList(sub.getOwnedByEpic(), epic);
-            subTasksList.addSubTaskToList(getTaskID(), sub);
+            subTasksList.addSubTaskToList(taskID, sub);
             changeEpicStatus(sub.getOwnedByEpic());
         }
     }
@@ -88,17 +88,10 @@ public class TaskManager {
     }
 
     public void refreshTask(Task task) {
-       /* Task refTask = findTaskByID(taskID);
-        refTask.setTaskName(task.getTaskName());
-        refTask.setDescription(task.getDescription());
-        refTask.setStatus(task.getStatus());*/
         tasksList.addNewTaskToList(task.getId(), task);
     }
 
     public void refreshEpicTask(EpicTask epic) {
-        /*EpicTask refEpic = findEpicByID(epic.getId());
-        refEpic.setTaskName(epic.getTaskName());
-        refEpic.setDescription(epic.getDescription());*/
         epicTasksList.addEpicTaskToList(epic.getId(), epic);
     }
 
@@ -177,10 +170,6 @@ public class TaskManager {
         }
         epic.setStatus(status);
         epicTasksList.addEpicTaskToList(epicID, epic);
-    }
-
-    public int getTaskID() {
-        return taskID;
     }
 
     public void generateTaskID() {
