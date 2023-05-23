@@ -18,7 +18,6 @@ public class EpicTasksList {
                 return epicTasksList.get(id);
             }
         }
-        System.out.println("Эпик с таким ID не найден=(");
         return null;
     }
 
