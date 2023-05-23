@@ -64,34 +64,28 @@ public class TaskManager {
     }
 
     public ArrayList<Task> getAllTasks() {
-        ArrayList<Task> tasks = new ArrayList<>();
-        for (Integer id : tasksList.getTasksList().keySet()) {
-            tasks.add(tasksList.getTaskByID(id));
-        }
-        return tasks;
+        return new ArrayList<>(tasksList.getTasksList().values());
     }
 
     public ArrayList<SubTask> getAllSubTasks() {
-        ArrayList<SubTask> subs = new ArrayList<>();
-        for (Integer id : subTasksList.getSubTasksList().keySet()) {
-            subs.add(subTasksList.getSubTasksList().get(id));
-        }
-        return subs;
+        return new ArrayList<>(subTasksList.getSubTasksList().values());
     }
 
     public ArrayList<EpicTask> getAllEpicTasks() {
-        ArrayList<EpicTask> epics = new ArrayList<>();
-        for (Integer id : epicTasksList.getEpicTasksList().keySet()) {
-            epics.add(epicTasksList.getEpicTasksList().get(id));
-        }
-        return epics;
+        return new ArrayList<>(epicTasksList.getEpicTasksList().values());
     }
 
     public void refreshTask(Task task) {
+        if (findTaskByID(task.getId()) == null) {
+            return;
+        }
         tasksList.addNewTaskToList(task.getId(), task);
     }
 
     public void refreshEpicTask(EpicTask epic) {
+        if (findEpicByID(epic.getId()) == null) {
+            return;
+        }
         epicTasksList.addEpicTaskToList(epic.getId(), epic);
     }
 
