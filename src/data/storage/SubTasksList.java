@@ -19,7 +19,6 @@ public class SubTasksList {
                 return subTasksList.get(subTaskID);
             }
         }
-        System.out.println("Подзадача с таким ID не найдена=(");
         return null;
     }
 
