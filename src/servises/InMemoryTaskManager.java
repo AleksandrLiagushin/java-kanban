@@ -10,7 +10,7 @@ import data.types.TaskStatus;
 
 import java.util.ArrayList;
 
-public interface TaskManager {
+public class InMemoryTaskManager {
 
     private int taskID;
     private TasksList tasksList = new TasksList();
