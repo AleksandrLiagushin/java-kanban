@@ -2,12 +2,13 @@ import data.types.EpicTask;
 import data.types.SubTask;
 import data.types.Task;
 import data.types.TaskStatus;
+import servises.InMemoryTaskManager;
 import servises.TaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
         taskManager.createNewTask(new Task("new", "newDescription", TaskStatus.NEW));
         taskManager.createNewEpic(new EpicTask("Переезд", "epic1"));
         taskManager.createSubTask(new SubTask("Собрать коробки", "sub1", TaskStatus.NEW, 2));

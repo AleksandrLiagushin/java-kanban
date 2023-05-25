@@ -9,27 +9,33 @@ import data.types.Task;
 import data.types.TaskStatus;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
-public class InMemoryTaskManager {
+public class InMemoryTaskManager implements TaskManager {
 
     private int taskID;
     private TasksList tasksList = new TasksList();
     private SubTasksList subTasksList = new SubTasksList();
     private EpicTasksList epicTasksList = new EpicTasksList();
+    public List<Task> historian = new LinkedList<>();
 
-
+    @Override
     public void createNewTask(Task task) {
         generateTaskID();
         task.setId(taskID);
         tasksList.addNewTaskToList(taskID, task);
     }
 
+    @Override
     public void createNewEpic(EpicTask epic) {
         generateTaskID();
         epic.setId(taskID);
         epic.setStatus(TaskStatus.NEW);
         epicTasksList.addEpicTaskToList(taskID, epic);
     }
+
+    @Override
     public void createSubTask(SubTask sub) {
         generateTaskID();
         sub.setId(taskID);
@@ -42,6 +48,7 @@ public class InMemoryTaskManager {
         }
     }
 
+    @Override
     public Task findTaskByID(int taskID) {
         if (tasksList.getTaskByID(taskID) != null) {
             return tasksList.getTaskByID(taskID);
@@ -49,6 +56,7 @@ public class InMemoryTaskManager {
         return null;
     }
 
+    @Override
     public EpicTask findEpicByID(int epicID) {
         if (epicTasksList.getTaskByID(epicID) != null) {
             return epicTasksList.getTaskByID(epicID);
@@ -56,6 +64,7 @@ public class InMemoryTaskManager {
         return null;
     }
 
+    @Override
     public SubTask findSubTaskByID(int subID) {
         if (subTasksList.getTaskByID(subID) != null) {
             return subTasksList.getTaskByID(subID);
@@ -63,18 +72,22 @@ public class InMemoryTaskManager {
         return null;
     }
 
+    @Override
     public ArrayList<Task> getAllTasks() {
         return new ArrayList<>(tasksList.getTasksList().values());
     }
 
+    @Override
     public ArrayList<SubTask> getAllSubTasks() {
         return new ArrayList<>(subTasksList.getSubTasksList().values());
     }
 
+    @Override
     public ArrayList<EpicTask> getAllEpicTasks() {
         return new ArrayList<>(epicTasksList.getEpicTasksList().values());
     }
 
+    @Override
     public void refreshTask(Task task) {
         if (findTaskByID(task.getId()) == null) {
             return;
@@ -82,6 +95,7 @@ public class InMemoryTaskManager {
         tasksList.addNewTaskToList(task.getId(), task);
     }
 
+    @Override
     public void refreshEpicTask(EpicTask epic) {
         if (findEpicByID(epic.getId()) == null) {
             return;
@@ -89,6 +103,7 @@ public class InMemoryTaskManager {
         epicTasksList.addEpicTaskToList(epic.getId(), epic);
     }
 
+    @Override
     public void refreshSubTask(SubTask sub) {
         SubTask refSub = findSubTaskByID(sub.getId());
         EpicTask epic = findEpicByID(refSub.getOwnedByEpic());
@@ -106,10 +121,12 @@ public class InMemoryTaskManager {
         changeEpicStatus(sub.getOwnedByEpic());
     }
 
+    @Override
     public void deleteTaskByID(int taskID) {
         tasksList.deleteTaskByID(taskID);
     }
 
+    @Override
     public void deleteEpicTaskByID(int epicID) {
         for (Integer id : findEpicByID(epicID).getSubTasksIDsList()) {
             subTasksList.deleteTaskByID(id);
@@ -117,6 +134,7 @@ public class InMemoryTaskManager {
         epicTasksList.deleteTaskByID(epicID);
     }
 
+    @Override
     public void deleteSubTaskByID(int subID) {
         int epicID = findSubTaskByID(subID).getOwnedByEpic();
         findEpicByID(epicID).removeSubIDFromIDsList(subID);
@@ -124,15 +142,18 @@ public class InMemoryTaskManager {
         subTasksList.deleteTaskByID(subID);
     }
 
+    @Override
     public void deleteAllTasks() {
         tasksList.deleteAllTasks();
     }
 
+    @Override
     public void deleteAllEpics() {
         epicTasksList.deleteAllTasks();
         subTasksList.deleteAllTasks();
     }
 
+    @Override
     public void deleteAllSubs() {
         subTasksList.deleteAllTasks();
         for (Integer id : epicTasksList.getEpicTasksList().keySet()) {
@@ -141,6 +162,7 @@ public class InMemoryTaskManager {
         }
     }
 
+    @Override
     public ArrayList<SubTask> getSubTasksListOfEpicByID(int epicID) {
         ArrayList<SubTask> subsList = new ArrayList<>();
         for (Integer subID : findEpicByID(epicID).getSubTasksIDsList()) {
@@ -149,6 +171,7 @@ public class InMemoryTaskManager {
         return subsList;
     }
 
+    @Override
     public void changeEpicStatus(int epicID) {
         ArrayList<Integer> tasksByEpic = epicTasksList.getTaskByID(epicID).getSubTasksIDsList();
         EpicTask epic = epicTasksList.getTaskByID(epicID);
@@ -166,6 +189,7 @@ public class InMemoryTaskManager {
         epicTasksList.addEpicTaskToList(epicID, epic);
     }
 
+    @Override
     public void generateTaskID() {
         this.taskID += 1;
     }
