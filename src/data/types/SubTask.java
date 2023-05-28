@@ -21,4 +21,12 @@ public class SubTask extends Task {
         ownedByEpic = epicID;
     }
 
+    @Override
+    public String toString() {
+        return "SubTask{" + "ID='" + getId() +
+                "' Task{" + "Name='" + getTaskName() + '\'' +
+                ", Descr='" + getDescription() + '\'' +
+                ", Stat='" + getStatus() + '\'' +
+                ", Epic='" + getOwnedByEpic() + "'}\n";
+    }
 }
