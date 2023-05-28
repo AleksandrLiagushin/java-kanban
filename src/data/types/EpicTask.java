@@ -3,7 +3,7 @@ package data.types;
 import java.util.ArrayList;
 
 public class EpicTask extends Task {
-    private ArrayList<Integer> subTasksIDsList = new ArrayList<>();
+    private final ArrayList<Integer> subTasksIDsList = new ArrayList<>();
 
     public EpicTask(String taskName, String description) {
         super(taskName, description);
@@ -32,4 +32,13 @@ public class EpicTask extends Task {
         subTasksIDsList.add(subID);
     }
 
+    @Override
+    public String toString() {
+        return "EpicTask{" + "ID='" + getId() +
+                "' Task{" + "Name='" + getTaskName() +
+                "', Descr='" + getDescription() +
+                "', Status='" + getStatus() +
+                " SubTasksIDs=" +
+                getSubTasksIDsList() + "}\n";
+    }
 }
