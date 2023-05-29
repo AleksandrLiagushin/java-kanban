@@ -1,4 +1,4 @@
-package data.types;
+package ru.yandex.practicum.kanban.data.model;
 
 public enum TaskStatus {
     NEW,
