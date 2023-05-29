@@ -1,18 +1,12 @@
-package data.types;
+package ru.yandex.practicum.kanban.data.model;
 
 import java.util.Objects;
 
 public class Task {
-    private int id;
+    private final int id;
     private String taskName;
     private String description;
     private TaskStatus status;
-
-    public Task(String taskName, String description, TaskStatus status) {
-        this.taskName = taskName;
-        this.description = description;
-        this.status = status;
-    }
 
     public Task(int id, String taskName, String description, TaskStatus status) {
         this.id = id;
@@ -27,17 +21,8 @@ public class Task {
         this.description = description;
     }
 
-    public Task(String taskName, String description) {
-        this.taskName = taskName;
-        this.description = description;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTaskName() {
@@ -66,8 +51,12 @@ public class Task {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         Task task = (Task) obj;
         return (id == task.id
                 && taskName.equals(task.taskName)
@@ -82,24 +71,11 @@ public class Task {
 
     @Override
     public String toString() {
-        String info = "Task{" + "id='" + id + '\'';
-
-        if (taskName != null) {
-            info += "taskName='" + taskName + '\'';
-        } else {
-            info += "taskName='null'";
-        }
-        if (description != null) {
-            info += ", description='" + description + '\'';
-        } else {
-            info += ", description='null'";
-        }
-        if (status != null) {
-            info += ", status='" + status + '\'';
-        } else {
-            info += ", status='null'";
-        }
-
-        return (info + '}');
+        return "Task{" +
+                "id=" + id +
+                ", taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                '}';
     }
 }
