@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.servise;
+package ru.yandex.practicum.kanban.service;
 
 public class Managers {
 

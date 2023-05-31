@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class Task {
     private final int id;
-    private String taskName;
+    private String name;
     private String description;
     private TaskStatus status;
 
-    public Task(int id, String taskName, String description, TaskStatus status) {
+    public Task(int id, String name, String description, TaskStatus status) {
         this.id = id;
-        this.taskName = taskName;
+        this.name = name;
         this.description = description;
         this.status = status;
     }
 
-    public Task(int id, String taskName, String description) {
+    public Task(int id, String name, String description) {
         this.id = id;
-        this.taskName = taskName;
+        this.name = name;
         this.description = description;
     }
 
@@ -25,12 +25,12 @@ public class Task {
         return id;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getName() {
+        return name;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -54,26 +54,26 @@ public class Task {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (!(obj instanceof Task)) {
             return false;
         }
         Task task = (Task) obj;
-        return (id == task.id
-                && taskName.equals(task.taskName)
+        return id == task.id
+                && name.equals(task.name)
                 && description.equals(task.description)
-                && status.equals(task.status));
+                && status.equals(task.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskName, description, status);
+        return Objects.hash(id, name, description, status);
     }
 
     @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
-                ", taskName='" + taskName + '\'' +
+                ", taskName='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 '}';
