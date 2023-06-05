@@ -265,7 +265,7 @@ public class Main {
                 .setName("notNew")
                 .setDescription("blablabla")
                 .setStatus(TaskStatus.IN_PROGRESS));
-        taskManager.updatehEpic(new Epic()
+        taskManager.updateEpic(new Epic()
                 .setId(24)
                 .setName("notNewEpic")
                 .setDescription("trololo"));

@@ -21,7 +21,7 @@ public interface TaskManager {
     List<Epic> getAllEpics();
 
     void updateTask(Task task);
-    void updatehEpic(Epic epic);
+    void updateEpic(Epic epic);
     void updateSubtask(Subtask sub);
 
     void deleteTaskById(Integer taskId);

@@ -99,28 +99,24 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updatehEpic(Epic epic) {
+    public void updateEpic(Epic epic) {
         if (epics.get(epic.getId()) == null) {
             return;
         }
         epics.put(epic.getId(), epic);
     }
 
-    @Override //пересмотреть работу метода
+    @Override
     public void updateSubtask(Subtask subtask) {
-        Subtask refSub = findSubtaskById(subtask.getId());
-        Epic epic = findEpicById(refSub.getEpicId());
+        Subtask refSub = subtasks.get(subtask.getId());
+        Epic epic = epics.get(refSub.getEpicId());
         if (refSub.getEpicId() != subtask.getEpicId()) {
             epic.removeSubtaskId(subtask.getId());
             changeEpicStatus(refSub.getEpicId());
-            epic = findEpicById(subtask.getEpicId());
+            epic = epics.get(subtask.getEpicId());
             epic.addSubtaskId(subtask.getId());
         }
-        refSub.setName(subtask.getName());
-        refSub.setDescription(subtask.getDescription());
-        refSub.setStatus(subtask.getStatus());
-        refSub.setEpicId(subtask.getEpicId());
-        subtasks.put(subtask.getId(), refSub);
+        subtasks.put(subtask.getId(), subtask);
         changeEpicStatus(subtask.getEpicId());
     }
 
