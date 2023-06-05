@@ -59,18 +59,23 @@ public class Main {
                 .setDescription("sub2")
                 .setStatus(TaskStatus.NEW)
                 .setEpicId(9));
+
         taskManager.findTaskById(1);
         taskManager.findEpicById(2);
         taskManager.findSubtaskById(3);
+
         System.out.println(taskManager.getHistory());
         System.out.println("__________________________________________");
+
         taskManager.findTaskById(1);
         taskManager.findEpicById(2);
         taskManager.findSubtaskById(3);
         taskManager.findTaskById(1);
         taskManager.findEpicById(2);
+
         System.out.println(taskManager.getHistory());
         System.out.println("__________________________________________");
+
         taskManager.findSubtaskById(3);
         taskManager.findEpicById(2);
         taskManager.findEpicById(6);
@@ -84,17 +89,24 @@ public class Main {
 
         System.out.println(taskManager.getHistory());
         System.out.println("__________________________________________");
+
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
+
         System.out.println("-------------");
+
         taskManager.deleteSubtaskById(10);
+
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
+
         taskManager.deleteEpicById(6);
+
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
         System.out.println(taskManager.getSubtasksByEpicId(2));
+
         taskManager.createTask(new Task()
                 .setName("new")
                 .setDescription("newDescription")
@@ -143,14 +155,18 @@ public class Main {
                 .setDescription("sub2")
                 .setStatus(TaskStatus.NEW)
                 .setEpicId(13));
+
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
+
         taskManager.deleteAllTasks();
         taskManager.deleteAllEpics();
+
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
+
         taskManager.createTask(new Task()
                 .setName("new")
                 .setDescription("newDescription")
@@ -199,10 +215,13 @@ public class Main {
                 .setDescription("sub2")
                 .setStatus(TaskStatus.NEW)
                 .setEpicId(31));
+
         taskManager.deleteAllSubtasks();
+
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
+
         taskManager.createSubtask(new Subtask()
                 .setName("Задача 1")
                 .setDescription("sub1")
@@ -223,9 +242,11 @@ public class Main {
                 .setDescription("sub2")
                 .setStatus(TaskStatus.NEW)
                 .setEpicId(28));
+
         taskManager.deleteTaskById(23);
         taskManager.deleteSubtaskById(34);
         taskManager.deleteEpicById(28);
+
         taskManager.createTask(new Task()
                 .setName("new")
                 .setDescription("newDescription")
@@ -234,9 +255,11 @@ public class Main {
                 .setName("new")
                 .setDescription("newDescription")
                 .setStatus(TaskStatus.NEW));
+
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
+
         taskManager.updateTask(new Task()
                 .setId(38)
                 .setName("notNew")
@@ -252,6 +275,7 @@ public class Main {
                 .setDescription("dykdatakidyk")
                 .setStatus(TaskStatus.DONE)
                 .setEpicId(24));
+
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
