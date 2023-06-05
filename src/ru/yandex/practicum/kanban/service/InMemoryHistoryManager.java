@@ -7,8 +7,8 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final static int HISTORY_SIZE = 10;
-    public LinkedList<Task> history = new LinkedList<>();
-
+    private final LinkedList<Task> history = new LinkedList<>(); //вопрос: почему идея предлагает сделать переменную
+    //final, если нет - выдает соответсвующий варнинг?
     @Override
     public void add(Task task) {
         history.add(task);

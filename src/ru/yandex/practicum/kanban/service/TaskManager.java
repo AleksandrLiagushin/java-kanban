@@ -20,9 +20,9 @@ public interface TaskManager {
     List<Subtask> getAllSubtasks();
     List<Epic> getAllEpics();
 
-    void refreshTask(Task task);
-    void refreshEpic(Epic epic);
-    void refreshSubtask(Subtask sub);
+    void updateTask(Task task);
+    void updatehEpic(Epic epic);
+    void updateSubtask(Subtask sub);
 
     void deleteTaskById(Integer taskId);
     void deleteEpicById(Integer epicId);
@@ -35,6 +35,4 @@ public interface TaskManager {
     List<Subtask> getSubtasksByEpicId(int epicId);
 
     List<Task> getHistory();
-
-    int generateTaskID();
 }

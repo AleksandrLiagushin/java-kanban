@@ -10,28 +10,55 @@ public class Main {
     public static void main(String[] args) {
 
         TaskManager taskManager = Managers.getDefaultTaskManager();
-        taskManager.createTask(new Task(taskManager.generateTaskID(),
-                "new", "newDescription", TaskStatus.NEW));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Переезд", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Собрать коробки", "sub1", TaskStatus.NEW, 2));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Упаковать кошку", "sub2", TaskStatus.NEW, 2));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Сказать слова прощания", "sub3", TaskStatus.NEW, 2));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Важный эпик 2", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub1", TaskStatus.NEW, 6));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub2", TaskStatus.NEW, 6));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Важный эпик 2", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub1", TaskStatus.DONE, 9));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub2", TaskStatus.NEW, 9));
+
+        taskManager.createTask(new Task()
+                .setName("werq")
+                .setDescription("lsdkf")
+                .setStatus(TaskStatus.NEW));
+        taskManager.createEpic(new Epic()
+                .setName("Переезд")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Собрать коробки")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(2));
+        taskManager.createSubtask(new Subtask()
+                .setName("Упаковать кошку")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(2));
+        taskManager.createSubtask(new Subtask()
+                .setName("Сказать слова прощания")
+                .setDescription("sub3")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(2));
+        taskManager.createEpic(new Epic()
+                .setName("Важный эпик 2")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(6));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(6));
+        taskManager.createEpic(new Epic()
+                .setName("Важный эпик 2")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.DONE)
+                .setEpicId(9));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(9));
         taskManager.findTaskById(1);
         taskManager.findEpicById(2);
         taskManager.findSubtaskById(3);
@@ -68,28 +95,54 @@ public class Main {
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
         System.out.println(taskManager.getSubtasksByEpicId(2));
-        taskManager.createTask(new Task(taskManager.generateTaskID(),
-                "new", "newDescription", TaskStatus.NEW));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Переезд", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Собрать коробки", "sub1", TaskStatus.NEW, 13));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Упаковать кошку", "sub2", TaskStatus.NEW, 13));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Сказать слова прощания", "sub3", TaskStatus.NEW, 13));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Важный эпик 2", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub1", TaskStatus.NEW, 17));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 12", "sub2", TaskStatus.NEW, 17));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Важный эпик 2", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 13", "sub1", TaskStatus.DONE, 20));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 14", "sub2", TaskStatus.NEW, 13));
+        taskManager.createTask(new Task()
+                .setName("new")
+                .setDescription("newDescription")
+                .setStatus(TaskStatus.NEW));
+        taskManager.createEpic(new Epic()
+                .setName("Переезд")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Собрать коробки")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(13));
+        taskManager.createSubtask(new Subtask()
+                .setName("Упаковать кошку")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(13));
+        taskManager.createSubtask(new Subtask()
+                .setName("Сказать слова прощания")
+                .setDescription("sub3")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(13));
+        taskManager.createEpic(new Epic()
+                .setName("Важный эпик 2")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(17));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 12")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(17));
+        taskManager.createEpic(new Epic()
+                .setName("Важный эпик 2")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 13")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.DONE)
+                .setEpicId(20));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 14")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(13));
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
@@ -98,53 +151,107 @@ public class Main {
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
-        taskManager.createTask(new Task(taskManager.generateTaskID(),
-                "new", "newDescription", TaskStatus.NEW));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Переезд", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Собрать коробки", "sub1", TaskStatus.NEW, 24));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Упаковать кошку", "sub2", TaskStatus.NEW, 24));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Сказать слова прощания", "sub3", TaskStatus.NEW, 24));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Важный эпик 2", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub1", TaskStatus.NEW, 28));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub2", TaskStatus.NEW, 28));
-        taskManager.createEpic(new Epic(taskManager.generateTaskID(),
-                "Важный эпик 2", "epic1"));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub1", TaskStatus.DONE, 31));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub2", TaskStatus.NEW, 31));
+        taskManager.createTask(new Task()
+                .setName("new")
+                .setDescription("newDescription")
+                .setStatus(TaskStatus.NEW));
+        taskManager.createEpic(new Epic()
+                .setName("Переезд")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Собрать коробки")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(24));
+        taskManager.createSubtask(new Subtask()
+                .setName("Упаковать кошку")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(24));
+        taskManager.createSubtask(new Subtask()
+                .setName("Сказать слова прощания")
+                .setDescription("sub3")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(24));
+        taskManager.createEpic(new Epic()
+                .setName("Важный эпик 2")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(28));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(28));
+        taskManager.createEpic(new Epic()
+                .setName("Важный эпик 2")
+                .setDescription("epic1"));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.DONE)
+                .setEpicId(31));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(31));
         taskManager.deleteAllSubtasks();
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub1", TaskStatus.DONE, 31));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub2", TaskStatus.NEW, 31));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub1", TaskStatus.NEW, 28));
-        taskManager.createSubtask(new Subtask(taskManager.generateTaskID(),
-                "Задача 1", "sub2", TaskStatus.NEW, 28));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.DONE)
+                .setEpicId(31));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(31));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub1")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(28));
+        taskManager.createSubtask(new Subtask()
+                .setName("Задача 1")
+                .setDescription("sub2")
+                .setStatus(TaskStatus.NEW)
+                .setEpicId(28));
         taskManager.deleteTaskById(23);
         taskManager.deleteSubtaskById(34);
         taskManager.deleteEpicById(28);
-        taskManager.createTask(new Task(taskManager.generateTaskID(),
-                "new", "newDescription", TaskStatus.NEW));
-        taskManager.createTask(new Task(taskManager.generateTaskID(),
-                "new", "newDescription", TaskStatus.NEW));
+        taskManager.createTask(new Task()
+                .setName("new")
+                .setDescription("newDescription")
+                .setStatus(TaskStatus.NEW));
+        taskManager.createTask(new Task()
+                .setName("new")
+                .setDescription("newDescription")
+                .setStatus(TaskStatus.NEW));
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
-        taskManager.refreshTask(new Task(38, "notNew", "blablabla", TaskStatus.IN_PROGRESS));
-        taskManager.refreshEpic(new Epic(24,"notNewEpic", "trololo"));
-        taskManager.refreshSubtask(new Subtask(35, "notNewSub", "dykdatakidyk", TaskStatus.DONE, 24));
+        taskManager.updateTask(new Task()
+                .setId(38)
+                .setName("notNew")
+                .setDescription("blablabla")
+                .setStatus(TaskStatus.IN_PROGRESS));
+        taskManager.updatehEpic(new Epic()
+                .setId(24)
+                .setName("notNewEpic")
+                .setDescription("trololo"));
+        taskManager.updateSubtask(new Subtask()
+                .setId(35)
+                .setName("notNewSub")
+                .setDescription("dykdatakidyk")
+                .setStatus(TaskStatus.DONE)
+                .setEpicId(24));
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
