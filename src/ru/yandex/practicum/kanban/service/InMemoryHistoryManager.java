@@ -7,8 +7,8 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final static int HISTORY_SIZE = 10;
-    private final LinkedList<Task> history = new LinkedList<>(); //вопрос: почему идея предлагает сделать переменную
-    //final, если нет - выдает соответсвующий варнинг?
+    private final LinkedList<Task> history = new LinkedList<>();
+
     @Override
     public void add(Task task) {
         history.add(task);
@@ -16,6 +16,12 @@ public class InMemoryHistoryManager implements HistoryManager {
             history.remove();
         }
     }
+
+    @Override
+    public void remove(int id) {
+        history.remove(id);
+    }
+
     @Override
     public List<Task> getHistory() {
         return history;
