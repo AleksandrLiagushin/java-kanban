@@ -86,9 +86,12 @@ public class Main {
         taskManager.findEpicById(6);
         taskManager.findEpicById(6);
         taskManager.findEpicById(6);
-
+        taskManager.findSubtaskById(3);
+        taskManager.findSubtaskById(3);
+        taskManager.findTaskById(1);
+        taskManager.findEpicById(2);
         System.out.println(taskManager.getHistory());
-        System.out.println("__________________________________________");
+        System.out.println("_______________________________________1___");
 
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
