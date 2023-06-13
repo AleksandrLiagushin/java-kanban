@@ -71,6 +71,6 @@ public class Task {
                 ", taskName='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                '}';
+                "}\n";
     }
 }
