@@ -1,6 +1,6 @@
 package ru.yandex.practicum.kanban.service;
 
-import ru.yandex.practicum.kanban.data.model.Task;
+import ru.yandex.practicum.kanban.model.Task;
 
 import java.util.List;
 

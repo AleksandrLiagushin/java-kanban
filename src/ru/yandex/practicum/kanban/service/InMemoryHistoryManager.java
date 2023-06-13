@@ -1,7 +1,7 @@
 package ru.yandex.practicum.kanban.service;
 
-import ru.yandex.practicum.kanban.data.model.Node;
-import ru.yandex.practicum.kanban.data.model.Task;
+import ru.yandex.practicum.kanban.model.Node;
+import ru.yandex.practicum.kanban.model.Task;
 
 import java.util.HashMap;
 import java.util.LinkedList;
