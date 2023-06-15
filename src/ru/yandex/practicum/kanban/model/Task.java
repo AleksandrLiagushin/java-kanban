@@ -8,40 +8,65 @@ public class Task {
     private String description;
     private TaskStatus status;
 
-    public int getId() {
-        return id;
+    public Task(TaskBuilder taskBuilder) {
+        this.id = taskBuilder.id;
+        this.name = taskBuilder.name;
+        this.description = taskBuilder.description;
+        this.status = taskBuilder.status;
     }
 
-    public Task setId(int id) {
-        this.id = id;
-        return this;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public Task setName(String name) {
-        this.name = name;
-        return this;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public Task setDescription(String description) {
-        this.description = description;
-        return this;
     }
 
     public TaskStatus getStatus() {
         return status;
     }
 
-    public Task setStatus(TaskStatus status) {
+    public static class TaskBuilder {
+        protected int id;
+        protected String name;
+        protected String description;
+        protected TaskStatus status;
+
+        public TaskBuilder(String name) {
+            this.name = name;
+        }
+
+        public TaskBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public TaskBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public TaskBuilder setStatus(TaskStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public Task build() {
+            return new Task(this);
+        }
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setStatus(TaskStatus status) {
         this.status = status;
-        return this;
     }
 
     @Override

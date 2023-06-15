@@ -5,36 +5,42 @@ import java.util.Objects;
 public class Subtask extends Task {
     private int epicId;
 
+    public Subtask(SubtaskBuilder subtaskBuilder) {
+        super(subtaskBuilder);
+        this.epicId = subtaskBuilder.epicId;
+    }
+
     public int getEpicId() {
         return epicId;
     }
 
-    public Subtask setEpicId(int epicId) {
-        this.epicId = epicId;
-        return this;
-    }
-
     @Override
-    public Subtask setId(int id) {
+    public void setId(int id) {
         super.setId(id);
-        return this;
-    }
-    @Override
-    public Subtask setName(String name) {
-        super.setName(name);
-        return this;
     }
 
-    @Override
-    public Subtask setDescription(String description) {
-        super.setDescription(description);
-        return this;
-    }
+    public static class SubtaskBuilder extends TaskBuilder{
+        protected int epicId;
 
-    @Override
-    public Subtask setStatus(TaskStatus status) {
-        super.setStatus(status);
-        return this;
+        public SubtaskBuilder(String name, TaskStatus status, int epicId) {
+            super(name);
+            this.status = status;
+            this.epicId = epicId;
+        }
+
+        public SubtaskBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public SubtaskBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Subtask build() {
+            return new Subtask(this);
+        }
     }
 
     @Override
