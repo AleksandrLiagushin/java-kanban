@@ -8,6 +8,10 @@ import java.util.Objects;
 public class Epic extends Task {
     private final List<Integer> subtaskIds = new ArrayList<>();
 
+    public Epic(EpicBuilder epicBuilder) {
+        super(epicBuilder);
+    }
+
     public List<Integer> getSubtaskIds() {
         return Collections.unmodifiableList(subtaskIds);
     }
@@ -24,6 +28,29 @@ public class Epic extends Task {
         subtaskIds.add(subID);
     }
 
+    public static class EpicBuilder extends TaskBuilder {
+
+        public EpicBuilder(String name) {
+            super(name);
+        }
+
+        public EpicBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public EpicBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Epic build() {
+            return new Epic(this);
+        }
+    }
+
+
+    /*
     @Override
     public Epic setId(int id) {
         super.setId(id);
@@ -41,11 +68,9 @@ public class Epic extends Task {
         super.setDescription(description);
         return this;
     }
-
-    @Override
-    public Epic setStatus(TaskStatus status) {
+*/
+    public void setStatus(TaskStatus status) {
         super.setStatus(status);
-        return this;
     }
 
     @Override
