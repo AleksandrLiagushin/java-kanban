@@ -49,26 +49,6 @@ public class Epic extends Task {
         }
     }
 
-
-    /*
-    @Override
-    public Epic setId(int id) {
-        super.setId(id);
-        return this;
-    }
-
-    @Override
-    public Epic setName(String name) {
-        super.setName(name);
-        return this;
-    }
-
-    @Override
-    public Epic setDescription(String description) {
-        super.setDescription(description);
-        return this;
-    }
-*/
     public void setStatus(TaskStatus status) {
         super.setStatus(status);
     }
