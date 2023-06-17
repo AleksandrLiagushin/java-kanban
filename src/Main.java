@@ -12,38 +12,38 @@ public class Main {
         TaskManager taskManager = Managers.getDefaultTaskManager();
 
         taskManager.createTask(new Task.TaskBuilder("task1")
-                .setDescription("task1")
-                .setStatus(TaskStatus.NEW)
+                .withDescription("task1")
+                .withStatus(TaskStatus.NEW)
                 .build());
         taskManager.createEpic(new Epic.EpicBuilder("epic1")
-                .setDescription("epic1")
+                .withDescription("epic1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("sub1", TaskStatus.NEW, 2)
-                .setDescription("sub1")
+                .withDescription("sub1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Упаковать кошку", TaskStatus.NEW,2)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Сказать слова прощания", TaskStatus.NEW,2)
-                .setDescription("sub3")
+                .withDescription("sub3")
                 .build());
         taskManager.createEpic(new Epic.EpicBuilder("Важный эпик 2")
-                .setDescription("epic1")
+                .withDescription("epic1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 6)
-                .setDescription("sub1")
+                .withDescription("sub1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 6)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
         taskManager.createEpic(new Epic.EpicBuilder("Важный эпик 2")
-                .setDescription("epic1")
+                .withDescription("epic1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.DONE, 9)
-                .setDescription("sub1")
+                .withDescription("sub1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 9)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
 
         taskManager.findTaskById(1);
@@ -95,47 +95,54 @@ public class Main {
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
         System.out.println(taskManager.getSubtasksByEpicId(2));
+        System.out.println("****************************************");
+        System.out.println(taskManager.getHistory());
+        System.out.println("****************************************");
 
         taskManager.deleteAllTasks();
+        System.out.println(taskManager.getHistory());
+        System.out.println("__________________________________________1");
         taskManager.deleteAllEpics();
+        System.out.println(taskManager.getHistory());
+        System.out.println("__________________________________________1");
 
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
 
         taskManager.createTask(new Task.TaskBuilder("task1")
-                .setDescription("task1")
-                .setStatus(TaskStatus.NEW)
+                .withDescription("task1")
+                .withStatus(TaskStatus.NEW)
                 .build());
         taskManager.createEpic(new Epic.EpicBuilder("epic1")
-                .setDescription("epic1")
+                .withDescription("epic1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("sub1", TaskStatus.NEW, 2)
-                .setDescription("sub1")
+                .withDescription("sub1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Упаковать кошку", TaskStatus.NEW,2)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Сказать слова прощания", TaskStatus.NEW,2)
-                .setDescription("sub3")
+                .withDescription("sub3")
                 .build());
         taskManager.createEpic(new Epic.EpicBuilder("Важный эпик 2")
-                .setDescription("epic1")
+                .withDescription("epic1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 6)
-                .setDescription("sub1")
+                .withDescription("sub1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 6)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
         taskManager.createEpic(new Epic.EpicBuilder("Важный эпик 2")
-                .setDescription("epic1")
+                .withDescription("epic1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.DONE, 9)
-                .setDescription("sub1")
+                .withDescription("sub1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 9)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
 
         taskManager.deleteAllSubtasks();
@@ -145,16 +152,16 @@ public class Main {
         System.out.println(taskManager.getAllSubtasks());
 
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 13)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.DONE, 13)
-                .setDescription("sub1")
+                .withDescription("sub1")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 14)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
         taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 14)
-                .setDescription("sub2")
+                .withDescription("sub2")
                 .build());
 
         System.out.println(taskManager.getAllTasks());
@@ -170,12 +177,12 @@ public class Main {
         System.out.println(taskManager.getAllSubtasks());
 
         taskManager.createTask(new Task.TaskBuilder("task1")
-                .setDescription("task1")
-                .setStatus(TaskStatus.NEW)
+                .withDescription("task1")
+                .withStatus(TaskStatus.NEW)
                 .build());
         taskManager.createTask(new Task.TaskBuilder("task1")
-                .setDescription("task1")
-                .setStatus(TaskStatus.NEW)
+                .withDescription("task1")
+                .withStatus(TaskStatus.NEW)
                 .build());
 
         System.out.println(taskManager.getAllTasks());
