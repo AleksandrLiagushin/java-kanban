@@ -3,7 +3,7 @@ package ru.yandex.practicum.kanban.model;
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private int epicId;
+    private final int epicId;
 
     public Subtask(SubtaskBuilder subtaskBuilder) {
         super(subtaskBuilder);
@@ -19,22 +19,22 @@ public class Subtask extends Task {
         super.setId(id);
     }
 
-    public static class SubtaskBuilder extends TaskBuilder{
+    public static class SubtaskBuilder extends TaskBuilder {
         protected int epicId;
 
         public SubtaskBuilder(String name, TaskStatus status, int epicId) {
             super(name);
-            this.status = status;
+            this.setStatus(status);
             this.epicId = epicId;
         }
 
-        public SubtaskBuilder setDescription(String description) {
-            this.description = description;
+        public SubtaskBuilder withDescription(String description) {
+            this.setDescription(description);
             return this;
         }
 
-        public SubtaskBuilder setId(int id) {
-            this.id = id;
+        public SubtaskBuilder withId(int id) {
+            this.setId(id);
             return this;
         }
 
@@ -43,18 +43,18 @@ public class Subtask extends Task {
         }
     }
 
+    //Использовал стандартный код идеи
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Subtask)) {
+        if (o == null || getClass() != o.getClass() || !super.equals(o)) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
+
         Subtask subtask = (Subtask) o;
+
         return epicId == subtask.epicId;
     }
 

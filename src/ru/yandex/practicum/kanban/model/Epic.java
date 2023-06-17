@@ -24,8 +24,8 @@ public class Epic extends Task {
         subtaskIds.remove(subtaskId);
     }
 
-    public void addSubtaskId(int subID) {
-        subtaskIds.add(subID);
+    public void addSubtaskId(int subtaskId) {
+        subtaskIds.add(subtaskId);
     }
 
     public static class EpicBuilder extends TaskBuilder {
@@ -34,13 +34,13 @@ public class Epic extends Task {
             super(name);
         }
 
-        public EpicBuilder setId(int id) {
-            this.id = id;
+        public EpicBuilder withId(int id) {
+            this.setId(id);
             return this;
         }
 
-        public EpicBuilder setDescription(String description) {
-            this.description = description;
+        public EpicBuilder withDescription(String description) {
+            this.setDescription(description);
             return this;
         }
 
@@ -53,19 +53,19 @@ public class Epic extends Task {
         super.setStatus(status);
     }
 
+    //Использовал стандарнтый код идеи
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Epic)) {
+        if (o == null || getClass() != o.getClass() || !super.equals(o)) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
+
         Epic epic = (Epic) o;
-        return subtaskIds.equals(epic.subtaskIds);
+
+        return Objects.equals(subtaskIds, epic.subtaskIds);
     }
 
     @Override

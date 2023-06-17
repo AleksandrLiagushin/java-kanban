@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Task {
     private int id;
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private TaskStatus status;
 
     public Task(TaskBuilder taskBuilder) {
@@ -32,28 +32,40 @@ public class Task {
     }
 
     public static class TaskBuilder {
-        protected int id;
-        protected String name;
-        protected String description;
-        protected TaskStatus status;
+        private int id;
+        private final String name;
+        private String description;
+        private TaskStatus status;
 
         public TaskBuilder(String name) {
             this.name = name;
         }
 
-        public TaskBuilder setDescription(String description) {
+        public TaskBuilder withDescription(String description) {
             this.description = description;
             return this;
         }
 
-        public TaskBuilder setId(int id) {
+        public TaskBuilder withId(int id) {
             this.id = id;
             return this;
         }
 
-        public TaskBuilder setStatus(TaskStatus status) {
+        public TaskBuilder withStatus(TaskStatus status) {
             this.status = status;
             return this;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setStatus(TaskStatus status) {
+            this.status = status;
         }
 
         public Task build() {
@@ -69,19 +81,22 @@ public class Task {
         this.status = status;
     }
 
+    //Использовал стандартно генерированный идеей код
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (!(obj instanceof Task)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Task task = (Task) obj;
+
+        Task task = (Task) o;
+
         return id == task.id
                 && Objects.equals(name, task.name)
                 && Objects.equals(description, task.description)
-                && Objects.equals(status, task.status);
+                && status == task.status;
     }
 
     @Override
