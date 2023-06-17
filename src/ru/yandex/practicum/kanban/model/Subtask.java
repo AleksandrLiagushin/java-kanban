@@ -20,7 +20,7 @@ public class Subtask extends Task {
     }
 
     public static class SubtaskBuilder extends TaskBuilder {
-        protected int epicId;
+        private final int epicId;
 
         public SubtaskBuilder(String name, TaskStatus status, int epicId) {
             super(name);
