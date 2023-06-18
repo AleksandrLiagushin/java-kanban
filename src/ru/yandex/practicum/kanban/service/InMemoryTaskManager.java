@@ -48,10 +48,6 @@ public class InMemoryTaskManager implements TaskManager {
     public Task findTaskById(int taskId) {
         Task task = tasks.get(taskId);
 
-        if (task == null) {
-            return null;
-        }
-
         historyManager.add(task);
         return task;
     }
@@ -60,10 +56,6 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic findEpicById(int epicId) {
         Epic epic = epics.get(epicId);
 
-        if (epic == null) {
-            return null;
-        }
-
         historyManager.add(epic);
         return epic;
     }
@@ -71,10 +63,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask findSubtaskById(int subtaskId) {
         Subtask subtask = subtasks.get(subtaskId);
-
-        if (subtask == null) {
-            return null;
-        }
 
         historyManager.add(subtask);
         return subtask;
@@ -136,8 +124,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpicById(Integer epicId) {
-        //лямбду не получится использовать - появился второй Consumer
-        //использовал в методах полной очистки списков
+
         for (Integer id : epics.get(epicId).getSubtaskIds()) {
             subtasks.remove(id);
             historyManager.remove(id);
@@ -183,10 +170,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Subtask> getSubtasksByEpicId(int epicId) {
-        ArrayList<Subtask> epicSubtasks = new ArrayList<>();
+        List<Subtask> epicSubtasks = new ArrayList<>();
 
-        for (Integer subID : epics.get(epicId).getSubtaskIds()) {
-            epicSubtasks.add(subtasks.get(subID));
+        for (Integer subtaskId : epics.get(epicId).getSubtaskIds()) {
+            epicSubtasks.add(subtasks.get(subtaskId));
         }
 
         return epicSubtasks;

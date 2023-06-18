@@ -43,7 +43,6 @@ public class Subtask extends Task {
         }
     }
 
-    //Использовал стандартный код идеи
     @Override
     public boolean equals(Object o) {
         if (this == o) {

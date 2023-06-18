@@ -53,7 +53,6 @@ public class Epic extends Task {
         super.setStatus(status);
     }
 
-    //Использовал стандарнтый код идеи
     @Override
     public boolean equals(Object o) {
         if (this == o) {

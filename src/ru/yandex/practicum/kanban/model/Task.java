@@ -81,7 +81,6 @@ public class Task {
         this.status = status;
     }
 
-    //Использовал стандартно генерированный идеей код
     @Override
     public boolean equals(Object o) {
         if (this == o) {

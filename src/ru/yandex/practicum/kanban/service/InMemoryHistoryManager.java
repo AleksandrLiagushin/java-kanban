@@ -28,10 +28,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void remove(int id) {
 
-        //данная проверка необходима, т.к. передача несуществующего ID в метод unlink вызывает NPE
-        //генерится при попытке вызвать данные поля у нода со значением null:
-        //final Node next = x.next;
-        //final Node prev = x.prev;
         if (history.get(id) == null) {
             return;
         }
@@ -51,7 +47,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         public Node addLast(Task element) {
             final Node oldTail = tail;
-            final Node newNode = new Node(oldTail, element, null);
+            final Node newNode = new Node(element);
+            newNode.next = null;
+            newNode.prev = oldTail;
             tail = newNode;
 
             if (oldTail == null) {
@@ -99,17 +97,14 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private static class Node {
-        public Task data;
-        public Node next;
-        public Node prev;
+        protected Task data;
+        protected Node next;
+        protected Node prev;
 
-        //не понял в чем заключается удобство отказа от данного конструктора
-        //отказ ведет к генерации дополнительных методов и лишнего кода
-        //данный список и ноды мы используем только внутри хистрориманагера
-        public Node(Node prev, Task data, Node next) {
+        public Node(Task data) {
             this.data = data;
-            this.next = next;
-            this.prev = prev;
         }
+
+
     }
 }
