@@ -1,0 +1,11 @@
+id,type,name,description,status,epicId/subtasksIds
+20,TASK,task1,task1,NEW
+21,TASK,task1,task1,NEW
+22,TASK,task1,task1,NEW
+16,SUBTASK,Задача 1,sub2,NEW,13
+18,SUBTASK,Задача 1,sub2,NEW,14
+19,SUBTASK,Задача 1,sub2,NEW,14
+13,EPIC,epic1,epic1,NEW,16
+14,EPIC,Важный эпик 2,epic1,NEW,18,19
+
+13,20,16,21
