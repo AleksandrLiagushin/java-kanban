@@ -1,20 +1,60 @@
 id,type,name,description,status,epicId/subtasksIds
 32,TASK,task1123,task2,NEW
+68,TASK,task1123,task2,NEW
+38,TASK,task1123,task2,NEW
+74,TASK,task1123,task2,NEW
+44,TASK,task1123,task2,NEW
+80,TASK,task1123,task2,NEW
+50,TASK,task1123,task2,NEW
 20,TASK,task1,task1,NEW
 21,TASK,task1,task1,NEW
 22,TASK,task1123,task2,NEW
-38,TASK,task1123,task2,NEW
+86,TASK,task1123,task2,NEW
 23,TASK,task1123,task2,NEW
 24,TASK,task1123,task2,NEW
+56,TASK,task1123,task2,NEW
 25,TASK,task1123,task2,NEW
 26,TASK,task1123,task2,NEW
-44,TASK,task1123,task2,NEW
-49,EPIC,Важный эпик 2,epic1,NEW,[]
+62,TASK,task1123,task2,NEW
+67,EPIC,Важный эпик 2,epic1,NEW,[]
 37,EPIC,Важный эпик 2,epic1,NEW,[]
+73,EPIC,Важный эпик 2,epic1,NEW,[]
 43,EPIC,Важный эпик 2,epic1,NEW,[]
-13,EPIC,epic1,epic1,IN_PROGRESS,[33, 34, 39, 40, 16, 27, 28, 45, 46]
-14,EPIC,Важный эпик 2,epic1,IN_PROGRESS,[35, 36, 41, 42, 18, 19, 29, 30, 47, 48]
+13,EPIC,epic1,epic1,IN_PROGRESS,[64, 69, 70, 75, 76, 16, 81, 82, 27, 28, 33, 34, 39, 40, 45, 46, 51, 52, 57, 58, 63, 87, 88]
+14,EPIC,Важный эпик 2,epic1,IN_PROGRESS,[65, 66, 71, 72, 77, 78, 18, 19, 83, 84, 29, 30, 35, 36, 41, 42, 47, 48, 53, 54, 59, 60, 89, 90]
+79,EPIC,Важный эпик 2,epic1,NEW,[]
+49,EPIC,Важный эпик 2,epic1,NEW,[]
+85,EPIC,Важный эпик 2,epic1,NEW,[]
+55,EPIC,Важный эпик 2,epic1,NEW,[]
+91,EPIC,Важный эпик 2,epic1,NEW,[]
+61,EPIC,Важный эпик 2,epic1,NEW,[]
 31,EPIC,Важный эпик 2,epic1,NEW,[]
+64,SUBTASK,Задача 1,sub1,DONE,13
+65,SUBTASK,Задача 1,sub2,NEW,14
+66,SUBTASK,Задача 1,sub2,NEW,14
+69,SUBTASK,Задача 1,sub2,NEW,13
+70,SUBTASK,Задача 1,sub1,DONE,13
+71,SUBTASK,Задача 1,sub2,NEW,14
+72,SUBTASK,Задача 1,sub2,NEW,14
+75,SUBTASK,Задача 12,sub2,NEW,13
+76,SUBTASK,Задача 12,sub1,DONE,13
+77,SUBTASK,Задача 12,sub2,NEW,14
+78,SUBTASK,Задача 12,sub2,NEW,14
+16,SUBTASK,Задача 1,sub2,DONE,13
+81,SUBTASK,Задача 12,sub2,NEW,13
+18,SUBTASK,Задача 1,sub2,DONE,14
+82,SUBTASK,Задача 12,sub1,DONE,13
+19,SUBTASK,Задача 1,sub2,NEW,14
+83,SUBTASK,Задача 12,sub2,NEW,14
+84,SUBTASK,Задача 12,sub2,NEW,14
+87,SUBTASK,Задача 12,sub2,NEW,13
+88,SUBTASK,Задача 12,sub1,DONE,13
+89,SUBTASK,Задача 12,sub2,NEW,14
+90,SUBTASK,Задача 12,sub2,NEW,14
+27,SUBTASK,Задача 1,sub2,NEW,13
+28,SUBTASK,Задача 1,sub1,DONE,13
+29,SUBTASK,Задача 1,sub2,NEW,14
+30,SUBTASK,Задача 1,sub2,NEW,14
 33,SUBTASK,Задача 1,sub2,NEW,13
 34,SUBTASK,Задача 1,sub1,DONE,13
 35,SUBTASK,Задача 1,sub2,NEW,14
@@ -26,13 +66,15 @@ id,type,name,description,status,epicId/subtasksIds
 45,SUBTASK,Задача 1,sub2,NEW,13
 46,SUBTASK,Задача 1,sub1,DONE,13
 47,SUBTASK,Задача 1,sub2,NEW,14
-16,SUBTASK,Задача 1,sub2,DONE,13
 48,SUBTASK,Задача 1,sub2,NEW,14
-18,SUBTASK,Задача 1,sub2,DONE,14
-19,SUBTASK,Задача 1,sub2,NEW,14
-27,SUBTASK,Задача 1,sub2,NEW,13
-28,SUBTASK,Задача 1,sub1,DONE,13
-29,SUBTASK,Задача 1,sub2,NEW,14
-30,SUBTASK,Задача 1,sub2,NEW,14
+51,SUBTASK,Задача 1,sub2,NEW,13
+52,SUBTASK,Задача 1,sub1,DONE,13
+53,SUBTASK,Задача 1,sub2,NEW,14
+54,SUBTASK,Задача 1,sub2,NEW,14
+57,SUBTASK,Задача 1,sub2,NEW,13
+58,SUBTASK,Задача 1,sub1,DONE,13
+59,SUBTASK,Задача 1,sub2,NEW,14
+60,SUBTASK,Задача 1,sub2,NEW,14
+63,SUBTASK,Задача 1,sub2,NEW,13
 
 13,20,16,21,24,31,30,26,25

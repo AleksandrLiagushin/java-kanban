@@ -3,12 +3,13 @@ import ru.yandex.practicum.kanban.model.Subtask;
 import ru.yandex.practicum.kanban.model.Task;
 import ru.yandex.practicum.kanban.model.TaskStatus;
 import ru.yandex.practicum.kanban.service.FileBackedTaskManager;
+import ru.yandex.practicum.kanban.service.FileManager;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        FileBackedTaskManager taskManager = new FileBackedTaskManager();
+        FileManager taskManager = new FileBackedTaskManager();
         taskManager.load();
 
         System.out.println(taskManager.getAllTasks());
@@ -21,16 +22,16 @@ public class Main {
                 .withDescription("task2")
                 .withStatus(TaskStatus.NEW)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 13)
+        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 12", TaskStatus.NEW, 13)
                 .withDescription("sub2")
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.DONE, 13)
+        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 12", TaskStatus.DONE, 13)
                 .withDescription("sub1")
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 14)
+        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 12", TaskStatus.NEW, 14)
                 .withDescription("sub2")
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 1", TaskStatus.NEW, 14)
+        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 12", TaskStatus.NEW, 14)
                 .withDescription("sub2")
                 .build());
         taskManager.createEpic(new Epic.EpicBuilder("Важный эпик 2")
