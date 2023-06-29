@@ -105,11 +105,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", taskName='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                "}\n";
+        return id + "," +
+                TaskType.TASK + ',' +
+                name + ',' +
+                description + ',' +
+                status + '\n';
     }
 }
