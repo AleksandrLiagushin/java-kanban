@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class FileBackedTaskManager extends InMemoryTaskManager implements FileController {
+public class FileBackedTaskManager extends InMemoryTaskManager implements FileManager {
     private final Path path = Paths.get("resources", "Tasks.csv");
 
     @Override
