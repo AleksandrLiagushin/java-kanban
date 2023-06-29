@@ -85,7 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
-        if (tasks.get(task.getId()) == null) {
+        if (!tasks.containsKey(task.getId())) {
             return;
         }
 
@@ -94,7 +94,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic) {
-        if (epics.get(epic.getId()) == null) {
+        if (!epics.containsKey(epic.getId())) {
             return;
         }
 
@@ -103,6 +103,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
+        if (!subtasks.containsKey(subtask.getId())) {
+            return;
+        }
+
         Subtask subtaskRef = subtasks.get(subtask.getId());
         Epic epic = epics.get(subtaskRef.getEpicId());
 
@@ -117,6 +121,7 @@ public class InMemoryTaskManager implements TaskManager {
         changeEpicStatus(subtask.getEpicId());
     }
 
+    @Override
     public void deleteTaskById(Integer taskId) {
         tasks.remove(taskId);
         historyManager.remove(taskId);
@@ -204,5 +209,17 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int generateUniqueId() {
         return ++uniqueId;
+    }
+
+    protected void loadTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    protected void loadEpic(Epic epic) {
+        epics.put(epic.getId(), epic);
+    }
+
+    protected void loadSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
     }
 }
