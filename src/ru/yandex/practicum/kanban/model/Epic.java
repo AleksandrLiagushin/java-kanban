@@ -29,7 +29,6 @@ public class Epic extends Task {
     }
 
     public static class EpicBuilder extends TaskBuilder {
-        private final List<Integer> subtaskIds = new ArrayList<>();
 
         public EpicBuilder(String name) {
             super(name);
@@ -47,11 +46,6 @@ public class Epic extends Task {
 
         public EpicBuilder withStatus(TaskStatus status) {
             this.setStatus(status);
-            return this;
-        }
-
-        public EpicBuilder withSubtaskIds(List<Integer> subtaskIds) {
-            this.subtaskIds.addAll(subtaskIds);
             return this;
         }
 
@@ -85,18 +79,12 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Integer id : subtaskIds) {
-            stringBuilder.append(id).append(',');
-        }
-        if (stringBuilder.length() > 0) {
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        }
+
         return getId() + "," +
                 TaskType.EPIC + "," +
                 getName() + "," +
                 getDescription() + "," +
                 getStatus() + "," +
-                stringBuilder + "\n";
+                getSubtaskIds() + "\n";
     }
 }
