@@ -19,15 +19,26 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createTask(Task task) {
-        task.setId(generateUniqueId());
-        tasks.put(uniqueId, task);
+        if (task.getId() == 0) {
+            task.setId(generateUniqueId());
+        }
+        if (uniqueId < task.getId()) {
+            uniqueId = task.getId();
+        }
+        tasks.put(task.getId(), task);
     }
 
     @Override
     public void createEpic(Epic epic) {
-        epic.setId(generateUniqueId());
+        if (epic.getId() == 0) {
+            epic.setId(generateUniqueId());
+        }
+        if (uniqueId < epic.getId()) {
+            uniqueId = epic.getId();
+        }
+
         epic.setStatus(TaskStatus.NEW);
-        epics.put(uniqueId, epic);
+        epics.put(epic.getId(), epic);
     }
 
     @Override
@@ -38,9 +49,15 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        subtask.setId(generateUniqueId());
-        epic.addSubtaskId(uniqueId);
-        subtasks.put(uniqueId, subtask);
+        if (subtask.getId() == 0) {
+            subtask.setId(generateUniqueId());
+        }
+        if (uniqueId < subtask.getId()) {
+            uniqueId = subtask.getId();
+        }
+
+        epic.addSubtaskId(subtask.getId());
+        subtasks.put(subtask.getId(), subtask);
         changeEpicStatus(subtask.getEpicId());
     }
 
@@ -209,17 +226,5 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int generateUniqueId() {
         return ++uniqueId;
-    }
-
-    protected void loadTask(Task task) {
-        tasks.put(task.getId(), task);
-    }
-
-    protected void loadEpic(Epic epic) {
-        epics.put(epic.getId(), epic);
-    }
-
-    protected void loadSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
     }
 }
