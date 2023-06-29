@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements FileController {
@@ -14,23 +13,25 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileCo
 
     @Override
     public void save() {
-        System.out.println("Task has been saved");
         String HEADER = "id,type,name,description,status,epicId/subtasksIds\n";
         StringBuilder stringBuilder = new StringBuilder(HEADER);
+
         for (Task task : getAllTasks()) {
             stringBuilder.append(task);
-        }
-        for (Subtask subtask : getAllSubtasks()) {
-            stringBuilder.append(subtask);
         }
         for (Epic epic : getAllEpics()) {
             stringBuilder.append(epic);
         }
+        for (Subtask subtask : getAllSubtasks()) {
+            stringBuilder.append(subtask);
+        }
         stringBuilder.append("\n");
+
         for (Task task : getHistory()) {
             stringBuilder.append(task.getId()).append(',');
         }
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
         try {
             Files.writeString(path, stringBuilder.toString());
         } catch (IOException e) {
@@ -62,31 +63,27 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileCo
             String[] rowData = dataFromFile.get(idx).split(",");
             switch (TaskType.valueOf(rowData[1])) {
                 case TASK:
-                    super.loadTask(new Task.TaskBuilder(rowData[2])
+                    super.createTask(new Task.TaskBuilder(rowData[2])
+                            .withId(Integer.parseInt(rowData[0]))
+                            .withDescription(rowData[3])
+                            .withStatus(TaskStatus.valueOf(rowData[4]))
+                            .build());
+                    break;
+                case EPIC:
+                    super.createEpic(new Epic.EpicBuilder(rowData[2])
                             .withId(Integer.parseInt(rowData[0]))
                             .withDescription(rowData[3])
                             .withStatus(TaskStatus.valueOf(rowData[4]))
                             .build());
                     break;
                 case SUBTASK:
-                    super.loadSubtask(new Subtask
+                    super.createSubtask(new Subtask
                             .SubtaskBuilder(rowData[2], TaskStatus.valueOf(rowData[4]), Integer.parseInt(rowData[5]))
                             .withId(Integer.parseInt(rowData[0]))
                             .withDescription(rowData[3])
                             .build());
                     break;
-                case EPIC:
-                    List<Integer> subtaskIds = new ArrayList<>();
-                    for (int i = 5; i < rowData.length; i++) {
-                        subtaskIds.add(Integer.parseInt(rowData[i]));
-                    }
-                    super.loadEpic(new Epic.EpicBuilder(rowData[2])
-                            .withId(Integer.parseInt(rowData[0]))
-                            .withDescription(rowData[3])
-                            .withStatus(TaskStatus.valueOf(rowData[4]))
-                            .withSubtaskIds(subtaskIds)
-                            .build());
-                    break;
+
             }
         }
 
