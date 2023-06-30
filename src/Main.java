@@ -2,14 +2,14 @@ import ru.yandex.practicum.kanban.model.Epic;
 import ru.yandex.practicum.kanban.model.Subtask;
 import ru.yandex.practicum.kanban.model.Task;
 import ru.yandex.practicum.kanban.model.TaskStatus;
-import ru.yandex.practicum.kanban.service.FileBackedTaskManager;
 import ru.yandex.practicum.kanban.service.FileManager;
+import ru.yandex.practicum.kanban.service.Managers;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        FileManager taskManager = new FileBackedTaskManager();
+        FileManager taskManager = (FileManager) Managers.getBackedTaskManager();
         taskManager.load();
 
         System.out.println(taskManager.getAllTasks());

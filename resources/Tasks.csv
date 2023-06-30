@@ -1,56 +1,61 @@
 id,type,name,description,status,epicId/subtasksIds
-32,TASK,task1123,task2,NEW
+128,TASK,task1123,task2,NEW
 68,TASK,task1123,task2,NEW
-38,TASK,task1123,task2,NEW
+134,TASK,task1123,task2,NEW
 74,TASK,task1123,task2,NEW
-44,TASK,task1123,task2,NEW
 80,TASK,task1123,task2,NEW
-50,TASK,task1123,task2,NEW
 20,TASK,task1,task1,NEW
 21,TASK,task1,task1,NEW
 22,TASK,task1123,task2,NEW
 86,TASK,task1123,task2,NEW
 23,TASK,task1123,task2,NEW
 24,TASK,task1123,task2,NEW
-56,TASK,task1123,task2,NEW
 25,TASK,task1123,task2,NEW
 26,TASK,task1123,task2,NEW
+92,TASK,task1123,task2,NEW
+32,TASK,task1123,task2,NEW
+98,TASK,task1123,task2,NEW
+38,TASK,task1123,task2,NEW
+104,TASK,task1123,task2,NEW
+44,TASK,task1123,task2,NEW
+110,TASK,task1123,task2,NEW
+50,TASK,task1123,task2,NEW
+116,TASK,task1123,task2,NEW
+56,TASK,task1123,task2,NEW
+122,TASK,task1123,task2,NEW
 62,TASK,task1123,task2,NEW
+97,EPIC,Важный эпик 2,epic1,NEW,[]
 67,EPIC,Важный эпик 2,epic1,NEW,[]
 37,EPIC,Важный эпик 2,epic1,NEW,[]
+133,EPIC,Важный эпик 2,epic1,NEW,[]
+103,EPIC,Важный эпик 2,epic1,NEW,[]
 73,EPIC,Важный эпик 2,epic1,NEW,[]
 43,EPIC,Важный эпик 2,epic1,NEW,[]
-13,EPIC,epic1,epic1,IN_PROGRESS,[64, 69, 70, 75, 76, 16, 81, 82, 27, 28, 33, 34, 39, 40, 45, 46, 51, 52, 57, 58, 63, 87, 88]
-14,EPIC,Важный эпик 2,epic1,IN_PROGRESS,[65, 66, 71, 72, 77, 78, 18, 19, 83, 84, 29, 30, 35, 36, 41, 42, 47, 48, 53, 54, 59, 60, 89, 90]
+139,EPIC,Важный эпик 2,epic1,NEW,[]
+13,EPIC,epic1,epic1,IN_PROGRESS,[129, 130, 16, 27, 28, 33, 34, 39, 40, 45, 46, 51, 52, 57, 58, 63, 64, 69, 70, 75, 76, 81, 82, 87, 88, 93, 94, 99, 100, 105, 106, 111, 112, 117, 118, 123, 124, 135, 136]
+109,EPIC,Важный эпик 2,epic1,NEW,[]
+14,EPIC,Важный эпик 2,epic1,IN_PROGRESS,[131, 132, 18, 19, 29, 30, 35, 36, 41, 42, 47, 48, 53, 54, 59, 60, 65, 66, 71, 72, 77, 78, 83, 84, 89, 90, 95, 96, 101, 102, 107, 108, 113, 114, 119, 120, 125, 126, 137, 138]
 79,EPIC,Важный эпик 2,epic1,NEW,[]
 49,EPIC,Важный эпик 2,epic1,NEW,[]
+115,EPIC,Важный эпик 2,epic1,NEW,[]
 85,EPIC,Важный эпик 2,epic1,NEW,[]
 55,EPIC,Важный эпик 2,epic1,NEW,[]
+121,EPIC,Важный эпик 2,epic1,NEW,[]
 91,EPIC,Важный эпик 2,epic1,NEW,[]
 61,EPIC,Важный эпик 2,epic1,NEW,[]
 31,EPIC,Важный эпик 2,epic1,NEW,[]
-64,SUBTASK,Задача 1,sub1,DONE,13
-65,SUBTASK,Задача 1,sub2,NEW,14
-66,SUBTASK,Задача 1,sub2,NEW,14
-69,SUBTASK,Задача 1,sub2,NEW,13
-70,SUBTASK,Задача 1,sub1,DONE,13
-71,SUBTASK,Задача 1,sub2,NEW,14
-72,SUBTASK,Задача 1,sub2,NEW,14
-75,SUBTASK,Задача 12,sub2,NEW,13
-76,SUBTASK,Задача 12,sub1,DONE,13
-77,SUBTASK,Задача 12,sub2,NEW,14
-78,SUBTASK,Задача 12,sub2,NEW,14
+127,EPIC,Важный эпик 2,epic1,NEW,[]
+129,SUBTASK,Задача 12,sub2,NEW,13
+130,SUBTASK,Задача 12,sub1,DONE,13
+131,SUBTASK,Задача 12,sub2,NEW,14
+132,SUBTASK,Задача 12,sub2,NEW,14
+135,SUBTASK,Задача 12,sub2,NEW,13
+136,SUBTASK,Задача 12,sub1,DONE,13
+137,SUBTASK,Задача 12,sub2,NEW,14
+138,SUBTASK,Задача 12,sub2,NEW,14
 16,SUBTASK,Задача 1,sub2,DONE,13
-81,SUBTASK,Задача 12,sub2,NEW,13
 18,SUBTASK,Задача 1,sub2,DONE,14
-82,SUBTASK,Задача 12,sub1,DONE,13
 19,SUBTASK,Задача 1,sub2,NEW,14
-83,SUBTASK,Задача 12,sub2,NEW,14
-84,SUBTASK,Задача 12,sub2,NEW,14
-87,SUBTASK,Задача 12,sub2,NEW,13
-88,SUBTASK,Задача 12,sub1,DONE,13
-89,SUBTASK,Задача 12,sub2,NEW,14
-90,SUBTASK,Задача 12,sub2,NEW,14
 27,SUBTASK,Задача 1,sub2,NEW,13
 28,SUBTASK,Задача 1,sub1,DONE,13
 29,SUBTASK,Задача 1,sub2,NEW,14
@@ -76,5 +81,48 @@ id,type,name,description,status,epicId/subtasksIds
 59,SUBTASK,Задача 1,sub2,NEW,14
 60,SUBTASK,Задача 1,sub2,NEW,14
 63,SUBTASK,Задача 1,sub2,NEW,13
+64,SUBTASK,Задача 1,sub1,DONE,13
+65,SUBTASK,Задача 1,sub2,NEW,14
+66,SUBTASK,Задача 1,sub2,NEW,14
+69,SUBTASK,Задача 1,sub2,NEW,13
+70,SUBTASK,Задача 1,sub1,DONE,13
+71,SUBTASK,Задача 1,sub2,NEW,14
+72,SUBTASK,Задача 1,sub2,NEW,14
+75,SUBTASK,Задача 12,sub2,NEW,13
+76,SUBTASK,Задача 12,sub1,DONE,13
+77,SUBTASK,Задача 12,sub2,NEW,14
+78,SUBTASK,Задача 12,sub2,NEW,14
+81,SUBTASK,Задача 12,sub2,NEW,13
+82,SUBTASK,Задача 12,sub1,DONE,13
+83,SUBTASK,Задача 12,sub2,NEW,14
+84,SUBTASK,Задача 12,sub2,NEW,14
+87,SUBTASK,Задача 12,sub2,NEW,13
+88,SUBTASK,Задача 12,sub1,DONE,13
+89,SUBTASK,Задача 12,sub2,NEW,14
+90,SUBTASK,Задача 12,sub2,NEW,14
+93,SUBTASK,Задача 12,sub2,NEW,13
+94,SUBTASK,Задача 12,sub1,DONE,13
+95,SUBTASK,Задача 12,sub2,NEW,14
+96,SUBTASK,Задача 12,sub2,NEW,14
+99,SUBTASK,Задача 12,sub2,NEW,13
+100,SUBTASK,Задача 12,sub1,DONE,13
+101,SUBTASK,Задача 12,sub2,NEW,14
+102,SUBTASK,Задача 12,sub2,NEW,14
+105,SUBTASK,Задача 12,sub2,NEW,13
+106,SUBTASK,Задача 12,sub1,DONE,13
+107,SUBTASK,Задача 12,sub2,NEW,14
+108,SUBTASK,Задача 12,sub2,NEW,14
+111,SUBTASK,Задача 12,sub2,NEW,13
+112,SUBTASK,Задача 12,sub1,DONE,13
+113,SUBTASK,Задача 12,sub2,NEW,14
+114,SUBTASK,Задача 12,sub2,NEW,14
+117,SUBTASK,Задача 12,sub2,NEW,13
+118,SUBTASK,Задача 12,sub1,DONE,13
+119,SUBTASK,Задача 12,sub2,NEW,14
+120,SUBTASK,Задача 12,sub2,NEW,14
+123,SUBTASK,Задача 12,sub2,NEW,13
+124,SUBTASK,Задача 12,sub1,DONE,13
+125,SUBTASK,Задача 12,sub2,NEW,14
+126,SUBTASK,Задача 12,sub2,NEW,14
 
 13,20,16,21,24,31,30,26,25
