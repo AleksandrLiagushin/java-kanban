@@ -101,4 +101,21 @@ class FileBackedTaskManagerTest {
         assertEquals(expectedEpics, actualEpics);
         assertEquals(expectedSubtasks, actualSubtasks);
     }
+
+    @Test
+    void load_shouldLoadAllTasksFromHistory() {
+        FileBackedManager fbtm = FileBackedTaskManager.loadFromFile(Paths.get("resources", "TasksTestWithHistory.csv"));
+
+        List<Task> expected = List.of(
+                new Task.TaskBuilder("task2").withId(5).withDescription("task5").withStatus(TaskStatus.DONE).build(),
+                new Task.TaskBuilder("task1").withId(4).withDescription("task4").withStatus(TaskStatus.NEW).build(),
+                new Task.TaskBuilder("task3").withId(3).withDescription("task3").withStatus(TaskStatus.IN_PROGRESS).build(),
+                new Task.TaskBuilder("task2").withId(2).withDescription("task2").withStatus(TaskStatus.DONE).build(),
+                new Task.TaskBuilder("task1").withId(1).withDescription("task1").withStatus(TaskStatus.NEW).build(),
+                new Task.TaskBuilder("task3").withId(6).withDescription("task6").withStatus(TaskStatus.IN_PROGRESS).build()
+        );
+        List<Task> actual = fbtm.getHistory();
+
+        assertEquals(expected,actual);
+    }
 }
