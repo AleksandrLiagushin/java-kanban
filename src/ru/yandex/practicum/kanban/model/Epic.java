@@ -29,6 +29,7 @@ public class Epic extends Task {
     }
 
     public static class EpicBuilder extends TaskBuilder {
+        private final List<Integer> subtaskIds = new ArrayList<>();
 
         public EpicBuilder(String name) {
             super(name);
@@ -46,6 +47,11 @@ public class Epic extends Task {
 
         public EpicBuilder withStatus(TaskStatus status) {
             this.setStatus(status);
+            return this;
+        }
+
+        public EpicBuilder withSubtaskId(int subtaskId) {
+            subtaskIds.add(subtaskId);
             return this;
         }
 

@@ -1,5 +1,7 @@
 package ru.yandex.practicum.kanban.service;
 
+import java.nio.file.Path;
+
 public class Managers {
 
     private Managers(){}
@@ -12,7 +14,7 @@ public class Managers {
         return new InMemoryTaskManager();
     }
 
-    public static TaskManager getBackedTaskManager() {
-        return new FileBackedTaskManager();
+    public static TaskManager getBackedTaskManager(Path path) {
+        return new FileBackedTaskManager(path);
     }
 }

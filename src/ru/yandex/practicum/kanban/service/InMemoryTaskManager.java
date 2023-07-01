@@ -206,13 +206,16 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(epicId);
         TaskStatus status = TaskStatus.NEW;
 
-        if (!tasksByEpic.isEmpty()) {
-            status = subtasks.get(tasksByEpic.get(0)).getStatus();
-            for (Integer integer : tasksByEpic) {
-                if (!status.equals(subtasks.get(integer).getStatus())) {
-                    status = TaskStatus.IN_PROGRESS;
-                    break;
-                }
+        if (tasksByEpic.isEmpty()) {
+            epic.setStatus(status); //мне не нравится такой вариант кода из-за дублирования строк (DRY)
+            return;
+        }
+
+        status = subtasks.get(tasksByEpic.get(0)).getStatus();
+        for (Integer integer : tasksByEpic) {
+            if (!status.equals(subtasks.get(integer).getStatus())) {
+                status = TaskStatus.IN_PROGRESS;
+                break;
             }
         }
 

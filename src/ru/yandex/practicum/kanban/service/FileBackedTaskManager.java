@@ -1,20 +1,41 @@
 package ru.yandex.practicum.kanban.service;
 
-import ru.yandex.practicum.kanban.model.*;
+import ru.yandex.practicum.kanban.exception.ManagerLoadException;
+import ru.yandex.practicum.kanban.exception.ManagerSaveException;
+import ru.yandex.practicum.kanban.model.Epic;
+import ru.yandex.practicum.kanban.model.Subtask;
+import ru.yandex.practicum.kanban.model.Task;
+import ru.yandex.practicum.kanban.model.TaskStatus;
+import ru.yandex.practicum.kanban.model.TaskType;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-public class FileBackedTaskManager extends InMemoryTaskManager implements FileManager {
-    private final Path path = Paths.get("resources", "Tasks.csv");
+public class FileBackedTaskManager extends InMemoryTaskManager implements FileBackedManager {
+    private final Path path;
+    private static final String CSV_HEADER = "id,type,name,description,status,epicId/subtasksIds\n";
+    private static final int CSV_ID = 0;
+    private static final int CSV_TYPE = 1;
+    private static final int CSV_NAME = 2;
+    private static final int CSV_DESCRIPTION = 3;
+    private static final int CSV_STATUS = 4;
+    private static final int CSV_EPICID = 5;
+
+    public FileBackedTaskManager(Path path) {
+        this.path = path;
+    }
+
+    public static FileBackedManager loadFromFile(Path path) {
+        FileBackedManager fileBackedManager = new FileBackedTaskManager(path);
+        fileBackedManager.load();
+        return fileBackedManager;
+    }
 
     @Override
     public void save() {
-        String HEADER = "id,type,name,description,status,epicId/subtasksIds\n";
-        StringBuilder stringBuilder = new StringBuilder(HEADER);
+        StringBuilder stringBuilder = new StringBuilder(CSV_HEADER);
 
         for (Task task : getAllTasks()) {
             stringBuilder.append(task);
@@ -30,12 +51,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileMa
         for (Task task : getHistory()) {
             stringBuilder.append(task.getId()).append(',');
         }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 
         try {
             Files.writeString(path, stringBuilder.toString());
         } catch (IOException e) {
-            System.out.println("Запись пошла не по плану");
+            throw new ManagerSaveException("Запись в файл не удалась", e.getCause());
         }
     }
 
@@ -45,49 +65,54 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileMa
             List<String> dataFromFile = Files.readAllLines(path);
             deserializeTask(dataFromFile);
         } catch (IOException e) {
-            System.out.println("Что-то пошло не так");
+            throw new ManagerLoadException("Чтение из файла не удалось, возможно файл поврежден", e.getCause());
         }
     }
 
-    private void deserializeTask(List<String> dataFromFile) {
-        int idx;
+    private void deserializeTask(List<String> csvLines) {
+        int index; //idx - наследие промышленной автоматики... там есть ограничения на память выделяемую под имена переменных=)
 
-        if (dataFromFile.isEmpty()) {
+        if (csvLines.isEmpty()) {
             return;
         }
 
-        for (idx = 1; idx < dataFromFile.size(); idx++) {
-            if (dataFromFile.get(idx).isEmpty()) {
+        for (index = 1; index < csvLines.size(); index++) {
+            if (csvLines.get(index).isEmpty()) {
                 break;
             }
-            String[] rowData = dataFromFile.get(idx).split(",");
-            switch (TaskType.valueOf(rowData[1])) {
+            String[] rowData = csvLines.get(index).split(",");
+            switch (TaskType.valueOf(rowData[CSV_TYPE])) {
                 case TASK:
-                    super.createTask(new Task.TaskBuilder(rowData[2])
-                            .withId(Integer.parseInt(rowData[0]))
-                            .withDescription(rowData[3])
-                            .withStatus(TaskStatus.valueOf(rowData[4]))
+                    super.createTask(new Task.TaskBuilder(rowData[CSV_NAME])
+                            .withId(Integer.parseInt(rowData[CSV_ID]))
+                            .withDescription(rowData[CSV_DESCRIPTION])
+                            .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
                             .build());
                     break;
                 case EPIC:
-                    super.createEpic(new Epic.EpicBuilder(rowData[2])
-                            .withId(Integer.parseInt(rowData[0]))
-                            .withDescription(rowData[3])
-                            .withStatus(TaskStatus.valueOf(rowData[4]))
+                    super.createEpic(new Epic.EpicBuilder(rowData[CSV_NAME])
+                            .withId(Integer.parseInt(rowData[CSV_ID]))
+                            .withDescription(rowData[CSV_DESCRIPTION])
+                            .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
                             .build());
                     break;
                 case SUBTASK:
                     super.createSubtask(new Subtask
-                            .SubtaskBuilder(rowData[2], TaskStatus.valueOf(rowData[4]), Integer.parseInt(rowData[5]))
-                            .withId(Integer.parseInt(rowData[0]))
-                            .withDescription(rowData[3])
+                            .SubtaskBuilder(rowData[CSV_NAME], TaskStatus.valueOf(rowData[CSV_STATUS]),
+                            Integer.parseInt(rowData[CSV_EPICID]))
+                            .withId(Integer.parseInt(rowData[CSV_ID]))
+                            .withDescription(rowData[CSV_DESCRIPTION])
                             .build());
                     break;
 
             }
         }
 
-        String[] history = dataFromFile.get(idx + 1).split(",");
+        if (csvLines.size() == index + 1) {
+            return;
+        }
+
+        String[] history = csvLines.get(index + 1).split(",");
         for (String id : history) {
             super.findTaskById(Integer.parseInt(id));
             super.findEpicById(Integer.parseInt(id));
