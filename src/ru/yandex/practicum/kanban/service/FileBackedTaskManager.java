@@ -14,16 +14,18 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements FileBackedManager {
-    private final Path path;
-    private static final String CSV_HEADER = "id,type,name,description,status,epicId/subtasksIds\n";
+    private static final String CSV_HEADER = "id,type,name,description,status,epicId/subtasksIds";
     private static final int CSV_ID = 0;
     private static final int CSV_TYPE = 1;
     private static final int CSV_NAME = 2;
     private static final int CSV_DESCRIPTION = 3;
     private static final int CSV_STATUS = 4;
     private static final int CSV_EPICID = 5;
+    private final Path path;
 
-    public FileBackedTaskManager(Path path) {
+    //в прямую не получится сделать private либо через статический метод вызов конструктора либо package-private
+    //иначе возникает проблема доступа в тестах
+    FileBackedTaskManager(Path path) {
         this.path = path;
     }
 
@@ -35,27 +37,31 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
 
     @Override
     public void save() {
-        StringBuilder stringBuilder = new StringBuilder(CSV_HEADER);
+        StringBuilder stringBuilder = new StringBuilder(CSV_HEADER).append('\n');
 
         for (Task task : getAllTasks()) {
-            stringBuilder.append(task);
+            stringBuilder.append(task.toCsvLine());
+            stringBuilder.append('\n');
         }
         for (Epic epic : getAllEpics()) {
-            stringBuilder.append(epic);
+            stringBuilder.append(epic.toCsvLine());
+            stringBuilder.append('\n');
         }
         for (Subtask subtask : getAllSubtasks()) {
-            stringBuilder.append(subtask);
+            stringBuilder.append(subtask.toCsvLine());
+            stringBuilder.append('\n');
         }
         stringBuilder.append("\n");
 
         for (Task task : getHistory()) {
             stringBuilder.append(task.getId()).append(',');
         }
+        stringBuilder.append("\n");
 
         try {
             Files.writeString(path, stringBuilder.toString());
         } catch (IOException e) {
-            throw new ManagerSaveException("Запись в файл не удалась", e.getCause());
+            throw new ManagerSaveException("Error. Data have not been written.", e.getCause());
         }
     }
 
@@ -65,12 +71,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
             List<String> dataFromFile = Files.readAllLines(path);
             deserializeTask(dataFromFile);
         } catch (IOException e) {
-            throw new ManagerLoadException("Чтение из файла не удалось, возможно файл поврежден", e.getCause());
+            throw new ManagerLoadException("Error. Can not read the file, it may be damaged", e.getCause());
         }
     }
 
     private void deserializeTask(List<String> csvLines) {
-        int index; //idx - наследие промышленной автоматики... там есть ограничения на память выделяемую под имена переменных=)
+        int index;
 
         if (csvLines.isEmpty()) {
             return;
@@ -83,28 +89,30 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
             String[] rowData = csvLines.get(index).split(",");
             switch (TaskType.valueOf(rowData[CSV_TYPE])) {
                 case TASK:
-                    super.createTask(new Task.TaskBuilder(rowData[CSV_NAME])
+                    super.createTask(Task.builder()
+                            .withName(rowData[CSV_NAME])
                             .withId(Integer.parseInt(rowData[CSV_ID]))
                             .withDescription(rowData[CSV_DESCRIPTION])
                             .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
                             .build());
                     break;
                 case EPIC:
-                    super.createEpic(new Epic.EpicBuilder(rowData[CSV_NAME])
+                    super.createEpic(Epic.builder()
+                            .withName(rowData[CSV_NAME])
                             .withId(Integer.parseInt(rowData[CSV_ID]))
                             .withDescription(rowData[CSV_DESCRIPTION])
                             .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
                             .build());
                     break;
                 case SUBTASK:
-                    super.createSubtask(new Subtask
-                            .SubtaskBuilder(rowData[CSV_NAME], TaskStatus.valueOf(rowData[CSV_STATUS]),
-                            Integer.parseInt(rowData[CSV_EPICID]))
+                    super.createSubtask(Subtask.builder()
                             .withId(Integer.parseInt(rowData[CSV_ID]))
+                            .withName(rowData[CSV_NAME])
                             .withDescription(rowData[CSV_DESCRIPTION])
+                            .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
+                            .withEpicId(Integer.parseInt(rowData[CSV_EPICID]))
                             .build());
                     break;
-
             }
         }
 

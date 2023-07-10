@@ -18,13 +18,15 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void add_shouldSaveTaskToHistory() {
-        historyManager.add(new Task.TaskBuilder("bla").withId(1).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(2).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(3).build());
+        historyManager.add(createTask(1));
+        historyManager.add(createTask(2));
+        historyManager.add(createTask(3));
 
-        List<Task> expected = List.of(new Task.TaskBuilder("bla").withId(1).build(),
-                new Task.TaskBuilder("bla").withId(2).build(),
-                new Task.TaskBuilder("bla").withId(3).build());
+        List<Task> expected = List.of(
+                createTask(1),
+                createTask(2),
+                createTask(3)
+        );
         List<Task> actual = historyManager.getHistory();
 
         assertEquals(expected, actual);
@@ -32,15 +34,16 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void add_shouldNotKeepDuplicates() {
-        historyManager.add(new Task.TaskBuilder("bla").withId(1).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(2).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(3).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(1).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(2).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(3).build());
-        List<Task> expected = List.of(new Task.TaskBuilder("bla").withId(1).build(),
-                new Task.TaskBuilder("bla").withId(2).build(),
-                new Task.TaskBuilder("bla").withId(3).build());
+        historyManager.add(createTask(1));
+        historyManager.add(createTask(2));
+        historyManager.add(createTask(3));
+        historyManager.add(createTask(1));
+        historyManager.add(createTask(2));
+        historyManager.add(createTask(3));
+        List<Task> expected = List.of(
+                createTask(1),
+                createTask(2),
+                createTask(3));
         List<Task> actual = historyManager.getHistory();
 
         assertEquals(expected, actual);
@@ -48,16 +51,16 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void remove_shouldRemoveTaskFromHistory() {
-        historyManager.add(new Task.TaskBuilder("bla").withId(1).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(2).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(3).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(4).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(5).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(6).build());
+        historyManager.add(createTask(1));
+        historyManager.add(createTask(2));
+        historyManager.add(createTask(3));
+        historyManager.add(createTask(4));
+        historyManager.add(createTask(5));
+        historyManager.add(createTask(6));
         historyManager.remove(2);
         historyManager.remove(4);
         historyManager.remove(6);
-        List<Task> expected = List.of(new Task.TaskBuilder("bla").withId(1).build(), new Task.TaskBuilder("bla").withId(3).build(), new Task.TaskBuilder("bla").withId(5).build());
+        List<Task> expected = List.of(createTask(1), createTask(3), createTask(5));
         List<Task> actual = historyManager.getHistory();
 
         assertEquals(expected, actual);
@@ -65,13 +68,13 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void add_shouldMoveTaskToTheEnd_ifTaskAlreadyExistsInHistory() {
-        historyManager.add(new Task.TaskBuilder("bla").withId(1).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(2).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(3).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(3).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(2).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(1).build());
-        List<Task> expected = List.of(new Task.TaskBuilder("bla").withId(3).build(), new Task.TaskBuilder("bla").withId(2).build(), new Task.TaskBuilder("bla").withId(1).build());
+        historyManager.add(createTask(1));
+        historyManager.add(createTask(2));
+        historyManager.add(createTask(3));
+        historyManager.add(createTask(3));
+        historyManager.add(createTask(2));
+        historyManager.add(createTask(1));
+        List<Task> expected = List.of(createTask(3), createTask(2), createTask(1));
         List<Task> actual = historyManager.getHistory();
 
         assertEquals(expected, actual);
@@ -79,15 +82,19 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void remove_shouldRemoveFirstElementFromLinkedList() {
-        historyManager.add(new Task.TaskBuilder("bla").withId(1).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(2).build());
-        historyManager.add(new Task.TaskBuilder("bla").withId(3).build());
+        historyManager.add(createTask(1));
+        historyManager.add(createTask(2));
+        historyManager.add(createTask(3));
         historyManager.remove(1);
-        List<Task> expected = List.of(new Task.TaskBuilder("bla").withId(2).build(),
-                new Task.TaskBuilder("bla").withId(3).build());
+        List<Task> expected = List.of(createTask(2),
+                createTask(3));
         List<Task> actual = historyManager.getHistory();
 
         assertEquals(expected, actual);
+    }
+
+    private static Task createTask(int id) {
+        return Task.builder().withName("bla").withId(id).build();
     }
 }
 

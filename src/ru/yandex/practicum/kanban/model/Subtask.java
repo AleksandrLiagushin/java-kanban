@@ -19,13 +19,24 @@ public class Subtask extends Task {
         super.setId(id);
     }
 
-    public static class SubtaskBuilder extends TaskBuilder {
-        private final int epicId;
+    public static SubtaskBuilder builder() {
+        return new SubtaskBuilder();
+    }
 
-        public SubtaskBuilder(String name, TaskStatus status, int epicId) {
-            super(name);
-            this.setStatus(status);
-            this.epicId = epicId;
+    public static class SubtaskBuilder extends TaskBuilder {
+        private int epicId;
+
+        SubtaskBuilder() {
+        }
+
+        public SubtaskBuilder withId(int id) {
+            this.setId(id);
+            return this;
+        }
+
+        public SubtaskBuilder withName(String name) {
+            super.setName(name);
+            return this;
         }
 
         public SubtaskBuilder withDescription(String description) {
@@ -33,8 +44,13 @@ public class Subtask extends Task {
             return this;
         }
 
-        public SubtaskBuilder withId(int id) {
-            this.setId(id);
+        public SubtaskBuilder withStatus(TaskStatus status) {
+            this.setStatus(status);
+            return this;
+        }
+
+        public SubtaskBuilder withEpicId(int epicId) {
+            this.epicId = epicId;
             return this;
         }
 
@@ -63,12 +79,18 @@ public class Subtask extends Task {
     }
 
     @Override
+    public String toCsvLine() {
+        return super.toCsvLine() + '\'' + epicId;
+    }
+
+    @Override
     public String toString() {
-        return getId() + "," +
-                TaskType.SUBTASK + "," +
-                getName() + "," +
-                getDescription() + "," +
-                getStatus() + "," +
-                getEpicId() + "\n";
+        return "Subtask{" +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
+                "epicId=" + epicId +
+                '}';
     }
 }

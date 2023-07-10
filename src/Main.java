@@ -19,23 +19,37 @@ public class Main {
         System.out.println("******************************");
         System.out.println(taskManager.getHistory());
 
-        taskManager.createTask(new Task.TaskBuilder("task1123")
+        taskManager.createTask(Task.builder()
+                .withName("task1123")
                 .withDescription("task2")
                 .withStatus(TaskStatus.NEW)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 12", TaskStatus.NEW, 13)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("Задача 12")
                 .withDescription("sub2")
+                .withStatus(TaskStatus.NEW)
+                .withEpicId(13)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 12", TaskStatus.DONE, 13)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("Задача 12")
                 .withDescription("sub1")
+                .withStatus(TaskStatus.DONE)
+                .withEpicId(13)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 12", TaskStatus.NEW, 14)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("Задача 12")
                 .withDescription("sub2")
+                .withStatus(TaskStatus.NEW)
+                .withEpicId(14)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("Задача 12", TaskStatus.NEW, 14)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("Задача 12")
                 .withDescription("sub2")
+                .withStatus(TaskStatus.NEW)
+                .withEpicId(14)
                 .build());
-        taskManager.createEpic(new Epic.EpicBuilder("Важный эпик 2")
+        taskManager.createEpic(Epic.builder()
+                .withName("Важный эпик 2")
                 .withDescription("epic1")
                 .build());
 

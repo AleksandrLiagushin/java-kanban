@@ -31,23 +31,30 @@ public class Task {
         return status;
     }
 
+    public static TaskBuilder builder() {
+        return new TaskBuilder();
+    }
+
     public static class TaskBuilder {
         private int id;
-        private final String name;
+        private String name;
         private String description;
         private TaskStatus status;
 
-        public TaskBuilder(String name) {
-            this.name = name;
-        }
-
-        public TaskBuilder withDescription(String description) {
-            this.description = description;
-            return this;
+        TaskBuilder() {
         }
 
         public TaskBuilder withId(int id) {
             this.id = id;
+            return this;
+        }
+
+        public TaskBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+        public TaskBuilder withDescription(String description) {
+            this.description = description;
             return this;
         }
 
@@ -58,6 +65,10 @@ public class Task {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         public void setDescription(String description) {
@@ -103,12 +114,21 @@ public class Task {
         return Objects.hash(id, name, description, status);
     }
 
-    @Override
-    public String toString() {
-        return id + "," +
+    public String toCsvLine() {
+        return String.valueOf(id) + '\'' +
                 TaskType.TASK + ',' +
                 name + ',' +
                 description + ',' +
-                status + '\n';
+                status;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

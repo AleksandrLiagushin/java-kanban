@@ -18,44 +18,68 @@ class FileBackedTaskManagerTest {
 
     @Test
     void save_shouldSaveAllTasksToFile() throws IOException {
-        taskManager.createTask(new Task.TaskBuilder("task1")
+        taskManager.createTask(Task.builder()
+                .withName("task1")
                 .withDescription("task1")
                 .withStatus(TaskStatus.NEW)
                 .build());
-        taskManager.createTask(new Task.TaskBuilder("task2")
+        taskManager.createTask(Task.builder()
+                .withName("task2")
                 .withDescription("task2")
                 .withStatus(TaskStatus.DONE)
                 .build());
-        taskManager.createTask(new Task.TaskBuilder("task3")
+        taskManager.createTask(Task.builder()
+                .withName("task3")
                 .withDescription("task3")
                 .withStatus(TaskStatus.IN_PROGRESS)
                 .build());
-        taskManager.createEpic(new Epic.EpicBuilder("epic1")
+        taskManager.createEpic(Epic.builder()
+                .withName("epic1")
                 .withDescription("epic1")
                 .build());
-        taskManager.createEpic(new Epic.EpicBuilder("epic2")
+        taskManager.createEpic(Epic.builder()
+                .withName("epic2")
                 .withDescription("epic2")
                 .build());
-        taskManager.createEpic(new Epic.EpicBuilder("epic3")
+        taskManager.createEpic(Epic.builder()
+                .withName("epic3")
                 .withDescription("epic3")
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("sub1", TaskStatus.NEW, 4)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("sub1")
                 .withDescription("sub1")
+                .withStatus(TaskStatus.NEW)
+                .withEpicId(4)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("sub2", TaskStatus.DONE, 4)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("sub2")
                 .withDescription("sub2")
+                .withStatus(TaskStatus.DONE)
+                .withEpicId(4)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("sub3", TaskStatus.NEW, 5)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("sub3")
                 .withDescription("sub3")
+                .withStatus(TaskStatus.NEW)
+                .withEpicId(5)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("sub4", TaskStatus.NEW, 5)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("sub4")
                 .withDescription("sub4")
+                .withStatus(TaskStatus.NEW)
+                .withEpicId(5)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("sub5", TaskStatus.DONE, 6)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("sub5")
                 .withDescription("sub5")
+                .withStatus(TaskStatus.DONE)
+                .withEpicId(6)
                 .build());
-        taskManager.createSubtask(new Subtask.SubtaskBuilder("sub6", TaskStatus.DONE, 6)
+        taskManager.createSubtask(Subtask.builder()
+                .withName("sub6")
                 .withDescription("sub6")
+                .withStatus(TaskStatus.DONE)
+                .withEpicId(6)
                 .build());
 
         List<String> expected = Files.readAllLines(Paths.get("resources", "TasksBenchmark.csv"));
@@ -68,54 +92,66 @@ class FileBackedTaskManagerTest {
     void load_shouldLoadAllTasksFromFile() {
         taskManager.load();
 
-        List<Task> expectedTasks = List.of(new Task.TaskBuilder("task1").withId(1)
-                        .withDescription("task1").withStatus(TaskStatus.NEW).build(),
-                new Task.TaskBuilder("task2").withId(2).withDescription("task2").withStatus(TaskStatus.DONE).build(),
-                new Task.TaskBuilder("task3").withId(3).withDescription("task3").withStatus(TaskStatus.IN_PROGRESS).build());
-        Epic epic1 = new Epic.EpicBuilder("epic1").withId(4).withDescription("epic1").withStatus(TaskStatus.IN_PROGRESS)
-                .withSubtaskId(7).withSubtaskId(8).build();
-        epic1.addSubtaskId(7);
-        epic1.addSubtaskId(8);
-        Epic epic2 = new Epic.EpicBuilder("epic2").withId(5).withDescription("epic2").withStatus(TaskStatus.NEW)
-                .withSubtaskId(9).withSubtaskId(10).build();
-        epic2.addSubtaskId(9);
-        epic2.addSubtaskId(10);
-        Epic epic3 = new Epic.EpicBuilder("epic3").withId(6).withDescription("epic3").withStatus(TaskStatus.DONE)
-                        .withSubtaskId(11).withSubtaskId(12).build();
-        epic3.addSubtaskId(11);
-        epic3.addSubtaskId(12);
-        List<Epic> expectedEpics = List.of(epic1, epic2, epic3);
-        List<Subtask> expectedSubtasks = List.of(new Subtask.SubtaskBuilder("sub1", TaskStatus.NEW, 4)
+        List<Task> expectedTasks = List.of(
+                Task.builder().withName("task1").withId(1).withDescription("task1").withStatus(TaskStatus.NEW).build(),
+                Task.builder().withName("task2").withId(2).withDescription("task2").withStatus(TaskStatus.DONE).build(),
+                Task.builder().withName("task3").withId(3).withDescription("task3").withStatus(TaskStatus.IN_PROGRESS).build()
+        );
+
+        List<Epic> expectedEpics = List.of(
+                Epic.builder().withName("epic1").withId(4).withDescription("epic1")
+                        .withStatus(TaskStatus.IN_PROGRESS).withSubtaskIds(List.of(7, 8)).build(),
+                Epic.builder().withName("epic2").withId(5).withDescription("epic2")
+                        .withStatus(TaskStatus.NEW).withSubtaskIds(List.of(9, 10)).build(),
+                Epic.builder().withName("epic3").withId(6).withDescription("epic3")
+                        .withStatus(TaskStatus.DONE).withSubtaskIds(List.of(11, 12)).build()
+        );
+
+        List<Subtask> expectedSubtasks = List.of(
+                Subtask.builder().withName("sub1").withStatus(TaskStatus.NEW).withEpicId(4)
                         .withId(7).withDescription("sub1").build(),
-        new Subtask.SubtaskBuilder("sub2", TaskStatus.DONE, 4).withId(8).withDescription("sub2").build(),
-        new Subtask.SubtaskBuilder("sub3", TaskStatus.NEW, 5).withId(9).withDescription("sub3").build(),
-        new Subtask.SubtaskBuilder("sub4", TaskStatus.NEW, 5).withId(10).withDescription("sub4").build(),
-        new Subtask.SubtaskBuilder("sub5", TaskStatus.DONE, 6).withId(11).withDescription("sub5").build(),
-        new Subtask.SubtaskBuilder("sub6", TaskStatus.DONE, 6).withId(12).withDescription("sub6").build());
+                Subtask.builder().withName("sub2").withStatus(TaskStatus.DONE).withEpicId(4).
+                        withId(8).withDescription("sub2").build(),
+                Subtask.builder().withName("sub3").withStatus(TaskStatus.NEW).withEpicId(5).
+                        withId(9).withDescription("sub3").build(),
+                Subtask.builder().withName("sub4").withStatus(TaskStatus.NEW).withEpicId(5).
+                        withId(10).withDescription("sub4").build(),
+                Subtask.builder().withName("sub5").withStatus(TaskStatus.DONE).withEpicId(6).
+                        withId(11).withDescription("sub5").build(),
+                Subtask.builder().withName("sub6").withStatus(TaskStatus.DONE).withEpicId(6).
+                        withId(12).withDescription("sub6").build()
+        );
 
         List<Task> actualTasks = taskManager.getAllTasks();
         List<Epic> actualEpics = taskManager.getAllEpics();
         List<Subtask> actualSubtasks = taskManager.getAllSubtasks();
 
-        assertEquals(expectedTasks,actualTasks);
+        assertEquals(expectedTasks, actualTasks);
         assertEquals(expectedEpics, actualEpics);
         assertEquals(expectedSubtasks, actualSubtasks);
     }
 
     @Test
     void load_shouldLoadAllTasksFromHistory() {
-        FileBackedManager fbtm = FileBackedTaskManager.loadFromFile(Paths.get("resources", "TasksTestWithHistory.csv"));
+        FileBackedManager fbtm = FileBackedTaskManager
+                .loadFromFile(Paths.get("resources", "TasksTestWithHistory.csv"));
 
         List<Task> expected = List.of(
-                new Task.TaskBuilder("task2").withId(5).withDescription("task5").withStatus(TaskStatus.DONE).build(),
-                new Task.TaskBuilder("task1").withId(4).withDescription("task4").withStatus(TaskStatus.NEW).build(),
-                new Task.TaskBuilder("task3").withId(3).withDescription("task3").withStatus(TaskStatus.IN_PROGRESS).build(),
-                new Task.TaskBuilder("task2").withId(2).withDescription("task2").withStatus(TaskStatus.DONE).build(),
-                new Task.TaskBuilder("task1").withId(1).withDescription("task1").withStatus(TaskStatus.NEW).build(),
-                new Task.TaskBuilder("task3").withId(6).withDescription("task6").withStatus(TaskStatus.IN_PROGRESS).build()
+                Task.builder().withName("task2").withId(5).withDescription("task5")
+                        .withStatus(TaskStatus.DONE).build(),
+                Task.builder().withName("task1").withId(4).withDescription("task4")
+                        .withStatus(TaskStatus.NEW).build(),
+                Task.builder().withName("task3").withId(3).withDescription("task3")
+                        .withStatus(TaskStatus.IN_PROGRESS).build(),
+                Task.builder().withName("task2").withId(2).withDescription("task2")
+                        .withStatus(TaskStatus.DONE).build(),
+                Task.builder().withName("task1").withId(1).withDescription("task1")
+                        .withStatus(TaskStatus.NEW).build(),
+                Task.builder().withName("task3").withId(6).withDescription("task6")
+                        .withStatus(TaskStatus.IN_PROGRESS).build()
         );
         List<Task> actual = fbtm.getHistory();
 
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 }

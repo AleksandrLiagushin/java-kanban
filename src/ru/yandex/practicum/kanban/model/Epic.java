@@ -8,8 +8,9 @@ import java.util.Objects;
 public class Epic extends Task {
     private final List<Integer> subtaskIds = new ArrayList<>();
 
-    public Epic(EpicBuilder epicBuilder) {
+    private Epic(EpicBuilder epicBuilder) {
         super(epicBuilder);
+        subtaskIds.addAll(epicBuilder.subtaskIds);
     }
 
     public List<Integer> getSubtaskIds() {
@@ -28,15 +29,24 @@ public class Epic extends Task {
         subtaskIds.add(subtaskId);
     }
 
+    public static EpicBuilder builder() {
+        return new EpicBuilder();
+    }
+
     public static class EpicBuilder extends TaskBuilder {
         private final List<Integer> subtaskIds = new ArrayList<>();
 
-        public EpicBuilder(String name) {
-            super(name);
+        //нет возможности поставить private т.к. используется за границами класса
+        EpicBuilder() {
         }
 
         public EpicBuilder withId(int id) {
             this.setId(id);
+            return this;
+        }
+
+        public EpicBuilder withName(String name) {
+            super.setName(name);
             return this;
         }
 
@@ -50,8 +60,8 @@ public class Epic extends Task {
             return this;
         }
 
-        public EpicBuilder withSubtaskId(int subtaskId) {
-            subtaskIds.add(subtaskId);
+        public EpicBuilder withSubtaskIds(List<Integer> subtaskIds) {
+            this.subtaskIds.addAll(subtaskIds);
             return this;
         }
 
@@ -84,13 +94,18 @@ public class Epic extends Task {
     }
 
     @Override
-    public String toString() {
+    public String toCsvLine() {
+        return super.toCsvLine() + subtaskIds;
+    }
 
-        return getId() + "," +
-                TaskType.EPIC + "," +
-                getName() + "," +
-                getDescription() + "," +
-                getStatus() + "," +
-                getSubtaskIds() + "\n";
+    @Override
+    public String toString() {
+        return "Epic{" +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
+                "subtaskIds=" + subtaskIds +
+                '}';
     }
 }
