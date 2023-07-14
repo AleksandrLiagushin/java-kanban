@@ -14,13 +14,15 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements FileBackedManager {
-    private static final String CSV_HEADER = "id,type,name,description,status,epicId/subtasksIds";
+    private static final String CSV_HEADER = "id,type,name,description,status,startTime,duration,epicId/subtasksIds";
     private static final int CSV_ID = 0;
     private static final int CSV_TYPE = 1;
     private static final int CSV_NAME = 2;
     private static final int CSV_DESCRIPTION = 3;
     private static final int CSV_STATUS = 4;
-    private static final int CSV_EPICID = 5;
+    private static final int CSV_START_TIME = 5;
+    private static final int CSV_DURATION = 6;
+    private static final int CSV_EPIC_ID = 7;
     private final Path path;
 
     //в прямую не получится сделать private либо через статический метод вызов конструктора либо package-private
@@ -110,7 +112,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
                             .withName(rowData[CSV_NAME])
                             .withDescription(rowData[CSV_DESCRIPTION])
                             .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
-                            .withEpicId(Integer.parseInt(rowData[CSV_EPICID]))
+                            .withEpicId(Integer.parseInt(rowData[CSV_EPIC_ID]))
                             .build());
                     break;
             }

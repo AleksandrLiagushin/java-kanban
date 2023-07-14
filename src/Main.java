@@ -6,6 +6,7 @@ import ru.yandex.practicum.kanban.service.FileBackedManager;
 import ru.yandex.practicum.kanban.service.FileBackedTaskManager;
 
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 
 public class Main {
 
@@ -23,47 +24,68 @@ public class Main {
                 .withName("task1123")
                 .withDescription("task2")
                 .withStatus(TaskStatus.NEW)
-                .build());
-        taskManager.createSubtask(Subtask.builder()
-                .withName("Задача 12")
-                .withDescription("sub2")
-                .withStatus(TaskStatus.NEW)
-                .withEpicId(13)
-                .build());
-        taskManager.createSubtask(Subtask.builder()
-                .withName("Задача 12")
-                .withDescription("sub1")
-                .withStatus(TaskStatus.DONE)
-                .withEpicId(13)
-                .build());
-        taskManager.createSubtask(Subtask.builder()
-                .withName("Задача 12")
-                .withDescription("sub2")
-                .withStatus(TaskStatus.NEW)
-                .withEpicId(14)
-                .build());
-        taskManager.createSubtask(Subtask.builder()
-                .withName("Задача 12")
-                .withDescription("sub2")
-                .withStatus(TaskStatus.NEW)
-                .withEpicId(14)
-                .build());
-        taskManager.createEpic(Epic.builder()
-                .withName("Важный эпик 2")
-                .withDescription("epic1")
+                .withStartTime(LocalDateTime.now())
+                .withDuration(315)
                 .build());
 
-        taskManager.findTaskById(128);
-        taskManager.findEpicById(13);
-        taskManager.findSubtaskById(160);
-        taskManager.findTaskById(144);
-        taskManager.findEpicById(14);
-        taskManager.findSubtaskById(129);
-        taskManager.findTaskById(128);
-        taskManager.findEpicById(13);
-        taskManager.findSubtaskById(130);
-        taskManager.findTaskById(128);
-        taskManager.findTaskById(144);
+        taskManager.createEpic(Epic.builder().withName("epic").withDescription("epic1").build());
 
+        taskManager.createSubtask(Subtask.builder()
+                .withName("Задача 12")
+                .withDescription("sub2")
+                .withStatus(TaskStatus.NEW)
+                .withStartTime(LocalDateTime.parse("2022-12-04T10:10:10.6546515"))
+                .withDuration(234L)
+                .withEpicId(2)
+                .build());
+        taskManager.createSubtask(Subtask.builder()
+                .withName("Задача 12")
+                .withDescription("sub2")
+                .withStatus(TaskStatus.NEW)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:14:10.6546515"))
+                .withDuration(234L)
+                .withEpicId(2)
+                .build());
+        taskManager.createSubtask(Subtask.builder()
+                .withName("sub1")
+                .withDescription("make")
+                .withStatus(TaskStatus.NEW)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:12:10.6546515"))
+                .withDuration(234L)
+                .withEpicId(2)
+                .build());
+        taskManager.createSubtask(Subtask.builder()
+                .withName("sub1")
+                .withDescription("make")
+                .withStatus(TaskStatus.NEW)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:10:10.6546515"))
+                .withDuration(234L)
+                .withEpicId(2)
+                .build());
+
+        System.out.println("*** New Test ***");
+
+        for (Task task : taskManager.getPriorityTasks()) {
+            System.out.println(task);
+        }
+
+        System.out.println("\n*** Update ***\n");
+
+        taskManager.createTask(Task.builder()
+                .withName("task3")
+                .withDescription("task2")
+                .withStatus(TaskStatus.NEW)
+                .build());
+
+        taskManager.updateTask(Task.builder()
+                .withId(1)
+                .withName("task1")
+                .withDescription("task2")
+                .withStatus(TaskStatus.NEW)
+                .build());
+
+        for (Task task : taskManager.getPriorityTasks()) {
+            System.out.println(task);
+        }
     }
 }

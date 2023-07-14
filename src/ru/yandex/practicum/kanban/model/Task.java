@@ -1,18 +1,25 @@
 package ru.yandex.practicum.kanban.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Task {
     private int id;
     private final String name;
     private final String description;
     private TaskStatus status;
+    private LocalDateTime startTime;
+    private Duration duration;
 
     public Task(TaskBuilder taskBuilder) {
         this.id = taskBuilder.id;
         this.name = taskBuilder.name;
         this.description = taskBuilder.description;
         this.status = taskBuilder.status;
+        this.startTime = taskBuilder.startTime;
+        this.duration = taskBuilder.duration;
     }
 
     public int getId() {
@@ -35,11 +42,37 @@ public class Task {
         return new TaskBuilder();
     }
 
+    public Optional<LocalDateTime> getStartTime() {
+        return Optional.ofNullable(startTime);
+    }
+
+    public Optional<Duration> getDuration() {
+        return Optional.ofNullable(duration);
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = Duration.ofMinutes(duration);
+    }
+
+    public Optional<LocalDateTime> getEndTime() {
+        if (getStartTime().isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(getStartTime().get().plus(getDuration().orElse(Duration.ZERO)));
+    }
+
     public static class TaskBuilder {
         private int id;
         private String name;
         private String description;
         private TaskStatus status;
+        private LocalDateTime startTime;
+        private Duration duration;
 
         TaskBuilder() {
         }
@@ -63,6 +96,16 @@ public class Task {
             return this;
         }
 
+        public TaskBuilder withStartTime(LocalDateTime startTime) {
+            this.startTime = startTime;
+            return this;
+        }
+
+        public TaskBuilder withDuration(long duration) {
+            this.duration = Duration.ofMinutes(duration);
+            return this;
+        }
+
         public void setId(int id) {
             this.id = id;
         }
@@ -77,6 +120,14 @@ public class Task {
 
         public void setStatus(TaskStatus status) {
             this.status = status;
+        }
+
+        public void setStartTime(LocalDateTime startTime) {
+            this.startTime = startTime;
+        }
+
+        public void setDuration(long duration) {
+            this.duration = Duration.ofMinutes(duration);
         }
 
         public Task build() {
@@ -115,11 +166,13 @@ public class Task {
     }
 
     public String toCsvLine() {
-        return String.valueOf(id) + '\'' +
-                TaskType.TASK + ',' +
-                name + ',' +
-                description + ',' +
-                status;
+        return id + "," +
+                TaskType.TASK + ",'\"" +
+                name + "\"','\"" +
+                description + "\"'," +
+                status + "," +
+                getStartTime().orElse(null) + "," +
+                getDuration().orElse(Duration.ZERO).toMinutes();
     }
 
     @Override
@@ -129,6 +182,8 @@ public class Task {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
+                ", startTime=" + startTime +
+                ", duration=" + duration +
                 '}';
     }
 }

@@ -5,10 +5,7 @@ import ru.yandex.practicum.kanban.model.Subtask;
 import ru.yandex.practicum.kanban.model.Task;
 import ru.yandex.practicum.kanban.model.TaskStatus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int uniqueId;
@@ -16,6 +13,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistoryManager();
+    private final Set<Task> priorityTasks = new TreeSet<>((t1, t2) -> t1.getId() - t2.getId());
 
     @Override
     public void createTask(Task task) {
@@ -26,6 +24,7 @@ public class InMemoryTaskManager implements TaskManager {
             uniqueId = task.getId();
         }
         tasks.put(task.getId(), task);
+        priorityTasks.add(task);
     }
 
     @Override
@@ -105,8 +104,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (!tasks.containsKey(task.getId())) {
             return;
         }
-
+        priorityTasks.remove(tasks.get(task.getId()));
         tasks.put(task.getId(), task);
+        priorityTasks.add(task);
     }
 
     @Override
@@ -225,6 +225,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public Set<Task> getPriorityTasks() {
+        return priorityTasks;
     }
 
     private int generateUniqueId() {

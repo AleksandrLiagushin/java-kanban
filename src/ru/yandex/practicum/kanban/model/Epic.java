@@ -1,5 +1,7 @@
 package ru.yandex.practicum.kanban.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +62,16 @@ public class Epic extends Task {
             return this;
         }
 
+        public EpicBuilder withStartTime(LocalDateTime startTime) {
+            this.setStartTime(startTime);
+            return this;
+        }
+
+        public EpicBuilder withDuration(long duration) {
+            this.setDuration(duration);
+            return this;
+        }
+
         public EpicBuilder withSubtaskIds(List<Integer> subtaskIds) {
             this.subtaskIds.addAll(subtaskIds);
             return this;
@@ -95,7 +107,14 @@ public class Epic extends Task {
 
     @Override
     public String toCsvLine() {
-        return super.toCsvLine() + subtaskIds;
+        return getId() + "," +
+                TaskType.EPIC + ",'\"" +
+                getName() + "\"','\"" +
+                getDuration() + "\"'," +
+                getStatus() + "," +
+                getStartTime().orElse(null) + "," +
+                getDuration().orElse(Duration.ZERO).toMinutes() + "," +
+                subtaskIds;
     }
 
     @Override
@@ -105,6 +124,8 @@ public class Epic extends Task {
                 ", name='" + getName() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
+                ", startTime=" + getStartTime().orElse(null) +
+                ", duration=" + getDuration().orElse(Duration.ZERO).toMinutes() +
                 "subtaskIds=" + subtaskIds +
                 '}';
     }

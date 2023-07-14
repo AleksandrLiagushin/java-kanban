@@ -1,40 +1,10 @@
-id,type,name,description,status,epicId/subtasksIds
-128,TASK,task1123,task2,NEW
-144,TASK,task1123,task2,NEW
-161,TASK,task1123,task2,NEW
-179,TASK,task1123,task2,NEW
-167,TASK,task1123,task2,NEW
-185,TASK,task1123,task2,NEW
-173,TASK,task1123,task2,NEW
-178,EPIC,Важный эпик 2,epic1,NEW,[]
-166,EPIC,Важный эпик 2,epic1,NEW,[]
-184,EPIC,Важный эпик 2,epic1,NEW,[]
-172,EPIC,Важный эпик 2,epic1,NEW,[]
-13,EPIC,epic1,epic1,IN_PROGRESS,[129, 130, 162, 163, 168, 169, 174, 175, 180, 181, 186, 187]
-14,EPIC,Важный эпик 2,epic1,NEW,[160, 164, 165, 170, 171, 176, 177, 182, 183, 188, 189]
-190,EPIC,Важный эпик 2,epic1,NEW,[]
-160,SUBTASK,Задача 12,sub2,NEW,14
-129,SUBTASK,Задача 12,sub2,NEW,13
-130,SUBTASK,Задача 12,sub1,DONE,13
-162,SUBTASK,Задача 12,sub2,NEW,13
-163,SUBTASK,Задача 12,sub1,DONE,13
-164,SUBTASK,Задача 12,sub2,NEW,14
-165,SUBTASK,Задача 12,sub2,NEW,14
-168,SUBTASK,Задача 12,sub2,NEW,13
-169,SUBTASK,Задача 12,sub1,DONE,13
-170,SUBTASK,Задача 12,sub2,NEW,14
-171,SUBTASK,Задача 12,sub2,NEW,14
-174,SUBTASK,Задача 12,sub2,NEW,13
-175,SUBTASK,Задача 12,sub1,DONE,13
-176,SUBTASK,Задача 12,sub2,NEW,14
-177,SUBTASK,Задача 12,sub2,NEW,14
-180,SUBTASK,Задача 12,sub2,NEW,13
-181,SUBTASK,Задача 12,sub1,DONE,13
-182,SUBTASK,Задача 12,sub2,NEW,14
-183,SUBTASK,Задача 12,sub2,NEW,14
-186,SUBTASK,Задача 12,sub2,NEW,13
-187,SUBTASK,Задача 12,sub1,DONE,13
-188,SUBTASK,Задача 12,sub2,NEW,14
-189,SUBTASK,Задача 12,sub2,NEW,14
+id,type,name,description,status,startTime,duration,epicId/subtasksIds
+1,TASK,'"task1"','"task2"',NEW,null,0
+7,TASK,'"task3"','"task2"',NEW,null,0
+2,EPIC,'"epic"','"Optional.empty"',NEW,null,0,[3, 4, 5, 6]
+3,SUBTASK,'"Задача 12"','"Optional[PT3H54M]"',NEW,2022-12-04T10:10:10.654651500,234,2
+4,SUBTASK,'"Задача 12"','"Optional[PT3H54M]"',NEW,2022-12-01T10:14:10.654651500,234,2
+5,SUBTASK,'"sub1"','"Optional[PT3H54M]"',NEW,2022-12-01T10:12:10.654651500,234,2
+6,SUBTASK,'"sub1"','"Optional[PT3H54M]"',NEW,2022-12-01T10:10:10.654651500,234,2
 
-160,14,129,13,130,128,144,
+
