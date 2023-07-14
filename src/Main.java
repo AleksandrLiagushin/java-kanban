@@ -84,6 +84,13 @@ public class Main {
                 .withStatus(TaskStatus.NEW)
                 .build());
 
+        taskManager.updateTask(Task.builder()
+                .withId(8)
+                .withName("task8")
+                .withDescription("task8")
+                .withStatus(TaskStatus.NEW)
+                .build());
+
         for (Task task : taskManager.getPriorityTasks()) {
             System.out.println(task);
         }

@@ -11,10 +11,16 @@ import ru.yandex.practicum.kanban.model.TaskType;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements FileBackedManager {
     private static final String CSV_HEADER = "id,type,name,description,status,startTime,duration,epicId/subtasksIds";
+    private static final String CSV_LINE_REGEX =
+            "(^\\d+)|([A-Z_]+)|('\"(.*?)\"')|(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+|null)|(\\d+)";
     private static final int CSV_ID = 0;
     private static final int CSV_TYPE = 1;
     private static final int CSV_NAME = 2;
@@ -23,6 +29,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
     private static final int CSV_START_TIME = 5;
     private static final int CSV_DURATION = 6;
     private static final int CSV_EPIC_ID = 7;
+    private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private final Path path;
 
     //в прямую не получится сделать private либо через статический метод вызов конструктора либо package-private
@@ -78,47 +85,67 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
     }
 
     private void deserializeTask(List<String> csvLines) {
+
         int index;
+        LocalDateTime startTime = null;
+        Pattern taskPattern = Pattern.compile(CSV_LINE_REGEX);
+
 
         if (csvLines.isEmpty()) {
             return;
         }
 
         for (index = 1; index < csvLines.size(); index++) {
+
+            List<String> parsedCsvLine = taskPattern.matcher(csvLines.get(index))
+                    .results()
+                    .map(matcher -> matcher.group(0).replaceAll("'\"|\"'", ""))
+                    .collect(Collectors.toList());
+
             if (csvLines.get(index).isEmpty()) {
                 break;
             }
-            String[] rowData = csvLines.get(index).split(",");
-            switch (TaskType.valueOf(rowData[CSV_TYPE])) {
+
+            if (!"null".equals(parsedCsvLine.get(CSV_START_TIME))){
+                startTime = LocalDateTime.parse(parsedCsvLine.get(CSV_START_TIME), ISO_FORMATTER);
+            }
+
+            switch (TaskType.valueOf(parsedCsvLine.get(CSV_TYPE))) {
                 case TASK:
                     super.createTask(Task.builder()
-                            .withName(rowData[CSV_NAME])
-                            .withId(Integer.parseInt(rowData[CSV_ID]))
-                            .withDescription(rowData[CSV_DESCRIPTION])
-                            .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
+                            .withName(parsedCsvLine.get(CSV_NAME))
+                            .withId(Integer.parseInt(parsedCsvLine.get(CSV_ID)))
+                            .withDescription(parsedCsvLine.get(CSV_DESCRIPTION))
+                            .withStatus(TaskStatus.valueOf(parsedCsvLine.get(CSV_STATUS)))
+                            .withStartTime(startTime)
+                            .withDuration(Long.parseLong(parsedCsvLine.get(CSV_DURATION)))
                             .build());
                     break;
                 case EPIC:
                     super.createEpic(Epic.builder()
-                            .withName(rowData[CSV_NAME])
-                            .withId(Integer.parseInt(rowData[CSV_ID]))
-                            .withDescription(rowData[CSV_DESCRIPTION])
-                            .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
+                            .withName(parsedCsvLine.get(CSV_NAME))
+                            .withId(Integer.parseInt(parsedCsvLine.get(CSV_ID)))
+                            .withDescription(parsedCsvLine.get(CSV_DESCRIPTION))
+                            .withStatus(TaskStatus.valueOf(parsedCsvLine.get(CSV_STATUS)))
+                            .withStartTime(startTime)
+                            .withDuration(Long.parseLong(parsedCsvLine.get(CSV_DURATION)))
                             .build());
                     break;
                 case SUBTASK:
                     super.createSubtask(Subtask.builder()
-                            .withId(Integer.parseInt(rowData[CSV_ID]))
-                            .withName(rowData[CSV_NAME])
-                            .withDescription(rowData[CSV_DESCRIPTION])
-                            .withStatus(TaskStatus.valueOf(rowData[CSV_STATUS]))
-                            .withEpicId(Integer.parseInt(rowData[CSV_EPIC_ID]))
+                            .withId(Integer.parseInt(parsedCsvLine.get(CSV_ID)))
+                            .withName(parsedCsvLine.get(CSV_NAME))
+                            .withDescription(parsedCsvLine.get(CSV_DESCRIPTION))
+                            .withStatus(TaskStatus.valueOf(parsedCsvLine.get(CSV_STATUS)))
+                            .withStartTime(startTime)
+                            .withDuration(Long.parseLong(parsedCsvLine.get(CSV_DURATION)))
+                            .withEpicId(Integer.parseInt(parsedCsvLine.get(CSV_EPIC_ID)))
                             .build());
                     break;
             }
         }
 
-        if (csvLines.size() == index + 1) {
+        if (csvLines.size() == index + 1 || csvLines.get(index + 1).isEmpty()) {
             return;
         }
 
