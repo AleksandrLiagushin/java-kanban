@@ -29,6 +29,7 @@ public class Main {
                 .build());
 
         taskManager.createEpic(Epic.builder().withName("epic").withDescription("epic1").build());
+        taskManager.createEpic(Epic.builder().withName("epic").withDescription("epic1").build());
 
         taskManager.createSubtask(Subtask.builder()
                 .withName("Задача 12")
@@ -44,7 +45,7 @@ public class Main {
                 .withStatus(TaskStatus.NEW)
                 .withStartTime(LocalDateTime.parse("2022-12-01T10:14:10.6546515"))
                 .withDuration(234L)
-                .withEpicId(2)
+                .withEpicId(3)
                 .build());
         taskManager.createSubtask(Subtask.builder()
                 .withName("sub1")
@@ -60,7 +61,7 @@ public class Main {
                 .withStatus(TaskStatus.NEW)
                 .withStartTime(LocalDateTime.parse("2022-12-01T10:10:10.6546515"))
                 .withDuration(234L)
-                .withEpicId(2)
+                .withEpicId(3)
                 .build());
 
         System.out.println("*** New Test ***");

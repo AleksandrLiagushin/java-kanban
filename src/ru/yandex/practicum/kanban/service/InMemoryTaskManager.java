@@ -5,6 +5,7 @@ import ru.yandex.practicum.kanban.model.Subtask;
 import ru.yandex.practicum.kanban.model.Task;
 import ru.yandex.practicum.kanban.model.TaskStatus;
 
+import java.time.Duration;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -56,8 +57,10 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         epic.addSubtaskId(subtask.getId());
+        epic.addDuration(subtask.getDuration().orElse(Duration.ZERO));
         subtasks.put(subtask.getId(), subtask);
         changeEpicStatus(subtask.getEpicId());
+        setEpicStartTime(epic.getId());
     }
 
     @Override
@@ -126,16 +129,20 @@ public class InMemoryTaskManager implements TaskManager {
 
         Subtask subtaskRef = subtasks.get(subtask.getId());
         Epic epic = epics.get(subtaskRef.getEpicId());
+        epic.subtractDuration(subtaskRef.getDuration().orElse(Duration.ZERO));
 
         if (subtaskRef.getEpicId() != subtask.getEpicId()) {
             epic.removeSubtaskId(subtask.getId());
             changeEpicStatus(subtaskRef.getEpicId());
+            setEpicStartTime(epic.getId());
             epic = epics.get(subtask.getEpicId());
             epic.addSubtaskId(subtask.getId());
         }
 
         subtasks.put(subtask.getId(), subtask);
         changeEpicStatus(subtask.getEpicId());
+   //     setEpicStartTime(epic.getId());
+        epic.addDuration(subtask.getDuration().orElse(Duration.ZERO));
     }
 
     @Override
@@ -234,5 +241,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int generateUniqueId() {
         return ++uniqueId;
+    }
+
+    private void setEpicStartTime(int epicId) {
+        Optional<Subtask> subtaskWithEarliestStartTime = getSubtasksByEpicId(epicId).stream()
+                .filter(subtask -> subtask.getStartTime().isPresent())
+                .min(Comparator.comparing(subtask -> subtask.getStartTime().get()));
+        subtaskWithEarliestStartTime.flatMap(Task::getStartTime)
+                .ifPresent(startTime -> epics.get(epicId).setStartTime(startTime));
     }
 }

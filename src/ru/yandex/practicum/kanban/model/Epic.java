@@ -23,6 +23,16 @@ public class Epic extends Task {
         subtaskIds.clear();
     }
 
+    public void addDuration(Duration duration) {
+        Duration newDuration = getDuration().orElse(Duration.ZERO).plus(duration);
+        super.setDuration(newDuration.toMinutes());
+    }
+
+    public void subtractDuration(Duration duration) {
+        Duration newDuration = getDuration().orElse(Duration.ZERO).minus(duration);
+        super.setDuration(newDuration.toMinutes());
+    }
+
     public void removeSubtaskId(Integer subtaskId) {
         subtaskIds.remove(subtaskId);
     }
@@ -110,7 +120,7 @@ public class Epic extends Task {
         return getId() + "," +
                 TaskType.EPIC + ",'\"" +
                 getName() + "\"','\"" +
-                getDuration() + "\"'," +
+                getDescription() + "\"'," +
                 getStatus() + "," +
                 getStartTime().orElse(null) + "," +
                 getDuration().orElse(Duration.ZERO).toMinutes() + "," +
