@@ -2,8 +2,7 @@ package ru.yandex.practicum.kanban.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class Task {
     private int id;
@@ -12,6 +11,7 @@ public class Task {
     private TaskStatus status;
     private LocalDateTime startTime;
     private Duration duration;
+    private final Set<Integer> crossedTasks = new HashSet<>();
 
     public Task(TaskBuilder taskBuilder) {
         this.id = taskBuilder.id;
@@ -56,6 +56,18 @@ public class Task {
 
     public void setDuration(long duration) {
         this.duration = Duration.ofMinutes(duration);
+    }
+
+    public void addCrossedTask(int taskId) {
+        crossedTasks.add(taskId);
+    }
+
+    public void removeCrossedTask(int taskId) {
+        crossedTasks.remove(taskId);
+    }
+
+    public Set<Integer> getCrossedTasks() {
+        return crossedTasks;
     }
 
     public Optional<LocalDateTime> getEndTime() {
@@ -184,6 +196,7 @@ public class Task {
                 ", status=" + status +
                 ", startTime=" + startTime +
                 ", duration=" + duration +
+                crossedTasks +
                 '}';
     }
 }

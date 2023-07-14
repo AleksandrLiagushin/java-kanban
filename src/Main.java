@@ -24,8 +24,8 @@ public class Main {
                 .withName("task1123")
                 .withDescription("task2")
                 .withStatus(TaskStatus.NEW)
-                .withStartTime(LocalDateTime.now())
-                .withDuration(315)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:10:10.6546515"))
+                .withDuration(180L)
                 .build());
 
         taskManager.createEpic(Epic.builder().withName("epic").withDescription("epic1").build());
@@ -35,38 +35,45 @@ public class Main {
                 .withName("Задача 12")
                 .withDescription("sub2")
                 .withStatus(TaskStatus.NEW)
-                .withStartTime(LocalDateTime.parse("2022-12-04T10:10:10.6546515"))
-                .withDuration(234L)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:10:10.6546515"))
+                .withDuration(180L)
                 .withEpicId(2)
                 .build());
         taskManager.createSubtask(Subtask.builder()
                 .withName("Задача 12")
                 .withDescription("sub2")
                 .withStatus(TaskStatus.NEW)
-                .withStartTime(LocalDateTime.parse("2022-12-01T10:14:10.6546515"))
-                .withDuration(234L)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:12:10.6546515"))
+                .withDuration(180L)
                 .withEpicId(3)
                 .build());
         taskManager.createSubtask(Subtask.builder()
                 .withName("sub1")
                 .withDescription("make")
                 .withStatus(TaskStatus.NEW)
-                .withStartTime(LocalDateTime.parse("2022-12-01T10:12:10.6546515"))
-                .withDuration(234L)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:14:10.6546515"))
+                .withDuration(180L)
                 .withEpicId(2)
                 .build());
         taskManager.createSubtask(Subtask.builder()
                 .withName("sub1")
                 .withDescription("make")
                 .withStatus(TaskStatus.NEW)
-                .withStartTime(LocalDateTime.parse("2022-12-01T10:10:10.6546515"))
-                .withDuration(234L)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:16:10.6546515"))
+                .withDuration(180L)
                 .withEpicId(3)
                 .build());
 
         System.out.println("*** New Test ***");
+        System.out.println("*** Priority Tasks ***");
 
-        for (Task task : taskManager.getPriorityTasks()) {
+        for (Task task : taskManager.getPriorityTasks().keySet()) {
+            System.out.println(task);
+        }
+
+        System.out.println("*** Avaliable Tasks ***");
+
+        for (Task task : taskManager.getAllTasks()) {
             System.out.println(task);
         }
 
@@ -76,7 +83,22 @@ public class Main {
                 .withName("task3")
                 .withDescription("task2")
                 .withStatus(TaskStatus.NEW)
+                        .withStartTime(LocalDateTime.parse("2022-12-01T10:12:10.6546515"))
+                        .withDuration(180L)
                 .build());
+
+        taskManager.createTask(Task.builder()
+                .withName("task1")
+                .withDescription("task2")
+                .withStatus(TaskStatus.NEW)
+                        .withStartTime(LocalDateTime.parse("2022-12-01T10:14:10.6546515"))
+                .build());
+
+        System.out.println("*** Avaliable Tasks ***");
+
+        for (Task task : taskManager.getAllTasks()) {
+            System.out.println(task);
+        }
 
         taskManager.updateTask(Task.builder()
                 .withId(1)
@@ -90,9 +112,33 @@ public class Main {
                 .withName("task8")
                 .withDescription("task8")
                 .withStatus(TaskStatus.NEW)
+                        .withStartTime(LocalDateTime.now())
                 .build());
 
-        for (Task task : taskManager.getPriorityTasks()) {
+        taskManager.updateTask(Task.builder()
+                .withId(9)
+                .withName("task9")
+                .withDescription("task9")
+                .withStatus(TaskStatus.NEW)
+                .build());
+
+        taskManager.updateSubtask(Subtask.builder()
+                        .withId(5)
+                .withName("task9")
+                .withDescription("task9")
+                .withStatus(TaskStatus.NEW)
+                .withStartTime(LocalDateTime.parse("2022-12-01T10:18:10.6546515"))
+                        .withEpicId(3)
+                .build());
+
+
+        System.out.println("*** Priority Tasks 2 ***");
+        for (Task task : taskManager.getPriorityTasks().keySet()) {
+            System.out.println(task);
+        }
+        System.out.println("*** Avaliable SubTasks ***");
+
+        for (Task task : taskManager.getAllSubtasks()) {
             System.out.println(task);
         }
     }

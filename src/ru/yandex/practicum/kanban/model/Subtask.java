@@ -112,6 +112,7 @@ public class Subtask extends Task {
                 ", startTime=" + getStartTime().orElse(null) +
                 ", duration=" + getDuration().orElse(Duration.ZERO).toMinutes() +
                 "epicId=" + epicId +
+                getCrossedTasks() +
                 '}';
     }
 }

@@ -1,11 +1,12 @@
 id,type,name,description,status,startTime,duration,epicId/subtasksIds
 1,TASK,'"task1"','"task2"',NEW,null,0
-8,TASK,'"task8"','"task8"',NEW,null,0
-2,EPIC,'"epic"','"epic1"',NEW,2022-12-01T10:12:10.654651500,468,[4, 6]
-3,EPIC,'"epic"','"epic1"',NEW,2022-12-01T10:10:10.654651500,468,[5, 7]
-4,SUBTASK,'"Задача 12"','"Optional[PT3H54M]"',NEW,2022-12-04T10:10:10.654651500,234,2
-5,SUBTASK,'"Задача 12"','"Optional[PT3H54M]"',NEW,2022-12-01T10:14:10.654651500,234,3
-6,SUBTASK,'"sub1"','"Optional[PT3H54M]"',NEW,2022-12-01T10:12:10.654651500,234,2
-7,SUBTASK,'"sub1"','"Optional[PT3H54M]"',NEW,2022-12-01T10:10:10.654651500,234,3
+8,TASK,'"task8"','"task8"',NEW,2023-07-14T20:33:43.846870100,0
+9,TASK,'"task9"','"task9"',NEW,null,0
+2,EPIC,'"epic"','"epic1"',NEW,2022-12-01T10:10:10.654651500,360,[4, 6]
+3,EPIC,'"epic"','"epic1"',NEW,2022-12-01T10:16:10.654651500,180,[5, 7]
+4,SUBTASK,'"Задача 12"','"Optional[PT3H]"',NEW,2022-12-01T10:10:10.654651500,180,2
+5,SUBTASK,'"task9"','"Optional.empty"',NEW,2022-12-01T10:18:10.654651500,0,3
+6,SUBTASK,'"sub1"','"Optional[PT3H]"',NEW,2022-12-01T10:14:10.654651500,180,2
+7,SUBTASK,'"sub1"','"Optional[PT3H]"',NEW,2022-12-01T10:16:10.654651500,180,3
 
 
