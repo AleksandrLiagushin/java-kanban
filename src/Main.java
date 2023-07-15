@@ -40,7 +40,7 @@ public class Main {
                 .withEpicId(2)
                 .build());
         taskManager.createSubtask(Subtask.builder()
-                .withName("Задача 12")
+                .withName("Козявка")
                 .withDescription("sub2")
                 .withStatus(TaskStatus.NEW)
                 .withStartTime(LocalDateTime.parse("2022-12-01T10:12:10.6546515"))
@@ -127,7 +127,8 @@ public class Main {
                 .withName("task9")
                 .withDescription("task9")
                 .withStatus(TaskStatus.NEW)
-                .withStartTime(LocalDateTime.parse("2022-12-01T10:18:10.6546515"))
+                .withStartTime(LocalDateTime.parse("2022-11-20T10:18:10.6546515"))
+                        .withDuration(35000)
                         .withEpicId(3)
                 .build());
 

@@ -2,7 +2,10 @@ package ru.yandex.practicum.kanban.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 public class Task {
     private int id;
@@ -38,16 +41,28 @@ public class Task {
         return status;
     }
 
-    public static TaskBuilder builder() {
-        return new TaskBuilder();
-    }
-
     public Optional<LocalDateTime> getStartTime() {
         return Optional.ofNullable(startTime);
     }
 
     public Optional<Duration> getDuration() {
         return Optional.ofNullable(duration);
+    }
+
+    public Optional<LocalDateTime> getEndTime() {
+        if (getStartTime().isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(getStartTime().get().plus(getDuration().orElse(Duration.ZERO)));
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 
     public void setStartTime(LocalDateTime startTime) {
@@ -69,26 +84,25 @@ public class Task {
     public Set<Integer> getCrossedTasks() {
         return crossedTasks;
     }
-
-    public Optional<LocalDateTime> getEndTime() {
-        if (getStartTime().isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.ofNullable(getStartTime().get().plus(getDuration().orElse(Duration.ZERO)));
+    public boolean isCrossed() {
+        return crossedTasks.size() != 0;
     }
-
+    public static TaskBuilder builder() {
+        return new TaskBuilder();
+    }
     public static class TaskBuilder {
+
         private int id;
         private String name;
         private String description;
         private TaskStatus status;
+
         private LocalDateTime startTime;
+
         private Duration duration;
 
         TaskBuilder() {
         }
-
         public TaskBuilder withId(int id) {
             this.id = id;
             return this;
@@ -98,6 +112,7 @@ public class Task {
             this.name = name;
             return this;
         }
+
         public TaskBuilder withDescription(String description) {
             this.description = description;
             return this;
@@ -137,7 +152,6 @@ public class Task {
         public void setStartTime(LocalDateTime startTime) {
             this.startTime = startTime;
         }
-
         public void setDuration(long duration) {
             this.duration = Duration.ofMinutes(duration);
         }
@@ -145,14 +159,17 @@ public class Task {
         public Task build() {
             return new Task(this);
         }
+
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setStatus(TaskStatus status) {
-        this.status = status;
+    public String toCsvLine() {
+        return id + "," +
+                TaskType.TASK + ",'\"" +
+                name + "\"','\"" +
+                description + "\"'," +
+                status + "," +
+                getStartTime().orElse(null) + "," +
+                getDuration().orElse(Duration.ZERO).toMinutes();
     }
 
     @Override
@@ -175,16 +192,6 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, status);
-    }
-
-    public String toCsvLine() {
-        return id + "," +
-                TaskType.TASK + ",'\"" +
-                name + "\"','\"" +
-                description + "\"'," +
-                status + "," +
-                getStartTime().orElse(null) + "," +
-                getDuration().orElse(Duration.ZERO).toMinutes();
     }
 
     @Override

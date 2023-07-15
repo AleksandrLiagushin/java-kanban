@@ -127,7 +127,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
                             .withId(Integer.parseInt(parsedCsvLine.get(CSV_ID)))
                             .withDescription(parsedCsvLine.get(CSV_DESCRIPTION))
                             .withStatus(TaskStatus.valueOf(parsedCsvLine.get(CSV_STATUS)))
-                            .withStartTime(startTime)
+                         //   .withStartTime(startTime)
                             .withDuration(Long.parseLong(parsedCsvLine.get(CSV_DURATION)))
                             .build());
                     break;

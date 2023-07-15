@@ -14,7 +14,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FileBackedTaskManagerTest {
-    private final FileBackedTaskManager taskManager = new FileBackedTaskManager(Paths.get("resources", "TasksTest.csv"));
+    private final FileBackedTaskManager taskManager =
+            new FileBackedTaskManager(Paths.get("resources", "TasksTest.csv"));
 
     @Test
     void save_shouldSaveAllTasksToFile() throws IOException {
