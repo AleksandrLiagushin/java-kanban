@@ -1,28 +1,37 @@
 id,type,name,description,status,startTime,duration,epicId/subtasksIds
-1,TASK,'"task, ; : ^&%*&)()* 1123"','"task2"',NEW,2022-12-01T10:10:10.654651500,180
-4,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12:10.654651500,180
-5,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14:10.654651500,0
-6,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10:10.654651500,180
-9,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12:10.654651500,180
-10,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14:10.654651500,0
-11,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10:10.654651500,180
-14,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12:10.654651500,180
-15,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14:10.654651500,0
-16,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10:10.654651500,180
-19,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12:10.654651500,180
-20,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14:10.654651500,0
-21,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10:10.654651500,180
-24,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12:10.654651500,180
-25,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14:10.654651500,0
+1,TASK,'"task1"','"task2"',NEW,null,0
+33,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12:10.654651500,180
+34,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14:10.654651500,0
+4,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12,10
+5,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14,10
+6,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10,10
+9,TASK,'"task9"','"task9"',NEW,null,0
+10,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14,10
+11,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10,10
+14,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12,10
+15,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14,10
+16,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10,10
+19,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12,10
+20,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14,10
+21,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10,10
+24,TASK,'"task3"','"task2"',NEW,2022-12-01T10:12,10
+25,TASK,'"task1"','"task2"',NEW,2022-12-01T10:14,10
+26,TASK,'"task1123"','"task2"',NEW,2022-12-01T10:10:10.654651500,180
 17,EPIC,'"epic"','"epic1"',NEW,null,0,[]
-2,EPIC,'"epic"','"epic1"',NEW,null,0,[]
+2,EPIC,'"epic"','"epic1"',NEW,2022-12-01T10:10:10.654651500,360,[29, 31]
 18,EPIC,'"epic"','"epic1"',NEW,null,0,[]
-3,EPIC,'"epic"','"epic1"',NEW,null,0,[]
+3,EPIC,'"epic"','"epic1"',NEW,2022-12-01T10:12:10.654651500,360,[30, 32]
 22,EPIC,'"epic"','"epic1"',NEW,null,0,[]
 7,EPIC,'"epic"','"epic1"',NEW,null,0,[]
 23,EPIC,'"epic"','"epic1"',NEW,null,0,[]
 8,EPIC,'"epic"','"epic1"',NEW,null,0,[]
+27,EPIC,'"epic"','"epic1"',NEW,null,0,[]
 12,EPIC,'"epic"','"epic1"',NEW,null,0,[]
+28,EPIC,'"epic"','"epic1"',NEW,null,0,[]
 13,EPIC,'"epic"','"epic1"',NEW,null,0,[]
+32,SUBTASK,'"sub1"','"make"',NEW,2022-12-01T10:16:10.654651500,180,3
+29,SUBTASK,'"Задача 12"','"sub2"',NEW,2022-12-01T10:10:10.654651500,180,2
+30,SUBTASK,'"Козявка"','"sub2"',NEW,2022-12-01T10:12:10.654651500,180,3
+31,SUBTASK,'"sub1"','"make"',NEW,2022-12-01T10:14:10.654651500,180,2
 
 

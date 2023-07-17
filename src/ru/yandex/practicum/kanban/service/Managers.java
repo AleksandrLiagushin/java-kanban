@@ -10,11 +10,11 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
-    public static TaskManager getDefaultTaskManager() {
+    public static InMemoryTaskManager getDefaultTaskManager() {
         return new InMemoryTaskManager();
     }
 
-    public static TaskManager getBackedTaskManager(Path path) {
+    public static FileBackedTaskManager getBackedTaskManager(Path path) {
         return new FileBackedTaskManager(path);
     }
 }

@@ -7,7 +7,13 @@ import ru.yandex.practicum.kanban.model.TaskStatus;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
 
 public class InMemoryTaskManager implements TaskManager {
     private int uniqueId;
@@ -42,18 +48,27 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createTask(Task task) {
+        if (isEmptyTask(task)) {
+            return;
+        }
+
         if (task.getId() == 0) {
             task.setId(generateUniqueId());
         }
         if (uniqueId < task.getId()) {
             uniqueId = task.getId();
         }
+
         tasks.put(task.getId(), task);
         priorityTasks.put(task, task.isCrossed());
     }
 
     @Override
     public void createEpic(Epic epic) {
+        if (isEmptyTask(epic)) {
+            return;
+        }
+
         if (epic.getId() == 0) {
             epic.setId(generateUniqueId());
         }
@@ -67,6 +82,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createSubtask(Subtask subtask) {
+        if (isEmptyTask(subtask)) {
+            return;
+        }
+
         Epic epic = epics.get(subtask.getEpicId());
 
         if (epic == null) {
@@ -80,8 +99,11 @@ public class InMemoryTaskManager implements TaskManager {
             uniqueId = subtask.getId();
         }
 
+        if (subtask.getStartTime().isPresent()) {
+            epic.addDuration(subtask.getDuration().orElse(Duration.ZERO));
+        }
+
         epic.addSubtaskId(subtask.getId());
-        epic.addDuration(subtask.getDuration().orElse(Duration.ZERO));
         subtasks.put(subtask.getId(), subtask);
         changeEpicStatus(subtask.getEpicId());
         setEpicStartTime(epic.getId());
@@ -129,9 +151,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
+        if (isEmptyTask(task)) {
+            return;
+        }
+
         if (!tasks.containsKey(task.getId())) {
             return;
         }
+
         removePrioritizedTask(tasks.get(task.getId()));
         tasks.put(task.getId(), task);
         priorityTasks.put(task, task.isCrossed());
@@ -139,6 +166,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic) {
+        if (isEmptyTask(epic)) {
+            return;
+        }
+
         if (!epics.containsKey(epic.getId())) {
             return;
         }
@@ -148,6 +179,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
+        if (isEmptyTask(subtask)) {
+            return;
+        }
+
         if (!subtasks.containsKey(subtask.getId())) {
             return;
         }
@@ -155,7 +190,10 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask subtaskToRef = subtasks.get(subtask.getId());
         removePrioritizedTask(subtaskToRef);
         Epic epic = epics.get(subtaskToRef.getEpicId());
-        epic.subtractDuration(subtaskToRef.getDuration().orElse(Duration.ZERO));
+
+        if (subtaskToRef.getStartTime().isPresent()) {
+            epic.subtractDuration(subtaskToRef.getDuration().orElse(Duration.ZERO));
+        }
 
         if (subtaskToRef.getEpicId() != subtask.getEpicId()) {
             epic.removeSubtaskId(subtask.getId());
@@ -165,10 +203,13 @@ public class InMemoryTaskManager implements TaskManager {
             epic.addSubtaskId(subtask.getId());
         }
 
+        if (subtask.getStartTime().isPresent()) {
+            epic.addDuration(subtask.getDuration().orElse(Duration.ZERO));
+        }
+
         subtasks.put(subtask.getId(), subtask);
         changeEpicStatus(subtask.getEpicId());
         setEpicStartTime(epic.getId());
-        epic.addDuration(subtask.getDuration().orElse(Duration.ZERO));
         priorityTasks.put(subtask, subtask.isCrossed());
     }
 
@@ -197,8 +238,11 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(epicId);
 
         epic.removeSubtaskId(subtaskId);
-        epic.subtractDuration(subtasks.get(subtaskId).getDuration().orElse(Duration.ZERO));
         changeEpicStatus(epicId);
+
+        if (subtasks.get(subtaskId).getStartTime().isPresent()) {
+            epic.subtractDuration(subtasks.get(subtaskId).getDuration().orElse(Duration.ZERO));
+        }
 
         removePrioritizedTask(subtasks.get(subtaskId));
         subtasks.remove(subtaskId);
@@ -224,13 +268,20 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.keySet().forEach(historyManager::remove);
         subtasks.clear();
         for (Integer id : epics.keySet()) {
-            epics.get(id).clearSubtaskIds();
-            epics.get(id).setStatus(TaskStatus.NEW);
+            Epic epic = epics.get(id);
+            epic.clearSubtaskIds();
+            epic.setStatus(TaskStatus.NEW);
+            epic.setStartTime(null);
+            epic.setDuration(Duration.ZERO.toMinutes());
         }
     }
 
     @Override
     public List<Subtask> getSubtasksByEpicId(int epicId) {
+        if (!epics.containsKey(epicId)) {
+            return null;
+        }
+
         List<Subtask> epicSubtasks = new ArrayList<>();
 
         for (Integer subtaskId : epics.get(epicId).getSubtaskIds()) {
@@ -283,6 +334,11 @@ public class InMemoryTaskManager implements TaskManager {
                 .ifPresent(startTime -> epics.get(epicId).setStartTime(startTime));
     }
 
+    // неудачная попытка реализации IntervalTree - переделаю в ближайшее время. Работает только на малых объемах задач
+    // при увеличении объема больше 30 может не выдавать всех пересечений. Но алгоритм работает на поиск большинства
+    // пересечений за О(1) т.к. применяется во время сортировки задач. Общая алгоритмическая сложность приоретизации
+    // определяется как О(logN). Исключение это обновление задач для него алгоритмическая сложность O(log^2N)
+    // т.к. сначала происходит поиск задачи для удаления, а после добавление обновленной задачи (не противоречит ТЗ)
     private void findCrossings(Task t1, Task t2) {
         Optional<LocalDateTime> t1StartTime = t1.getStartTime();
         Optional<LocalDateTime> t2StartTime = t2.getStartTime();
@@ -324,6 +380,11 @@ public class InMemoryTaskManager implements TaskManager {
                 subtasks.get(id).removeCrossedTask(taskId);
             }
         }
+    }
 
+    private boolean isEmptyTask(Task task) {
+        String name = task.getName();
+
+        return name == null || name.isEmpty() || name.isBlank();
     }
 }

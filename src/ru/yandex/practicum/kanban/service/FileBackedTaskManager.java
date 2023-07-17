@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class FileBackedTaskManager extends InMemoryTaskManager implements FileBackedManager {
     private static final String CSV_HEADER = "id,type,name,description,status,startTime,duration,epicId/subtasksIds";
     private static final String CSV_LINE_REGEX =
-            "(^\\d+)|([A-Z_]+)|('\"(.*?)\"')|(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+|null)|(\\d+)";
+            "(^\\d+)|([A-Z_]+)|('\"(.*?)\"')|(\\d{4}-\\d{2}-\\d{2}T\\d{2}:?[\\d{2}]?:?[\\d{2}]?\\.?[\\d+]?|null)|(\\d+)";
     private static final int CSV_ID = 0;
     private static final int CSV_TYPE = 1;
     private static final int CSV_NAME = 2;

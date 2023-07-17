@@ -95,7 +95,7 @@ public class Subtask extends Task {
         return getId() + "," +
                 TaskType.SUBTASK + ",'\"" +
                 getName() + "\"','\"" +
-                getDuration() + "\"'," +
+                getDescription() + "\"'," +
                 getStatus() + "," +
                 getStartTime().orElse(null) + "," +
                 getDuration().orElse(Duration.ZERO).toMinutes() + "," +

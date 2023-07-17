@@ -1,15 +1,4 @@
 id,type,name,description,status,startTime,duration,epicId/subtasksIds
-1,TASK,'"task1"','"task1"',NEW,null,0
-2,TASK,'"task2"','"task2"',DONE,null,0
-3,TASK,'"task3"','"task3"',IN_PROGRESS,null,0
-4,EPIC,'"epic1"','"epic1"',IN_PROGRESS,null,0,[7, 8]
-5,EPIC,'"epic2"','"epic2"',NEW,null,0,[9, 10]
-6,EPIC,'"epic3"','"epic3"',DONE,null,0,[11, 12]
-7,SUBTASK,'"sub1"','"Optional.empty"',NEW,null,0,4
-8,SUBTASK,'"sub2"','"Optional.empty"',DONE,null,0,4
-9,SUBTASK,'"sub3"','"Optional.empty"',NEW,null,0,5
-10,SUBTASK,'"sub4"','"Optional.empty"',NEW,null,0,5
-11,SUBTASK,'"sub5"','"Optional.empty"',DONE,null,0,6
-12,SUBTASK,'"sub6"','"Optional.empty"',DONE,null,0,6
+1,TASK,'"task"','"null"',null,null,0
 
-
+1,
