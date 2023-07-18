@@ -25,7 +25,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager = Managers.getDefaultHistoryManager();
     // priorityTasks = приоритетные задачи
     // prioritizedTasks = приоретизированные задачи
-    // с точки зрения проектного управления оба варианта не правильны XD
+    // с точки зрения проектного управления оба варианта не правильны XD,
     // но лично мне нравится приоритетные задачи=)
     private final Set<Task> priorityTasks = new TreeSet<>((t1, t2) -> {
         Optional<LocalDateTime> t1StartTime = t1.getStartTime();
@@ -271,6 +271,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteAllSubtasks() {
         subtasks.keySet().forEach(historyManager::remove);
         subtasks.clear();
+
         for (Integer id : epics.keySet()) {
             Epic epic = epics.get(id);
             epic.clearSubtaskIds();

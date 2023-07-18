@@ -97,7 +97,6 @@ class EpicTest {
                 .withSubtaskIds(List.of(5, 6, 7))
                 .build();
 
-
         assertAll("ComparingTasks test:",
                 () -> assertEquals(equalEpic, epic),
                 () -> assertNotEquals(equalEpic, emptyEpic),

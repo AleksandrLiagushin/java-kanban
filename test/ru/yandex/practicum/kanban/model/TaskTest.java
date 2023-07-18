@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -160,7 +159,6 @@ class TaskTest {
                 .withDuration(250L)
                 .build();
 
-
         assertAll("ComparingTasks test:",
                 () -> assertEquals(equalTask, task),
                 () -> assertNotEquals(equalTask, emptyTask),
@@ -171,7 +169,7 @@ class TaskTest {
     @Test
     public void shouldConvertTaskToString() {
         String expected = "Task{id=1, name='task1', description='task1, description', status=NEW, " +
-                "startTime=2015-05-29T03:15, duration=PT4H10M[]}";
+                "startTime=2015-05-29T03:15, duration=PT4H10M}";
         String actual = task.toString();
 
         assertEquals(expected, actual);
@@ -183,23 +181,5 @@ class TaskTest {
         String actual = task.toCsvLine();
 
         assertEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldAddGetAndRemoveCrossedTask() {
-        filledTask.addCrossedTask(5);
-        filledTask.addCrossedTask(7);
-        filledTask.addCrossedTask(10);
-        Set<Integer> expected1 = Set.of(5, 7, 10);
-        Set<Integer> expected2 = Set.of(5, 10);
-
-        Set<Integer> actual1 = filledTask.getCrossedTasks();
-
-        assertEquals(expected1, actual1);
-
-        filledTask.removeCrossedTask(7);
-        Set<Integer> actual2 = filledTask.getCrossedTasks();
-
-        assertEquals(expected2, actual2);
     }
 }

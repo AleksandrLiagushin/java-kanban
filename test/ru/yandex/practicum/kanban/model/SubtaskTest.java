@@ -56,7 +56,6 @@ class SubtaskTest {
                 .withEpicId(1)
                 .build();
 
-
         assertAll("ComparingTasks test:",
                 () -> assertEquals(equalTask, subtask),
                 () -> assertNotEquals(equalTask, emptySubtask),
@@ -67,7 +66,7 @@ class SubtaskTest {
     @Test
     public void shouldConvertSubtaskToString() {
         String expected = "Subtask{id=1, name='subtask1', description='subtask1', " +
-                "status=NEW, startTime=2015-05-29T03:30, duration=250epicId=1[]}";
+                "status=NEW, startTime=2015-05-29T03:30, duration=250epicId=1}";
         String actual = subtask.toString();
 
         assertEquals(expected, actual);

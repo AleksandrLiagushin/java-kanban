@@ -137,15 +137,16 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     void getAllTasks() {
+        taskManager.createTask(Task.builder().withName("task").build());
+        taskManager.createTask(Task.builder().build());
+        taskManager.createTask(Task.builder().withName("task2").build());
+        taskManager.createTask(Task.builder().withId(5).withName("task").build());
+
         List<Task> expected = List.of(
                 Task.builder().withId(1).withName("task").build(),
                 Task.builder().withId(2).withName("task2").build(),
                 Task.builder().withId(5).withName("task").build()
         );
-        taskManager.createTask(Task.builder().withName("task").build());
-        taskManager.createTask(Task.builder().build());
-        taskManager.createTask(Task.builder().withName("task2").build());
-        taskManager.createTask(Task.builder().withId(5).withName("task").build());
         List<Task> actual = taskManager.getAllTasks();
 
         assertEquals(expected, actual);
