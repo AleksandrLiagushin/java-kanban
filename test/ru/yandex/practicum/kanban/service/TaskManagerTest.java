@@ -8,7 +8,6 @@ import ru.yandex.practicum.kanban.model.TaskStatus;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,17 +48,19 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.NEW).withDuration(250L)
                 .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(1).build());
         taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.NEW).withDuration(250L)
-                .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(2).build());
+                .withStartTime(LocalDateTime.parse("2015-06-29T08:15:00.0")).withEpicId(2).build());
         taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.DONE).withDuration(250L)
-                .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(2).build());
+                .withStartTime(LocalDateTime.parse("2015-05-29T08:15:00.0")).withEpicId(2).build());
         taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.DONE).withDuration(250L)
-                .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(3).build());
+                .withStartTime(LocalDateTime.parse("2015-06-29T13:15:00.0")).withEpicId(3).build());
         taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.DONE).withDuration(250L)
-                .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(3).build());
+                .withStartTime(LocalDateTime.parse("2015-05-29T13:15:00.0")).withEpicId(3).build());
         taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.IN_PROGRESS).withDuration(250L)
-                .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(4).build());
+                .withStartTime(LocalDateTime.parse("2015-06-29T18:15:00.0")).withEpicId(4).build());
         taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.IN_PROGRESS).withDuration(250L)
-                .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(4).build());
+                .withStartTime(LocalDateTime.parse("2015-05-29T18:15:00.0")).withEpicId(4).build());
+        taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.IN_PROGRESS).withDuration(250L)
+                .withStartTime(LocalDateTime.parse("2015-05-29T18:15:00.0")).withEpicId(4).build());
 
         List<Subtask> expected1 = List.of(
                 Subtask.builder().withId(5).withName("task").withStatus(TaskStatus.NEW).withDuration(250L)
@@ -67,26 +68,26 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 Subtask.builder().withId(6).withName("sub").withStatus(TaskStatus.NEW).withDuration(250L)
                         .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(1).build(),
                 Subtask.builder().withId(7).withName("sub").withStatus(TaskStatus.NEW).withDuration(250L)
-                        .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(2).build(),
+                        .withStartTime(LocalDateTime.parse("2015-06-29T08:15:00.0")).withEpicId(2).build(),
                 Subtask.builder().withId(8).withName("sub").withStatus(TaskStatus.DONE).withDuration(250L)
-                        .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(2).build(),
+                        .withStartTime(LocalDateTime.parse("2015-05-29T08:15:00.0")).withEpicId(2).build(),
                 Subtask.builder().withId(9).withName("sub").withStatus(TaskStatus.DONE).withDuration(250L)
-                        .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(3).build(),
+                        .withStartTime(LocalDateTime.parse("2015-06-29T13:15:00.0")).withEpicId(3).build(),
                 Subtask.builder().withId(10).withName("sub").withStatus(TaskStatus.DONE).withDuration(250L)
-                        .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(3).build(),
+                        .withStartTime(LocalDateTime.parse("2015-05-29T13:15:00.0")).withEpicId(3).build(),
                 Subtask.builder().withId(11).withName("sub").withStatus(TaskStatus.IN_PROGRESS).withDuration(250L)
-                        .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(4).build(),
+                        .withStartTime(LocalDateTime.parse("2015-06-29T18:15:00.0")).withEpicId(4).build(),
                 Subtask.builder().withId(12).withName("sub").withStatus(TaskStatus.IN_PROGRESS).withDuration(250L)
-                        .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(4).build()
+                        .withStartTime(LocalDateTime.parse("2015-05-29T18:15:00.0")).withEpicId(4).build()
         );
         Epic expected2 = Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).withSubtaskIds(List.of(5, 6))
                 .withDuration(500).withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).build();
         Epic expected3 = Epic.builder().withId(2).withName("task").withStatus(TaskStatus.IN_PROGRESS).withSubtaskIds(List.of(7, 8))
-                .withDuration(500).withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).build();
+                .withDuration(500).withStartTime(LocalDateTime.parse("2015-05-29T08:15:00.0")).build();
         Epic expected4 = Epic.builder().withId(3).withName("task").withStatus(TaskStatus.DONE).withSubtaskIds(List.of(9, 10))
-                .withDuration(500).withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).build();
+                .withDuration(500).withStartTime(LocalDateTime.parse("2015-05-29T13:15:00.0")).build();
         Epic expected5 = Epic.builder().withId(4).withName("task").withStatus(TaskStatus.IN_PROGRESS).withSubtaskIds(List.of(11, 12))
-                .withDuration(500).withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).build();
+                .withDuration(500).withStartTime(LocalDateTime.parse("2015-05-29T18:15:00.0")).build();
         List<Subtask> actual1 = taskManager.getAllSubtasks();
         Epic actual2 = taskManager.findEpicById(1);
         Epic actual3 = taskManager.findEpicById(2);
@@ -180,31 +181,34 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     void getPriorityTasks() {
         taskManager.createEpic(Epic.builder().withName("task").build());
-        taskManager.createTask(Task.builder().withName("task").withDuration(150000L)
-                .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).build());
+        taskManager.createTask(Task.builder().withName("task").withDuration(5000L)
+                .withStartTime(LocalDateTime.parse("2015-08-29T03:15:00.0")).build());
         taskManager.createTask(Task.builder().withName("task")
-                .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).build());
+                .withStartTime(LocalDateTime.parse("2015-07-29T03:15:00.0")).build());
         taskManager.createSubtask(Subtask.builder().withName("task").withStatus(TaskStatus.NEW).withEpicId(1)
-                .withStartTime(LocalDateTime.parse("2015-06-15T03:15:00.0")).build());
+                .withStartTime(LocalDateTime.parse("2015-06-15T03:16:00.0")).build());
+        taskManager.createTask(Task.builder().withName("task")
+                .withStartTime(LocalDateTime.parse("2015-05-29T03:45:00.0")).withDuration(50).build());
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
+        taskManager.createTask(Task.builder().withName("task").withDuration(5000L)
+                .withStartTime(LocalDateTime.parse("2015-08-30T03:15:00.0")).build());
+        taskManager.createTask(Task.builder().withName("task").withDuration(5000L)
+                .withStartTime(LocalDateTime.parse("2015-08-30T13:15:00.0")).build());
 
-        Map<Task, Boolean> expected = Map.of(
-                Task.builder().withName("task").withId(2).withDuration(150000L)
-                        .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).build(),
-                false,
+        List<Task> expected = List.of(
+                Task.builder().withId(5).withName("task")
+                        .withStartTime(LocalDateTime.parse("2015-05-29T03:45:00.0")).withDuration(50).build(),
                 Subtask.builder().withId(4).withName("task").withStatus(TaskStatus.NEW).withEpicId(1)
-                        .withStartTime(LocalDateTime.parse("2015-06-15T03:15:00.0")).build(),
-                false,
-                Task.builder().withName("task").withId(3)
-                        .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).build(),
-                false,
-                Task.builder().withId(5).withName("task").build(),
-                false,
+                        .withStartTime(LocalDateTime.parse("2015-06-15T03:16:00.0")).build(),
+                Task.builder().withId(3).withName("task")
+                        .withStartTime(LocalDateTime.parse("2015-07-29T03:15:00.0")).build(),
+                Task.builder().withId(2).withName("task")
+                        .withStartTime(LocalDateTime.parse("2015-08-29T03:15:00.0")).build(),
                 Task.builder().withId(6).withName("task").build(),
-                false
+                Task.builder().withId(7).withName("task").build()
         );
-        Map<Task, Boolean> actual = taskManager.getPriorityTasks();
+        List<Task> actual = taskManager.getPriorityTasks();
 
         assertEquals(expected, actual);
     }
@@ -237,18 +241,18 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createSubtask(Subtask.builder().withName("task").withStatus(TaskStatus.DONE).withDuration(250L)
-                .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(1).build());
+                .withStartTime(LocalDateTime.parse("2015-07-29T03:15:00.0")).withEpicId(1).build());
         taskManager.createSubtask(Subtask.builder().withName("task").withStatus(TaskStatus.DONE).withDuration(250L)
                 .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(2).build());
         taskManager.updateSubtask(Subtask.builder().withId(3).withName("task").withStatus(TaskStatus.IN_PROGRESS).withDuration(500L)
-                .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(2).build());
+                .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(2).build());
 
         Subtask expected1 = Subtask.builder().withId(3).withName("task").withStatus(TaskStatus.IN_PROGRESS).withDuration(500L)
-                .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withEpicId(2).build();
+                .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withEpicId(2).build();
         Epic expected2 = Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW)
                 .withDuration(Duration.ZERO.toMinutes()).build();
         Epic expected3 = Epic.builder().withId(2).withName("task").withStatus(TaskStatus.IN_PROGRESS).withDuration(750L)
-                .withStartTime(LocalDateTime.parse("2015-06-29T03:15:00.0")).withSubtaskIds(List.of(4, 3)).build();
+                .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withSubtaskIds(List.of(4, 3)).build();
         Subtask actual1 = taskManager.findSubtaskById(3);
         Epic actual2 = taskManager.findEpicById(1);
         Epic actual3 = taskManager.findEpicById(2);
@@ -320,7 +324,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
         List<Epic> expected1 = List.of(
                 Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).withDuration(500L)
-                        .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")). withSubtaskIds(List.of(3)).build(),
+                        .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withSubtaskIds(List.of(3)).build(),
                 Epic.builder().withId(2).withName("task").withStatus(TaskStatus.NEW).withSubtaskIds(List.of(5, 6)).build()
         );
         List<Subtask> expected2 = List.of(

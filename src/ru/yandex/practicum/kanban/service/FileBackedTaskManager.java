@@ -13,12 +13,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements FileBackedManager {
     private static final String CSV_HEADER = "id,type,name,description,status,startTime,duration,epicId/subtasksIds";
+    // в данном случае необходимость реджекса обсусловлена сложностью разбираемой строки. В имени задачи и описании
+    // могут присутствовать . , " ; что делает невозможным использование .split(",") или деление на других разделителях
+    // (к тому же это не самая хорошая практика) =)
+    // деление строки организовано в стриме на паттерн матчере
+    // описание групп захвата:
+    // (^\d+) - определяет id
+    // ([A-Z_]+) - определяет type и status
+    // ('"(.*?)"') - определяет name и description
+    // (\d{4}-\d{2}-\d{2}T\d{2}:?[\d{2}]?:?[\d{2}]?\.?[\d+]?|null) - определяет startTime
+    // (\d+) - определяет duration и epicId / subtaskIds
     private static final String CSV_LINE_REGEX =
             "(^\\d+)|([A-Z_]+)|('\"(.*?)\"')|(\\d{4}-\\d{2}-\\d{2}T\\d{2}:?[\\d{2}]?:?[\\d{2}]?\\.?[\\d+]?|null)|(\\d+)";
     private static final int CSV_ID = 0;
@@ -32,35 +44,38 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
     private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private final Path path;
 
-    //в прямую не получится сделать private либо через статический метод вызов конструктора либо package-private
-    //иначе возникает проблема доступа в тестах
-    FileBackedTaskManager(Path path) {
+    private FileBackedTaskManager(Path path) {
         this.path = path;
     }
 
-    public static FileBackedManager loadFromFile(Path path) {
-        FileBackedManager fileBackedManager = new FileBackedTaskManager(path);
+    public static FileBackedTaskManager loadFromFile(Path path) {
+        FileBackedTaskManager fileBackedManager = new FileBackedTaskManager(path);
         fileBackedManager.load();
         return fileBackedManager;
     }
 
     @Override
     public void save() {
-        StringBuilder stringBuilder = new StringBuilder(CSV_HEADER).append('\n');
+        StringBuilder stringBuilder;
 
-        for (Task task : getAllTasks()) {
-            stringBuilder.append(task.toCsvLine());
-            stringBuilder.append('\n');
-        }
-        for (Epic epic : getAllEpics()) {
-            stringBuilder.append(epic.toCsvLine());
-            stringBuilder.append('\n');
-        }
-        for (Subtask subtask : getAllSubtasks()) {
-            stringBuilder.append(subtask.toCsvLine());
-            stringBuilder.append('\n');
-        }
-        stringBuilder.append("\n");
+        Stream<Task> combinedTasks = Stream.of(getAllTasks(), getAllEpics(), getAllSubtasks())
+                .flatMap(Collection::stream);
+        stringBuilder = combinedTasks
+                .collect(StringBuilder::new,
+                        (builder, task) -> builder.append(task.toCsvLine()).append('\n'),
+                        (x, y) -> x.append("WTF").append(y)); // не понимаю назначение этой строки - она ничего не делает, но при этом обязательна...
+
+        stringBuilder.insert(0, CSV_HEADER + '\n').append("\n");
+
+        // я конечно понимаю что мы учим стримы лямбды, но пихать их везде не самый лучший вариант. Запись id задач
+        // через forEach компактнее на 19% по символам, а преимущества от стрима здесь не будет по производительности.
+        // к тому же происходит образование промежуточного объекта String...
+        // код рабочий. можно раскомментить, но не вижу смысла...
+
+//        stringBuilder.append(getHistory().stream()
+//                .map(task -> String.valueOf(task.getId()))
+//                .collect(Collectors.joining(",")))
+//                .append('\n');
 
         for (Task task : getHistory()) {
             stringBuilder.append(task.getId()).append(',');
@@ -87,7 +102,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
     private void deserializeTask(List<String> csvLines) {
 
         int index;
-        LocalDateTime startTime = null;
+        LocalDateTime startTime;
         Pattern taskPattern = Pattern.compile(CSV_LINE_REGEX);
 
 
@@ -108,6 +123,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
 
             if (!"null".equals(parsedCsvLine.get(CSV_START_TIME))){
                 startTime = LocalDateTime.parse(parsedCsvLine.get(CSV_START_TIME), ISO_FORMATTER);
+            } else {
+                startTime = null;
             }
 
             switch (TaskType.valueOf(parsedCsvLine.get(CSV_TYPE))) {
@@ -126,9 +143,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
                             .withName(parsedCsvLine.get(CSV_NAME))
                             .withId(Integer.parseInt(parsedCsvLine.get(CSV_ID)))
                             .withDescription(parsedCsvLine.get(CSV_DESCRIPTION))
-                            .withStatus(TaskStatus.valueOf(parsedCsvLine.get(CSV_STATUS)))
-                         //   .withStartTime(startTime)
-                            .withDuration(Long.parseLong(parsedCsvLine.get(CSV_DURATION)))
                             .build());
                     break;
                 case SUBTASK:

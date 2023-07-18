@@ -2,10 +2,8 @@ package ru.yandex.practicum.kanban.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 public class Task {
     private int id;
@@ -14,7 +12,6 @@ public class Task {
     private TaskStatus status;
     private LocalDateTime startTime;
     private Duration duration;
-    private final Set<Integer> crossedTasks = new HashSet<>();
 
     public Task(TaskBuilder taskBuilder) {
         this.id = taskBuilder.id;
@@ -73,23 +70,10 @@ public class Task {
         this.duration = Duration.ofMinutes(duration);
     }
 
-    public void addCrossedTask(int taskId) {
-        crossedTasks.add(taskId);
-    }
-
-    public void removeCrossedTask(int taskId) {
-        crossedTasks.remove(taskId);
-    }
-
-    public Set<Integer> getCrossedTasks() {
-        return crossedTasks;
-    }
-    public boolean isCrossed() {
-        return crossedTasks.size() != 0;
-    }
     public static TaskBuilder builder() {
         return new TaskBuilder();
     }
+
     public static class TaskBuilder {
 
         private int id;
@@ -174,24 +158,20 @@ public class Task {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-
         return id == task.id
                 && Objects.equals(name, task.name)
                 && Objects.equals(description, task.description)
-                && status == task.status;
+                && status == task.status
+                && Objects.equals(startTime, task.startTime);
+               // && Objects.equals(duration, task.duration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, status);
+        return Objects.hash(id, name, description, status, startTime, duration);
     }
 
     @Override
@@ -203,7 +183,6 @@ public class Task {
                 ", status=" + status +
                 ", startTime=" + startTime +
                 ", duration=" + duration +
-                crossedTasks +
                 '}';
     }
 }
