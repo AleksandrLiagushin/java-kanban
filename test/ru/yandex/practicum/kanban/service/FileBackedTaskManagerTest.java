@@ -66,6 +66,11 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     @Test
     void load_shouldLoadAllTasksFromFile() {
         taskManager = Managers.getBackedTaskManager(Paths.get("resources", "TasksBenchmark.csv"));
+        // метод loadFromFile() вызывается здесь
+        // public static FileBackedTaskManager getBackedTaskManager(Path path) {
+        //        return FileBackedTaskManager.loadFromFile(path);
+        // }
+        //  в одном из прошлых тз его нужно было создать, но по факту до этого момента вызов метода не использовался
 
         List<Task> expectedTasks = List.of(
                 Task.builder().withId(1).withName("task1").withDescription("task1").withStatus(TaskStatus.NEW)
