@@ -67,7 +67,7 @@ public class Main {
         System.out.println("*** New Test ***");
         System.out.println("*** Priority Tasks ***");
 
-        for (Task task : taskManager.getPriorityTasks()) {
+        for (Task task : taskManager.getTasksPrioritizedByTime()) {
             System.out.println(task);
         }
 
@@ -134,7 +134,7 @@ public class Main {
 
 
         System.out.println("*** Priority Tasks 2 ***");
-        for (Task task : taskManager.getPriorityTasks()) {
+        for (Task task : taskManager.getTasksPrioritizedByTime()) {
             System.out.println(task);
         }
         System.out.println("*** Avaliable SubTasks ***");

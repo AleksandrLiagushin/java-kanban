@@ -21,10 +21,6 @@ import java.util.stream.Stream;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements FileBackedManager {
     private static final String CSV_HEADER = "id,type,name,description,status,startTime,duration,epicId/subtasksIds";
-    // в данном случае необходимость реджекса обсусловлена сложностью разбираемой строки. В имени задачи и описании
-    // могут присутствовать . , " ; что делает невозможным использование .split(",") или деление на других разделителях
-    // (к тому же это не самая хорошая практика) =)
-    // деление строки организовано в стриме на паттерн матчере
     // описание групп захвата:
     // (^\d+) - определяет id
     // ([A-Z_]+) - определяет type и status
@@ -58,29 +54,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
     public void save() {
         StringBuilder stringBuilder;
 
-        Stream<Task> combinedTasks = Stream.of(getAllTasks(), getAllEpics(), getAllSubtasks())
-                .flatMap(Collection::stream);
-        stringBuilder = combinedTasks
+        stringBuilder = Stream.of(getAllTasks(), getAllEpics(), getAllSubtasks())
+                .flatMap(Collection::stream)
                 .collect(StringBuilder::new,
                         (builder, task) -> builder.append(task.toCsvLine()).append('\n'),
                         (x, y) -> x.append("WTF").append(y)); // не понимаю назначение этой строки - она ничего не делает, но при этом обязательна...
 
         stringBuilder.insert(0, CSV_HEADER + '\n').append("\n");
 
-        // я конечно понимаю что мы учим стримы лямбды, но пихать их везде не самый лучший вариант. Запись id задач
-        // через forEach компактнее на 19% по символам, а преимущества от стрима здесь не будет по производительности.
-        // к тому же происходит образование промежуточного объекта String...
-        // код рабочий. можно раскомментить, но не вижу смысла...
-
-//        stringBuilder.append(getHistory().stream()
-//                .map(task -> String.valueOf(task.getId()))
-//                .collect(Collectors.joining(",")))
-//                .append('\n');
-
-        for (Task task : getHistory()) {
-            stringBuilder.append(task.getId()).append(',');
-        }
-        stringBuilder.append("\n");
+        stringBuilder.append(getHistory().stream()
+                .map(task -> String.valueOf(task.getId()))
+                .collect(Collectors.joining(",")))
+                .append('\n');
 
         try {
             Files.writeString(path, stringBuilder.toString());

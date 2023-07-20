@@ -1,5 +1,6 @@
 package ru.yandex.practicum.kanban.service;
 
+import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.model.Epic;
 import ru.yandex.practicum.kanban.model.Subtask;
 import ru.yandex.practicum.kanban.model.Task;
@@ -15,8 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 abstract class TaskManagerTest<T extends TaskManager> {
     T taskManager;
+    // да, можно обойтись без дженереков, но это было требование ТЗ
+    // * Чтобы избежать дублирования кода, необходим базовый класс с тестами на каждый метод из интерфейса
+    // abstract class TaskManagerTest<T extends TaskManager>.
 
-    void createTask() {
+    @Test
+    void createTask_shouldCreateNewTask() {
         List<Task> expected = List.of(Task.builder().withId(1).withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().build());
@@ -25,7 +30,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void createEpic() {
+    @Test
+    void createEpic_shouldCreateNewEpic() {
         List<Epic> expected = List.of(Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).build());
         taskManager.createEpic(Epic.builder().withId(1).withName("task").build());
         taskManager.createEpic(Epic.builder().build());
@@ -34,7 +40,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void createSubtask() {
+    @Test
+    void createSubtask_shouldCreateNewSubtask() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
@@ -102,7 +109,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertEquals(expected5, actual5));
     }
 
-    void findTaskById() {
+    @Test
+    void findTaskById_shouldReturnTaskFoundById() {
         Task expected = Task.builder().withId(1).withName("task").build();
         taskManager.createTask(Task.builder().withId(1).withName("task").build());
         Task actual1 = taskManager.findTaskById(1);
@@ -113,7 +121,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertNull(actual2));
     }
 
-    void findEpicById() {
+    @Test
+    void findEpicById_shouldReturnEpicFoundById() {
         Epic expected = Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).build();
         taskManager.createEpic(Epic.builder().withId(1).withName("task").build());
         Epic actual1 = taskManager.findEpicById(1);
@@ -124,7 +133,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertNull(actual2));
     }
 
-    void findSubtaskById() {
+    @Test
+    void findSubtaskById_shouldReturnSubtaskFoundById() {
         taskManager.createEpic(Epic.builder().withId(1).withName("task").build());
         Subtask expected = Subtask.builder().withId(2).withName("task").withStatus(TaskStatus.NEW).withEpicId(1).build();
         taskManager.createSubtask(Subtask.builder().withId(2).withName("task").withStatus(TaskStatus.NEW).withEpicId(1).build());
@@ -136,7 +146,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertNull(actual2));
     }
 
-    void getAllTasks() {
+    @Test
+    void getAllTasks_shouldReturnListOfAllTasks() {
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().build());
         taskManager.createTask(Task.builder().withName("task2").build());
@@ -152,7 +163,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void getAllEpics() {
+    @Test
+    void getAllEpics_shouldReturnListOfAllEpics() {
         List<Epic> expected = List.of(
                 Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).build(),
                 Epic.builder().withId(2).withName("task2").withStatus(TaskStatus.NEW).build(),
@@ -167,7 +179,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void getAllSubtasks() {
+    @Test
+    void getAllSubtasks_shouldReturnListOfAllSubtasks() {
         taskManager.createEpic(Epic.builder().withId(1).withName("task").build());
         List<Subtask> expected = List.of(Subtask.builder().withId(2).withName("task")
                 .withStatus(TaskStatus.NEW).withEpicId(1).build());
@@ -180,7 +193,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void getPriorityTasks() {
+    @Test
+    void getPriorityTasks_shouldReturnListOfAllTasksPrioritizedByTime() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").withDuration(5000L)
                 .withStartTime(LocalDateTime.parse("2015-08-29T03:15:00.0")).build());
@@ -209,12 +223,13 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 Task.builder().withId(6).withName("task").build(),
                 Task.builder().withId(7).withName("task").build()
         );
-        List<Task> actual = taskManager.getPriorityTasks();
+        List<Task> actual = taskManager.getTasksPrioritizedByTime();
 
         assertEquals(expected, actual);
     }
 
-    void updateTask() {
+    @Test
+    void updateTask_shouldUpdateTaskWithSpecificId() {
         taskManager.createTask(Task.builder().withName("task").withDuration(150000L)
                 .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).build());
         taskManager.updateTask(Task.builder().withId(1).withName("task1").withDuration(15L)
@@ -227,7 +242,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void updateEpic() {
+    @Test
+    void updateEpic_shouldUpdateEpicWithSpecificId() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.updateEpic(Epic.builder().withId(1).withName("task").withDescription("epic").build());
         taskManager.updateEpic(Epic.builder().withId(1).build());
@@ -238,7 +254,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void updateSubtask() {
+    @Test
+    void updateSubtask_shouldUpdateSubtaskWithSpecificId() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createSubtask(Subtask.builder().withName("task").withStatus(TaskStatus.DONE).withDuration(250L)
@@ -264,7 +281,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertEquals(expected3, actual3));
     }
 
-    void deleteTaskById() {
+    @Test
+    void deleteTaskById_shouldDeleteTaskById() {
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
@@ -279,7 +297,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void deleteEpicById() {
+    @Test
+    void deleteEpicById_shouldDeleteEpicAndLinkedSubtasksByEpicId() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
@@ -305,7 +324,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertEquals(expected2, actual2));
     }
 
-    void deleteSubtaskById() {
+    @Test
+    void deleteSubtaskById_shouldDeleteSubtaskById() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createSubtask(Subtask.builder().withName("sub").withStatus(TaskStatus.NEW).withDuration(250L)
@@ -342,7 +362,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertEquals(expected2, actual2));
     }
 
-    void deleteAllTasks() {
+    @Test
+    void deleteAllTasks_shouldDeleteAllTasks() {
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
@@ -354,7 +375,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(expected, actual);
     }
 
-    void deleteAllEpics() {
+    @Test
+    void deleteAllEpics_shouldDeleteAllEpics() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
@@ -374,7 +396,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertEquals(expected2, actual2));
     }
 
-    void deleteAllSubtasks() {
+    @Test
+    void deleteAllSubtasks_shouldDeleteAllSubtasks() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
@@ -398,7 +421,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertEquals(expected2, actual2));
     }
 
-    void getSubtasksByEpicId() {
+    @Test
+    void getSubtasksByEpicId_shouldGetListOfSubtasksLinkedToEpic() {
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
         taskManager.createEpic(Epic.builder().withName("task").build());
@@ -428,7 +452,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 () -> assertNull(actual4));
     }
 
-    void getHistory() {
+    @Test
+    void getHistory_shouldGetHistory() {
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());

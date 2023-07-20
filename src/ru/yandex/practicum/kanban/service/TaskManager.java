@@ -19,7 +19,7 @@ public interface TaskManager {
     List<Task> getAllTasks();
     List<Subtask> getAllSubtasks();
     List<Epic> getAllEpics();
-    List<Task> getPriorityTasks();
+    List<Task> getTasksPrioritizedByTime();
 
     void updateTask(Task task);
     void updateEpic(Epic epic);

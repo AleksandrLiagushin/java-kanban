@@ -23,11 +23,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistoryManager();
-    // priorityTasks = приоритетные задачи
-    // prioritizedTasks = приоретизированные задачи
-    // с точки зрения проектного управления оба варианта не правильны XD,
-    // но лично мне нравится приоритетные задачи=)
-    private final Set<Task> priorityTasks = new TreeSet<>((t1, t2) -> {
+    private final Set<Task> tasksPrioritizedByTime = new TreeSet<>((t1, t2) -> {
         Optional<LocalDateTime> t1StartTime = t1.getStartTime();
         Optional<LocalDateTime> t2StartTime = t2.getStartTime();
 
@@ -58,11 +54,15 @@ public class InMemoryTaskManager implements TaskManager {
 
         checkId(task);
 
-        if (isCrossing(task)) {
+        try {
+            isCrossing(task);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
             return;
         }
+
         tasks.put(task.getId(), task);
-        priorityTasks.add(task);
+        tasksPrioritizedByTime.add(task);
     }
 
     @Override
@@ -91,7 +91,10 @@ public class InMemoryTaskManager implements TaskManager {
 
         checkId(subtask);
 
-        if (isCrossing(subtask)) {
+        try {
+            isCrossing(subtask);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
             return;
         }
 
@@ -103,7 +106,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.put(subtask.getId(), subtask);
         changeEpicStatus(subtask.getEpicId());
         setEpicStartTime(epic.getId());
-        priorityTasks.add(subtask);
+        tasksPrioritizedByTime.add(subtask);
     }
 
     @Override
@@ -155,13 +158,16 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        if (isCrossing(task)) {
+        try {
+            isCrossing(task);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
             return;
         }
 
-        priorityTasks.remove(tasks.get(task.getId()));
+        tasksPrioritizedByTime.remove(tasks.get(task.getId()));
         tasks.put(task.getId(), task);
-        priorityTasks.add(task);
+        tasksPrioritizedByTime.add(task);
     }
 
     @Override
@@ -187,12 +193,15 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        if (isCrossing(subtask)) {
+        try {
+            isCrossing(subtask);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
             return;
         }
 
         Subtask subtaskToRef = subtasks.get(subtask.getId());
-        priorityTasks.remove(subtaskToRef);
+        tasksPrioritizedByTime.remove(subtaskToRef);
         Epic epic = epics.get(subtaskToRef.getEpicId());
 
         if (subtaskToRef.getStartTime().isPresent()) {
@@ -214,12 +223,12 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.put(subtask.getId(), subtask);
         changeEpicStatus(subtask.getEpicId());
         setEpicStartTime(epic.getId());
-        priorityTasks.add(subtask);
+        tasksPrioritizedByTime.add(subtask);
     }
 
     @Override
     public void deleteTaskById(Integer taskId) {
-        priorityTasks.remove(tasks.get(taskId));
+        tasksPrioritizedByTime.remove(tasks.get(taskId));
         tasks.remove(taskId);
         historyManager.remove(taskId);
     }
@@ -248,7 +257,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.subtractDuration(subtasks.get(subtaskId).getDuration().orElse(Duration.ZERO));
         }
 
-        priorityTasks.remove(subtasks.get(subtaskId));
+        tasksPrioritizedByTime.remove(subtasks.get(subtaskId));
         subtasks.remove(subtaskId);
         historyManager.remove(subtaskId);
     }
@@ -298,7 +307,7 @@ public class InMemoryTaskManager implements TaskManager {
         TaskStatus status = TaskStatus.NEW;
 
         if (tasksByEpic.isEmpty()) {
-            epic.setStatus(status); //мне не нравится такой вариант кода из-за дублирования строк (DRY)
+            epic.setStatus(status);
             return;
         }
 
@@ -319,8 +328,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getPriorityTasks() {
-        return List.copyOf(priorityTasks);
+    public List<Task> getTasksPrioritizedByTime() {
+        return List.copyOf(tasksPrioritizedByTime);
     }
 
     private int generateUniqueId() {
@@ -335,18 +344,15 @@ public class InMemoryTaskManager implements TaskManager {
                 .orElse(null));
     }
 
-    // так как логика принятия решения на основе валидации пересечения не описана и указано, что должна выполнятся
-    // только одна задача в заданный промежуток времени - задачу с пересечением не добавляем в трекер
-    @SuppressWarnings("checked")
-    private boolean isCrossing(Task task) {
+    private void isCrossing(Task task) throws RuntimeException {
         Optional<LocalDateTime> t1StartTime = task.getStartTime();
         Optional<LocalDateTime> t1EndTime = task.getEndTime();
 
         if (t1StartTime.isEmpty()) {
-            return false;
+            return;
         }
 
-        for (Task task2 : priorityTasks) {
+        for (Task task2 : tasksPrioritizedByTime) {
             Optional<LocalDateTime> t2EndTime = task2.getEndTime();
             Optional<LocalDateTime> t2StartTime = task2.getStartTime();
 
@@ -355,10 +361,9 @@ public class InMemoryTaskManager implements TaskManager {
             }
             if ((t1EndTime.get().isAfter(t2StartTime.get()) && t1StartTime.get().isBefore(t2EndTime.get())) ||
                     (t2EndTime.get().isAfter(t1StartTime.get()) && t2StartTime.get().isBefore(t1EndTime.get()))) {
-                return true;
+                throw new RuntimeException("Can't add/update task because it is crossing other one");
             }
         }
-        return false;
     }
 
     private void checkId(Task task) {

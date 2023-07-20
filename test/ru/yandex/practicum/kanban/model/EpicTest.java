@@ -1,22 +1,25 @@
 package ru.yandex.practicum.kanban.model;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class EpicTest {
-    private static Epic emptyEpic;
-    private static Epic filledEpic;
-    private static Epic epic;
+    private Epic emptyEpic;
+    private Epic filledEpic;
+    private Epic epic;
+    // я думал о хранении этих данных внутри тестов, но это сильно раздувает код. Поэтому перед началом каждого теста
+    // обновляю поля
 
-    @BeforeAll
-    public static void createEpics() {
+    @BeforeEach
+    public void createEpics() {
         emptyEpic = Epic.builder().build();
         filledEpic = Epic.builder().build();
         epic = Epic.builder()
@@ -31,7 +34,7 @@ class EpicTest {
     }
 
     @Test
-    public void shouldGetSubtaskIds() {
+    public void getSubtaskIds_shouldGetSubtaskIds() {
         List<Integer> expected = List.of(5, 6, 7);
         List<Integer> actual = epic.getSubtaskIds();
 
@@ -62,7 +65,7 @@ class EpicTest {
     }
 
     @Test
-    public void shouldSetStatus() {
+    public void setStatus_shouldSetStatus() {
         filledEpic.setStatus(TaskStatus.NEW);
         TaskStatus expected = TaskStatus.NEW;
         TaskStatus actual = filledEpic.getStatus();
@@ -86,7 +89,7 @@ class EpicTest {
     }
 
     @Test
-    public void shouldCompareEpics() {
+    public void compare_shouldCompareEpics() {
         Task equalEpic = Epic.builder()
                 .withId(1)
                 .withName("epic1")
@@ -105,7 +108,7 @@ class EpicTest {
     }
 
     @Test
-    public void shouldConvertEpicToString() {
+    public void toString_shouldConvertEpicToString() {
         String expected = "Epic{id=1, name='epic1', description='epic', " +
                 "status=NEW, startTime=2015-05-29T03:30, duration=250subtaskIds=[5, 6, 7]}";
         String actual = epic.toString();
@@ -114,7 +117,7 @@ class EpicTest {
     }
 
     @Test
-    public void shouldConvertEpicToCsvLine() {
+    public void toCsvLine_shouldConvertEpicToCsvLine() {
         String expected = "1,EPIC,'\"epic1\"','\"epic\"',NEW,2015-05-29T03:30,250,[5, 6, 7]";
         String actual = epic.toCsvLine();
 

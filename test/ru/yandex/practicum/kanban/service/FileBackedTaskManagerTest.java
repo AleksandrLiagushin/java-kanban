@@ -66,7 +66,6 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     @Test
     void load_shouldLoadAllTasksFromFile() {
         taskManager = Managers.getBackedTaskManager(Paths.get("resources", "TasksBenchmark.csv"));
-        taskManager.load();
 
         List<Task> expectedTasks = List.of(
                 Task.builder().withId(1).withName("task1").withDescription("task1").withStatus(TaskStatus.NEW)
@@ -115,7 +114,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     @Test
     void load_shouldLoadAllTasksFromHistory() {
-        FileBackedManager fbtm = FileBackedTaskManager
+        taskManager = FileBackedTaskManager
                 .loadFromFile(Paths.get("resources", "TasksTestWithHistory.csv"));
 
         List<Task> expected = List.of(
@@ -132,113 +131,8 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
                 Task.builder().withName("task3").withId(6).withDescription("task6")
                         .withStatus(TaskStatus.IN_PROGRESS).build()
         );
-        List<Task> actual = fbtm.getHistory();
+        List<Task> actual = taskManager.getHistory();
 
         assertEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldCreateTask() {
-        createTask();
-    }
-
-    @Test
-    public void shouldCreateEpic() {
-        createEpic();
-    }
-
-    @Test
-    public void shouldCreateSubtaskAndCheckEpicChanges() {
-        createSubtask();
-    }
-
-    @Test
-    public void shouldFindTaskById() {
-        findTaskById();
-    }
-
-    @Test
-    public void shouldFindEpicById() {
-        findEpicById();
-    }
-
-    @Test
-    public void shouldFindSubtaskById() {
-        findSubtaskById();
-    }
-
-    @Test
-    public void shouldGetAllTasks() {
-        getAllTasks();
-    }
-
-    @Test
-    public void shouldGetAllEpics() {
-        getAllEpics();
-    }
-
-    @Test
-    public void shouldGetAllSubtasks() {
-        getAllSubtasks();
-    }
-
-    @Test
-    public void shouldGetPriorityTasks() {
-        getPriorityTasks();
-    }
-
-    @Test
-    public void shouldUpdateTask() {
-        updateTask();
-    }
-
-    @Test
-    void shouldUpdateEpic() {
-        updateEpic();
-    }
-
-    @Test
-    void shouldUpdateSubtask() {
-        updateSubtask();
-    }
-
-    @Test
-    void shouldDeleteTaskById() {
-        deleteTaskById();
-    }
-
-    @Test
-    void shouldDeleteEpicById() {
-        deleteEpicById();
-    }
-
-    @Test
-    void shouldDeleteSubtaskById() {
-        deleteSubtaskById();
-    }
-
-    @Test
-    void shouldDeleteAllTasks() {
-        deleteAllTasks();
-    }
-
-    @Test
-    void shouldDeleteAllEpics() {
-        deleteAllEpics();
-    }
-
-    @Test
-    void shouldDeleteAllSubtasks() {
-        deleteAllSubtasks();
-    }
-
-    @Test
-    void shouldGetSubtasksByEpicId() {
-        getSubtasksByEpicId();
-    }
-
-    @Test
-    void shouldGetHistory() {
-        getHistory();
     }
 }
