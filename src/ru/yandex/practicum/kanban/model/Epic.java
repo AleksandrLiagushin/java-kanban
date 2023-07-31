@@ -1,5 +1,7 @@
 package ru.yandex.practicum.kanban.model;
 
+import ru.yandex.practicum.kanban.user.User;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class Epic extends Task {
         }
 
         public EpicBuilder withName(String name) {
-            super.setName(name);
+            this.setName(name);
             return this;
         }
 
@@ -84,6 +86,11 @@ public class Epic extends Task {
 
         public EpicBuilder withSubtaskIds(List<Integer> subtaskIds) {
             this.subtaskIds.addAll(subtaskIds);
+            return this;
+        }
+
+        public EpicBuilder withUser(User user) {
+            this.setUser(user);
             return this;
         }
 

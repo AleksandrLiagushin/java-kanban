@@ -1,5 +1,7 @@
 package ru.yandex.practicum.kanban.model;
 
+import ru.yandex.practicum.kanban.user.User;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -12,6 +14,7 @@ public class Task {
     private TaskStatus status;
     private LocalDateTime startTime;
     private Duration duration;
+    private final User user;
 
     public Task(TaskBuilder taskBuilder) {
         this.id = taskBuilder.id;
@@ -20,6 +23,7 @@ public class Task {
         this.status = taskBuilder.status;
         this.startTime = taskBuilder.startTime;
         this.duration = taskBuilder.duration;
+        this.user = taskBuilder.user;
     }
 
     public int getId() {
@@ -44,6 +48,10 @@ public class Task {
 
     public Optional<Duration> getDuration() {
         return Optional.ofNullable(duration);
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public Optional<LocalDateTime> getEndTime() {
@@ -84,6 +92,7 @@ public class Task {
         private LocalDateTime startTime;
 
         private Duration duration;
+        private User user;
 
         TaskBuilder() {
         }
@@ -117,6 +126,11 @@ public class Task {
             return this;
         }
 
+        public TaskBuilder withUser(User user) {
+            this.user = user;
+            return this;
+        }
+
         public void setId(int id) {
             this.id = id;
         }
@@ -138,6 +152,9 @@ public class Task {
         }
         public void setDuration(long duration) {
             this.duration = Duration.ofMinutes(duration);
+        }
+        public void setUser(User user) {
+            this.user = user;
         }
 
         public Task build() {

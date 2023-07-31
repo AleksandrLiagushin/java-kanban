@@ -453,7 +453,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getHistory_shouldGetHistory() {
+    void getHistory_shouldReturnHistory() {
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());

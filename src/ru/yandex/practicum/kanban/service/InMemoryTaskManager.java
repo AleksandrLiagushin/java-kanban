@@ -1,5 +1,6 @@
 package ru.yandex.practicum.kanban.service;
 
+import ru.yandex.practicum.kanban.exception.ManagerIntersectionException;
 import ru.yandex.practicum.kanban.model.Epic;
 import ru.yandex.practicum.kanban.model.Subtask;
 import ru.yandex.practicum.kanban.model.Task;
@@ -90,13 +91,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         checkId(subtask);
-
-        try {
-            isCrossing(subtask);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
+        isCrossing(subtask);
 
         if (subtask.getStartTime().isPresent()) {
             epic.addDuration(subtask.getDuration().orElse(Duration.ZERO));
@@ -356,12 +351,17 @@ public class InMemoryTaskManager implements TaskManager {
             Optional<LocalDateTime> t2EndTime = task2.getEndTime();
             Optional<LocalDateTime> t2StartTime = task2.getStartTime();
 
+            if (!task.getUser().equals(task2.getUser())) {
+                continue;
+            }
+
             if (t2StartTime.isEmpty() || task.getId() == task2.getId()) {
                 continue;
             }
+
             if ((t1EndTime.get().isAfter(t2StartTime.get()) && t1StartTime.get().isBefore(t2EndTime.get())) ||
                     (t2EndTime.get().isAfter(t1StartTime.get()) && t2StartTime.get().isBefore(t1EndTime.get()))) {
-                throw new RuntimeException("Can't add/update task because it is crossing other one");
+                throw new ManagerIntersectionException("Can't add/update task because it is crossing other one");
             }
         }
     }
