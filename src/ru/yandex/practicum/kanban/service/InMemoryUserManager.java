@@ -3,6 +3,7 @@ package ru.yandex.practicum.kanban.service;
 import ru.yandex.practicum.kanban.model.Task;
 import ru.yandex.practicum.kanban.user.User;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
 
 public class InMemoryUserManager implements UserManager{
     private final Map<Integer, User> users = new HashMap<>();
-    private final TaskManager taskManager = Managers.getDefault();
+    private final FileBackedManager taskManager = Managers.getBackedTaskManager(Paths.get("resources", "Tasks.csv"));
     private int uniqueUserId = 0;
 
     private int generateId() {
@@ -48,12 +49,12 @@ public class InMemoryUserManager implements UserManager{
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAllUsers() {
         return new ArrayList<>(users.values());
     }
 
     @Override
-    public List<Task> gerUserTasks(int userId) {
+    public List<Task> getUserTasks(int userId) {
         return Stream.of(taskManager.getAllTasks(), taskManager.getAllEpics(), taskManager.getAllSubtasks())
                 .flatMap(Collection::stream)
                 .filter(task -> task.getUser().getId() == userId)
@@ -61,7 +62,7 @@ public class InMemoryUserManager implements UserManager{
     }
 
     @Override
-    public TaskManager getTaskManger() {
+    public FileBackedManager getTaskManger() {
         return taskManager;
     }
 }

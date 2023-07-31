@@ -10,7 +10,7 @@ public interface UserManager {
     void update(User user);
     User getById(int userId);
     void delete(int userId);
-    List<User> getAll();
-    List<Task> gerUserTasks(int userId);
+    List<User> getAllUsers();
+    List<Task> getUserTasks(int userId);
     TaskManager getTaskManger();
 }
