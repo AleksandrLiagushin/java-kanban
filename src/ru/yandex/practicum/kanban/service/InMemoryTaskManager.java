@@ -91,7 +91,13 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         checkId(subtask);
-        isCrossing(subtask);
+
+        try {
+            isCrossing(subtask);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
 
         if (subtask.getStartTime().isPresent()) {
             epic.addDuration(subtask.getDuration().orElse(Duration.ZERO));
