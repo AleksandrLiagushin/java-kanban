@@ -22,7 +22,7 @@ public class Managers {
         return new InMemoryTaskManager();
     }
 
-    public static TaskManager getDefaultHttpManager(String url) {
+    public static HttpTaskManager getDefaultHttpManager(String url) {
         try {
             return HttpTaskManager.load(url);
         } catch (IOException | InterruptedException e) {

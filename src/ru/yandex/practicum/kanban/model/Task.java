@@ -1,7 +1,5 @@
 package ru.yandex.practicum.kanban.model;
 
-import ru.yandex.practicum.kanban.user.User;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
