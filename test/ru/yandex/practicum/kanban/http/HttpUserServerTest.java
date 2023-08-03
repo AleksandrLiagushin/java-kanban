@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.server;
+package ru.yandex.practicum.kanban.http;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterEach;
@@ -8,7 +8,6 @@ import ru.yandex.practicum.kanban.model.Task;
 import ru.yandex.practicum.kanban.model.TaskStatus;
 import ru.yandex.practicum.kanban.service.Managers;
 import ru.yandex.practicum.kanban.service.TaskManager;
-import ru.yandex.practicum.kanban.service.UserManager;
 import ru.yandex.practicum.kanban.user.User;
 
 import java.io.IOException;
@@ -22,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HttpUserServerTest {
 
-    private HttpUserServer userServer;
     private final Gson gson = Managers.getGson();
     private TaskManager taskManager;
     private UserManager userManager;

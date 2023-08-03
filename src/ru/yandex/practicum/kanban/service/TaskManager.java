@@ -12,9 +12,9 @@ public interface TaskManager {
     void createEpic(Epic epic);
     void createSubtask(Subtask sub);
 
-    Task findTaskById(int taskId);
-    Epic findEpicById(int epicId);
-    Subtask findSubtaskById(int subId);
+    Task getTaskById(int taskId);
+    Epic getEpicById(int epicId);
+    Subtask getSubtaskById(int subId);
 
     List<Task> getAllTasks();
     List<Subtask> getAllSubtasks();

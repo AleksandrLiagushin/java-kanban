@@ -40,6 +40,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
     private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private final Path path;
 
+    FileBackedTaskManager() {
+        path = null;
+    }
     private FileBackedTaskManager(Path path) {
         this.path = path;
     }
@@ -150,9 +153,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
 
         String[] history = csvLines.get(index + 1).split(",");
         for (String id : history) {
-            super.findTaskById(Integer.parseInt(id));
-            super.findEpicById(Integer.parseInt(id));
-            super.findSubtaskById(Integer.parseInt(id));
+            super.getTaskById(Integer.parseInt(id));
+            super.getEpicById(Integer.parseInt(id));
+            super.getSubtaskById(Integer.parseInt(id));
         }
     }
 
@@ -229,22 +232,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
     }
 
     @Override
-    public Task findTaskById(int taskId) {
-        Task task = super.findTaskById(taskId);
+    public Task getTaskById(int taskId) {
+        Task task = super.getTaskById(taskId);
         save();
         return task;
     }
 
     @Override
-    public Epic findEpicById(int epicId) {
-        Epic epic = super.findEpicById(epicId);
+    public Epic getEpicById(int epicId) {
+        Epic epic = super.getEpicById(epicId);
         save();
         return epic;
     }
 
     @Override
-    public Subtask findSubtaskById(int subtaskId) {
-        Subtask subtask = super.findSubtaskById(subtaskId);
+    public Subtask getSubtaskById(int subtaskId) {
+        Subtask subtask = super.getSubtaskById(subtaskId);
         save();
         return subtask;
     }

@@ -96,10 +96,10 @@ abstract class TaskManagerTest<T extends TaskManager> {
         Epic expected5 = Epic.builder().withId(4).withName("task").withStatus(TaskStatus.IN_PROGRESS).withSubtaskIds(List.of(11, 12))
                 .withDuration(500).withStartTime(LocalDateTime.parse("2015-05-29T18:15:00.0")).build();
         List<Subtask> actual1 = taskManager.getAllSubtasks();
-        Epic actual2 = taskManager.findEpicById(1);
-        Epic actual3 = taskManager.findEpicById(2);
-        Epic actual4 = taskManager.findEpicById(3);
-        Epic actual5 = taskManager.findEpicById(4);
+        Epic actual2 = taskManager.getEpicById(1);
+        Epic actual3 = taskManager.getEpicById(2);
+        Epic actual4 = taskManager.getEpicById(3);
+        Epic actual5 = taskManager.getEpicById(4);
 
         assertAll("Subtask creation test:",
                 () -> assertEquals(expected1, actual1),
@@ -113,8 +113,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void findTaskById_shouldReturnTaskFoundById() {
         Task expected = Task.builder().withId(1).withName("task").build();
         taskManager.createTask(Task.builder().withId(1).withName("task").build());
-        Task actual1 = taskManager.findTaskById(1);
-        Task actual2 = taskManager.findTaskById(5);
+        Task actual1 = taskManager.getTaskById(1);
+        Task actual2 = taskManager.getTaskById(5);
 
         assertAll("Find task test",
                 () -> assertEquals(expected, actual1),
@@ -125,8 +125,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void findEpicById_shouldReturnEpicFoundById() {
         Epic expected = Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).build();
         taskManager.createEpic(Epic.builder().withId(1).withName("task").build());
-        Epic actual1 = taskManager.findEpicById(1);
-        Epic actual2 = taskManager.findEpicById(5);
+        Epic actual1 = taskManager.getEpicById(1);
+        Epic actual2 = taskManager.getEpicById(5);
 
         assertAll("Find task test",
                 () -> assertEquals(expected, actual1),
@@ -138,8 +138,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(Epic.builder().withId(1).withName("task").build());
         Subtask expected = Subtask.builder().withId(2).withName("task").withStatus(TaskStatus.NEW).withEpicId(1).build();
         taskManager.createSubtask(Subtask.builder().withId(2).withName("task").withStatus(TaskStatus.NEW).withEpicId(1).build());
-        Subtask actual1 = taskManager.findSubtaskById(2);
-        Subtask actual2 = taskManager.findSubtaskById(5);
+        Subtask actual1 = taskManager.getSubtaskById(2);
+        Subtask actual2 = taskManager.getSubtaskById(5);
 
         assertAll("Find task test",
                 () -> assertEquals(expected, actual1),
@@ -237,7 +237,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.updateTask(Task.builder().withId(1).build());
         Task expected = Task.builder().withId(1).withName("task1").withDuration(15L)
                 .withStartTime(LocalDateTime.parse("2016-05-29T03:15:00.0")).build();
-        Task actual = taskManager.findTaskById(1);
+        Task actual = taskManager.getTaskById(1);
 
         assertEquals(expected, actual);
     }
@@ -249,7 +249,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.updateEpic(Epic.builder().withId(1).build());
 
         Epic expected = Epic.builder().withId(1).withName("task").withDescription("epic").build();
-        Epic actual = taskManager.findEpicById(1);
+        Epic actual = taskManager.getEpicById(1);
 
         assertEquals(expected, actual);
     }
@@ -271,9 +271,9 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 .withDuration(Duration.ZERO.toMinutes()).build();
         Epic expected3 = Epic.builder().withId(2).withName("task").withStatus(TaskStatus.IN_PROGRESS).withDuration(750L)
                 .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withSubtaskIds(List.of(4, 3)).build();
-        Subtask actual1 = taskManager.findSubtaskById(3);
-        Epic actual2 = taskManager.findEpicById(1);
-        Epic actual3 = taskManager.findEpicById(2);
+        Subtask actual1 = taskManager.getSubtaskById(3);
+        Epic actual2 = taskManager.getEpicById(1);
+        Epic actual3 = taskManager.getEpicById(2);
 
         assertAll("Subtask updating test with migration between Epics:",
                 () -> assertEquals(expected1, actual1),
@@ -337,7 +337,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
         Epic expected = Epic.builder().withId(1).withName("task").withStatus(TaskStatus.IN_PROGRESS).withDuration(500L)
                 .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withSubtaskIds(List.of(3, 4)).build();
-        Epic actual = taskManager.findEpicById(1);
+        Epic actual = taskManager.getEpicById(1);
 
         assertEquals(expected, actual);
 
@@ -459,10 +459,10 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
         taskManager.createTask(Task.builder().withName("task").build());
-        taskManager.findTaskById(1);
-        taskManager.findTaskById(3);
-        taskManager.findTaskById(5);
-        taskManager.findTaskById(1);
+        taskManager.getTaskById(1);
+        taskManager.getTaskById(3);
+        taskManager.getTaskById(5);
+        taskManager.getTaskById(1);
 
         List<Task> expected = List.of(
                 Task.builder().withId(3).withName("task").build(),

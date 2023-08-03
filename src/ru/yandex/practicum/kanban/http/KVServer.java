@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kanban.server;
+package ru.yandex.practicum.kanban.http;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -27,8 +27,25 @@ public class KVServer {
 		server.createContext("/load", this::load);
 	}
 
-	private void load(HttpExchange h) {
-		// TODO Добавьте получение значения по ключу
+	private void load(HttpExchange h) throws IOException{
+		try {
+			if (!hasAuth(h)) {
+				h.sendResponseHeaders(403, 0);
+				return;
+			}
+			if (!"GET".equals(h.getRequestMethod())) {
+				h.sendResponseHeaders(405, 0);
+				return;
+			}
+			String key = h.getRequestURI().getPath().substring("/load/".length());
+			if (key.isEmpty()) {
+				h.sendResponseHeaders(400, 0);
+				return;
+			}
+			sendText(h, data.getOrDefault(key, "[]"));
+		} finally {
+			h.close();
+		}
 	}
 
 	private void save(HttpExchange h) throws IOException {
