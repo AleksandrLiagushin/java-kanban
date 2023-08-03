@@ -3,7 +3,6 @@ package ru.yandex.practicum.kanban.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.yandex.practicum.kanban.adapter.GsonAdapters;
-import ru.yandex.practicum.kanban.adapter.LocalDateTimeAdapter;
 import ru.yandex.practicum.kanban.exception.KVResponseException;
 
 import java.io.IOException;
@@ -23,9 +22,9 @@ public class Managers {
         return new InMemoryTaskManager();
     }
 
-    public static TaskManager getDefaultHttpManager() {
+    public static TaskManager getDefaultHttpManager(String url) {
         try {
-            return HttpTaskManager.load("localhost:8078");
+            return HttpTaskManager.load(url);
         } catch (IOException | InterruptedException e) {
             throw new KVResponseException("Problem with TaskManager creation", e.getCause());
         }

@@ -1,7 +1,5 @@
 package ru.yandex.practicum.kanban.model;
 
-import ru.yandex.practicum.kanban.user.User;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -60,11 +58,6 @@ public class Subtask extends Task {
 
         public SubtaskBuilder withEpicId(int epicId) {
             this.epicId = epicId;
-            return this;
-        }
-
-        public SubtaskBuilder withUser(User user) {
-            this.setUser(user);
             return this;
         }
 

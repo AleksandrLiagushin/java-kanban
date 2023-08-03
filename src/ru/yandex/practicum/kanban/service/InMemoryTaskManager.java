@@ -351,10 +351,6 @@ public class InMemoryTaskManager implements TaskManager {
             Optional<LocalDateTime> t2EndTime = task2.getEndTime();
             Optional<LocalDateTime> t2StartTime = task2.getStartTime();
 
-            if (!task.getUser().equals(task2.getUser())) {
-                continue;
-            }
-
             if (t2StartTime.isEmpty() || task.getId() == task2.getId()) {
                 continue;
             }
