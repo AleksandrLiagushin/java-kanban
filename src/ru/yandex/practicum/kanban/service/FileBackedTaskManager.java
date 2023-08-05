@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -163,13 +164,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
             return;
         }
 
-        String[] history = csvLines.get(index + 1).split(",");
+        String[] rowHistory = csvLines.get(index + 1).split(",");
+        List<Integer> history = Arrays.stream(rowHistory)
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
         restoreHistory(history);
-//        for (String id : history) {
-//            super.getTaskById(Integer.parseInt(id));
-//            super.getEpicById(Integer.parseInt(id));
-//            super.getSubtaskById(Integer.parseInt(id));
-//        }
     }
 
     @Override

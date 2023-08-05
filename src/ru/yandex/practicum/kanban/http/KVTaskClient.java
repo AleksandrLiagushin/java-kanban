@@ -17,25 +17,33 @@ public class KVTaskClient {
         this.url = url;
     }
 
-    public void register() throws IOException, InterruptedException {
+    public void register() {
         client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(url + "/register")).GET().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() != 200) {
-            throw new KVResponseException("Client has not been registered, status= " + response.statusCode());
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new KVResponseException("Client has not been registered, status= " + response.statusCode());
+            }
+            apiToken = response.body();
+        } catch (IOException | InterruptedException e) {
+            throw new KVResponseException("Client has not load request, something went wrong.", e.getCause());
         }
-        apiToken = response.body();
     }
 
-    public String load(String key) throws IOException, InterruptedException {
+    public String load(String key) {
         client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(url + "/load/" + key + "?API_TOKEN=" + apiToken))
                 .GET().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() != 200) {
-            throw new KVResponseException("Client has not load request, status= " + response.statusCode());
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new KVResponseException("Client has not load request, status= " + response.statusCode());
+            }
+            return response.body();
+        } catch (IOException | InterruptedException e) {
+            throw new KVResponseException("Client has not load request, something went wrong.", e.getCause());
         }
-        return response.body();
     }
 
     public void put(String key, String data) throws IOException, InterruptedException {
@@ -43,9 +51,13 @@ public class KVTaskClient {
 
         HttpRequest request = HttpRequest.newBuilder(URI.create(url + "/save/" + key + "?API_TOKEN=" + apiToken))
                 .POST(HttpRequest.BodyPublishers.ofString(data)).build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() != 200) {
-            throw new KVResponseException("Client has not save request, status= " + response.statusCode());
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new KVResponseException("Client has not save request, status= " + response.statusCode());
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new KVResponseException("Client has not load request, something went wrong.", e.getCause());
         }
     }
 }

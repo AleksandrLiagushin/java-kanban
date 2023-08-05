@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.kanban.http.KVServer;
 import ru.yandex.practicum.kanban.model.Task;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class HttpTaskManagerTest {
@@ -24,17 +22,15 @@ class HttpTaskManagerTest {
         kvServer.stop();
     }
 
-    private TaskManager createTaskManager() {
-        try {
-            return HttpTaskManager.load("http://localhost:8078");
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    private HttpTaskManager createTaskManager() {
+        HttpTaskManager httpTaskManager = new HttpTaskManager("http://localhost:8078");
+        httpTaskManager.load();
+        return httpTaskManager;
     }
 
     @Test
     void taskManager_shouldSaveAndLoadDataFromKvServer() {
-        TaskManager taskManager = createTaskManager();
+        HttpTaskManager taskManager = createTaskManager();
         taskManager.createTask(Task.builder().withName("task").withDescription("task").build());
         taskManager.createTask(Task.builder().withName("task").withDescription("task").build());
         taskManager.createTask(Task.builder().withName("task").withDescription("task").build());

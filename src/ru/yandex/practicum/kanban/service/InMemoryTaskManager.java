@@ -401,17 +401,16 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    void restoreHistory(String[] history) {
-        for(String taskId : history) {
-            Integer id = Integer.parseInt(taskId);
-            if (tasks.containsKey(id)) {
-                historyManager.add(tasks.get(id));
+    void restoreHistory(List<Integer> history) {
+        for(Integer taskId : history) {
+            if (tasks.containsKey(taskId)) {
+                historyManager.add(tasks.get(taskId));
             }
-            if (epics.containsKey(id)) {
-                historyManager.add(epics.get(id));
+            if (epics.containsKey(taskId)) {
+                historyManager.add(epics.get(taskId));
             }
-            if (subtasks.containsKey(id)) {
-                historyManager.add(subtasks.get(id));
+            if (subtasks.containsKey(taskId)) {
+                historyManager.add(subtasks.get(taskId));
             }
         }
     }
