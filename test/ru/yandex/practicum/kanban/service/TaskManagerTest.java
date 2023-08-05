@@ -248,7 +248,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.updateEpic(Epic.builder().withId(1).withName("task").withDescription("epic").build());
         taskManager.updateEpic(Epic.builder().withId(1).build());
 
-        Epic expected = Epic.builder().withId(1).withName("task").withDescription("epic").build();
+        Epic expected = Epic.builder().withId(1).withName("task").withDescription("epic").withStatus(TaskStatus.NEW).build();
         Epic actual = taskManager.getEpicById(1);
 
         assertEquals(expected, actual);
@@ -274,6 +274,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         Subtask actual1 = taskManager.getSubtaskById(3);
         Epic actual2 = taskManager.getEpicById(1);
         Epic actual3 = taskManager.getEpicById(2);
+        System.out.println(actual2);
 
         assertAll("Subtask updating test with migration between Epics:",
                 () -> assertEquals(expected1, actual1),

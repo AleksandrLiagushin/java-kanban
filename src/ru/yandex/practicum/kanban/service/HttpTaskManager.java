@@ -13,47 +13,40 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class HttpTaskManager extends FileBackedTaskManager {
-    private final KVTaskClient client;
+    private final Gson gson = Managers.getGson();
+    private final KVTaskClient kvTaskClient;
 
     public HttpTaskManager(String url) {
         super();
-        client = new KVTaskClient(url);
+        kvTaskClient = new KVTaskClient(url);
+        kvTaskClient.register();
     }
 
-    public static HttpTaskManager load(String url) throws IOException, InterruptedException {
-        HttpTaskManager httpTaskManager = new HttpTaskManager(url);
-        httpTaskManager.client.register();
-        Gson gson = Managers.getGson();
-
-        List<Task> tasks = gson.fromJson(httpTaskManager.client.load("tasks"),
+    @Override
+    public void load() {
+        List<Task> tasks = gson.fromJson(kvTaskClient.load("tasks"),
                 new TypeToken<List<Task>>() {}.getType());
-        List<Epic> epics = gson.fromJson(httpTaskManager.client.load("epics"),
+        List<Epic> epics = gson.fromJson(kvTaskClient.load("epics"),
                 new TypeToken<List<Epic>>() {}.getType());
-        List<Subtask> subtasks = gson.fromJson(httpTaskManager.client.load("subtasks"),
+        List<Subtask> subtasks = gson.fromJson(kvTaskClient.load("subtasks"),
                 new TypeToken<List<Subtask>>() {}.getType());
-        List<Integer> history = gson.fromJson(httpTaskManager.client.load("history"),
+        List<Integer> history = gson.fromJson(kvTaskClient.load("history"),
                 new TypeToken<List<Integer>>() {}.getType());
 
-        tasks.forEach(httpTaskManager::createTask);
-        epics.forEach(httpTaskManager::createEpic);
-        subtasks.forEach(httpTaskManager::createSubtask);
-
-        for (Integer id : history) {
-            httpTaskManager.getTaskById(id);
-            httpTaskManager.getEpicById(id);
-            httpTaskManager.getSubtaskById(id);
-        }
-
-        return httpTaskManager;
+        tasks.forEach(this::restoreTask);
+        epics.forEach(this::restoreTask);
+        subtasks.forEach(this::restoreTask);
+        this.restoreHistory(history);
     }
 
+    @Override
     public void save() {
         Gson gson = Managers.getGson();
         try {
-            client.put("tasks", gson.toJson(getAllTasks()));
-            client.put("epics", gson.toJson(getAllEpics()));
-            client.put("subtasks", gson.toJson(getAllSubtasks()));
-            client.put("history", gson.toJson(getHistory().stream().map(Task::getId).collect(Collectors.toList())));
+            kvTaskClient.put("tasks", gson.toJson(getAllTasks()));
+            kvTaskClient.put("epics", gson.toJson(getAllEpics()));
+            kvTaskClient.put("subtasks", gson.toJson(getAllSubtasks()));
+            kvTaskClient.put("history", gson.toJson(getHistory().stream().map(Task::getId).collect(Collectors.toList())));
         } catch (IOException | InterruptedException e) {
             throw new KVResponseException("Can't save data to server", e.getCause());
         }
