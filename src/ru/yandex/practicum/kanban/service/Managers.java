@@ -22,9 +22,9 @@ public class Managers {
         return new InMemoryTaskManager();
     }
 
-    public static HttpTaskManager getDefaultHttpManager(String url) {
+    public static HttpTaskManager getDefaultHttpManager() {
         try {
-            return HttpTaskManager.load(url);
+            return HttpTaskManager.load("http://localhost:8078");
         } catch (IOException | InterruptedException e) {
             throw new KVResponseException("Problem with TaskManager creation", e.getCause());
         }
@@ -36,6 +36,7 @@ public class Managers {
 
     public static Gson getGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.serializeNulls();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, GsonAdapters.localDateTime().nullSafe())
                 .registerTypeAdapter(Duration.class, GsonAdapters.duration().nullSafe());
         return gsonBuilder.create();

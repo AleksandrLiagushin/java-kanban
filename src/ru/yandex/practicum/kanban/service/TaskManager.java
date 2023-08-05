@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface TaskManager {
 
-    void createTask(Task task);
-    void createEpic(Epic epic);
-    void createSubtask(Subtask sub);
+    boolean createTask(Task task);
+    boolean createEpic(Epic epic);
+    boolean createSubtask(Subtask sub);
 
     Task getTaskById(int taskId);
     Epic getEpicById(int epicId);
@@ -21,9 +21,9 @@ public interface TaskManager {
     List<Epic> getAllEpics();
     List<Task> getTasksPrioritizedByTime();
 
-    void updateTask(Task task);
-    void updateEpic(Epic epic);
-    void updateSubtask(Subtask sub);
+    boolean updateTask(Task task);
+    boolean updateEpic(Epic epic);
+    boolean updateSubtask(Subtask sub);
 
     void deleteTaskById(Integer taskId);
     void deleteEpicById(Integer epicId);

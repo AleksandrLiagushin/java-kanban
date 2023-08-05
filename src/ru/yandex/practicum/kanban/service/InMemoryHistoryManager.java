@@ -2,6 +2,7 @@ package ru.yandex.practicum.kanban.service;
 
 import ru.yandex.practicum.kanban.model.Task;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -92,7 +93,7 @@ public class InMemoryHistoryManager implements HistoryManager {
                 node = node.next;
             }
 
-            return tasksHistory;
+            return Collections.unmodifiableList(tasksHistory);
         }
     }
 
