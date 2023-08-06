@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -85,9 +86,9 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
                 Epic.builder().withId(4).withName("epic1").withDescription("epic1").withDuration(500L)
                         .withStartTime(LocalDateTime.parse("2015-05-29T08:30:00.0"))
                         .withStatus(TaskStatus.IN_PROGRESS).withSubtaskIds(List.of(7, 8)).build(),
-                Epic.builder().withId(5).withName("epic2").withDescription("epic2")
+                Epic.builder().withId(5).withName("epic2").withDescription("epic2").withDuration(Duration.ZERO.toMinutes())
                         .withStatus(TaskStatus.NEW).withSubtaskIds(List.of(9, 10)).build(),
-                Epic.builder().withId(6).withName("epic3").withDescription("epic3")
+                Epic.builder().withId(6).withName("epic3").withDescription("epic3").withDuration(Duration.ZERO.toMinutes())
                         .withStatus(TaskStatus.DONE).withSubtaskIds(List.of(11, 12)).build()
         );
 
@@ -98,13 +99,13 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
                 Subtask.builder().withId(8).withName("sub2").withDescription("sub2").withStatus(TaskStatus.DONE)
                         .withStartTime(LocalDateTime.parse("2015-05-29T08:30:00.0"))
                         .withDuration(250L).withEpicId(4).build(),
-                Subtask.builder().withId(9).withName("sub3").withDescription("sub3")
+                Subtask.builder().withId(9).withName("sub3").withDescription("sub3").withDuration(Duration.ZERO.toMinutes())
                         .withStatus(TaskStatus.NEW).withEpicId(5).build(),
-                Subtask.builder().withId(10).withName("sub4").withDescription("sub4")
+                Subtask.builder().withId(10).withName("sub4").withDescription("sub4").withDuration(Duration.ZERO.toMinutes())
                         .withStatus(TaskStatus.NEW).withEpicId(5).build(),
-                Subtask.builder().withId(11).withName("sub5").withDescription("sub5")
+                Subtask.builder().withId(11).withName("sub5").withDescription("sub5").withDuration(Duration.ZERO.toMinutes())
                         .withStatus(TaskStatus.DONE).withEpicId(6).build(),
-                Subtask.builder().withId(12).withName("sub6").withDescription("sub6")
+                Subtask.builder().withId(12).withName("sub6").withDescription("sub6").withDuration(Duration.ZERO.toMinutes())
                         .withStatus(TaskStatus.DONE).withEpicId(6).build()
         );
 
@@ -124,17 +125,17 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
         List<Task> expected = List.of(
                 Task.builder().withName("task2").withId(5).withDescription("task5")
-                        .withStatus(TaskStatus.DONE).build(),
+                        .withStatus(TaskStatus.DONE).withDuration(Duration.ZERO.toMinutes()).build(),
                 Task.builder().withName("task1").withId(4).withDescription("task4")
-                        .withStatus(TaskStatus.NEW).build(),
+                        .withStatus(TaskStatus.NEW).withDuration(Duration.ZERO.toMinutes()).build(),
                 Task.builder().withName("task3").withId(3).withDescription("task3")
-                        .withStatus(TaskStatus.IN_PROGRESS).build(),
+                        .withStatus(TaskStatus.IN_PROGRESS).withDuration(Duration.ZERO.toMinutes()).build(),
                 Task.builder().withName("task2").withId(2).withDescription("task2")
-                        .withStatus(TaskStatus.DONE).build(),
+                        .withStatus(TaskStatus.DONE).withDuration(Duration.ZERO.toMinutes()).build(),
                 Task.builder().withName("task1").withId(1).withDescription("task1")
-                        .withStatus(TaskStatus.NEW).build(),
+                        .withStatus(TaskStatus.NEW).withDuration(Duration.ZERO.toMinutes()).build(),
                 Task.builder().withName("task3").withId(6).withDescription("task6")
-                        .withStatus(TaskStatus.IN_PROGRESS).build()
+                        .withStatus(TaskStatus.IN_PROGRESS).withDuration(Duration.ZERO.toMinutes()).build()
         );
         List<Task> actual = taskManager.getHistory();
 

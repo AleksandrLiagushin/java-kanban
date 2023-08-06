@@ -218,7 +218,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
                         .withStartTime(LocalDateTime.parse("2015-06-15T03:16:00.0")).build(),
                 Task.builder().withId(3).withName("task")
                         .withStartTime(LocalDateTime.parse("2015-07-29T03:15:00.0")).build(),
-                Task.builder().withId(2).withName("task")
+                Task.builder().withId(2).withName("task").withDuration(5000L)
                         .withStartTime(LocalDateTime.parse("2015-08-29T03:15:00.0")).build(),
                 Task.builder().withId(6).withName("task").build(),
                 Task.builder().withId(7).withName("task").build()
@@ -345,7 +345,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.deleteSubtaskById(4);
 
         List<Epic> expected1 = List.of(
-                Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).withDuration(500L)
+                Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).withDuration(250L)
                         .withStartTime(LocalDateTime.parse("2015-05-29T03:15:00.0")).withSubtaskIds(List.of(3)).build(),
                 Epic.builder().withId(2).withName("task").withStatus(TaskStatus.NEW).withSubtaskIds(List.of(5, 6)).build()
         );
@@ -410,9 +410,9 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
         List<Subtask> expected1 = List.of();
         List<Epic> expected2 = List.of(
-                Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).build(),
-                Epic.builder().withId(2).withName("task").withStatus(TaskStatus.NEW).build(),
-                Epic.builder().withId(3).withName("task").withStatus(TaskStatus.NEW).build()
+                Epic.builder().withId(1).withName("task").withStatus(TaskStatus.NEW).withDuration(Duration.ZERO.toMinutes()).build(),
+                Epic.builder().withId(2).withName("task").withStatus(TaskStatus.NEW).withDuration(Duration.ZERO.toMinutes()).build(),
+                Epic.builder().withId(3).withName("task").withStatus(TaskStatus.NEW).withDuration(Duration.ZERO.toMinutes()).build()
         );
         List<Subtask> actual1 = taskManager.getAllSubtasks();
         List<Epic> actual2 = taskManager.getAllEpics();
