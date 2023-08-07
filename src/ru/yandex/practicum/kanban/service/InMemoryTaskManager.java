@@ -397,7 +397,6 @@ public class InMemoryTaskManager implements TaskManager {
             tasksPrioritizedByTime.add(task);
         } else if (task.getClass().equals(Epic.class)) {
             epics.put(task.getId(), (Epic) task);
-            tasksPrioritizedByTime.add(task);
         } else if (task.getClass().equals(Subtask.class)) {
             subtasks.put(task.getId(), (Subtask) task);
             tasksPrioritizedByTime.add(task);

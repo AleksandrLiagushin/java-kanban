@@ -173,22 +173,28 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
 
     @Override
     public boolean createTask(Task task) {
-        super.createTask(task);
-        save();
+        if (super.createTask(task)) {
+            save();
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean createEpic(Epic epic) {
-        super.createEpic(epic);
-        save();
+        if (super.createEpic(epic)) {
+            save();
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean createSubtask(Subtask subtask) {
-        super.createSubtask(subtask);
-        save();
+        if (super.createSubtask(subtask)) {
+            save();
+            return true;
+        }
         return false;
     }
 
@@ -203,15 +209,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
 
     @Override
     public boolean updateEpic(Epic epic) {
-        super.updateEpic(epic);
-        save();
+        if (super.updateEpic(epic)) {
+            save();
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean updateSubtask(Subtask subtask) {
-        super.updateSubtask(subtask);
-        save();
+        if (super.updateSubtask(subtask)) {
+            save();
+            return true;
+        }
         return false;
     }
 
