@@ -11,14 +11,14 @@ import java.net.http.HttpResponse;
 public class KVTaskClient {
     private String apiToken;
     private final String url;
-    private HttpClient client;
+    private final HttpClient client;
 
     public KVTaskClient(String url) {
         this.url = url;
+        client = HttpClient.newHttpClient();
     }
 
     public void register() {
-        client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(url + "/register")).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -32,7 +32,6 @@ public class KVTaskClient {
     }
 
     public String load(String key) {
-        client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(url + "/load/" + key + "?API_TOKEN=" + apiToken))
                 .GET().build();
         try {
@@ -47,8 +46,6 @@ public class KVTaskClient {
     }
 
     public void put(String key, String data) throws IOException, InterruptedException {
-        client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder(URI.create(url + "/save/" + key + "?API_TOKEN=" + apiToken))
                 .POST(HttpRequest.BodyPublishers.ofString(data)).build();
         try {

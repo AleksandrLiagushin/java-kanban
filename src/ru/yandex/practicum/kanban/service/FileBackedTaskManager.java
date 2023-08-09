@@ -74,6 +74,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
                 .append('\n');
 
         try {
+            if (path == null) {
+                return;
+            }
+
             Files.writeString(path, stringBuilder.toString());
         } catch (IOException e) {
             throw new ManagerSaveException("Error. Data have not been written.", e.getCause());
@@ -83,6 +87,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements FileBa
     @Override
     public void load() {
         try {
+            if (path == null) {
+                return;
+            }
+
             List<String> dataFromFile = Files.readAllLines(path);
             deserializeTask(dataFromFile);
         } catch (IOException e) {

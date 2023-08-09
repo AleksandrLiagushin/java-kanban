@@ -357,7 +357,7 @@ public class InMemoryTaskManager implements TaskManager {
         Optional<LocalDateTime> t1StartTime = task.getStartTime();
         Optional<LocalDateTime> t1EndTime = task.getEndTime();
 
-        if (t1StartTime.isEmpty()) {
+        if (t1StartTime.isEmpty() || t1EndTime.isEmpty()) {
             return;
         }
 
@@ -365,7 +365,7 @@ public class InMemoryTaskManager implements TaskManager {
             Optional<LocalDateTime> t2EndTime = task2.getEndTime();
             Optional<LocalDateTime> t2StartTime = task2.getStartTime();
 
-            if (t2StartTime.isEmpty() || task.getId() == task2.getId()) {
+            if (t2StartTime.isEmpty() || t2EndTime.isEmpty() || task.getId() == task2.getId()) {
                 continue;
             }
 

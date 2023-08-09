@@ -21,6 +21,7 @@ public class Main {
         server.start();
         Gson gson = Managers.getGson();
 
+
         HttpClient client = HttpClient.newHttpClient();
         URI uri = URI.create("http://localhost:8080/tasks/task/");
         Task task = Task.builder().withName("Task").withDescription("Task").withStatus(TaskStatus.NEW).withStartTime(LocalDateTime.now()).withDuration(30).build();
@@ -35,5 +36,6 @@ public class Main {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         System.out.println("Код ответа " + response.statusCode());
+        System.out.println(server.taskManager.getAllTasks());
     }
 }

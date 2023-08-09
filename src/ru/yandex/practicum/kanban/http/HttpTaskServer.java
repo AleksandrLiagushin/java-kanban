@@ -21,7 +21,7 @@ public class HttpTaskServer {
     private final int PORT = 8080;
     private final HttpServer server;
     private final Gson gson;
-    final TaskManager taskManager;
+    public final TaskManager taskManager;
 
     public HttpTaskServer() throws IOException {
         this(Managers.getDefaultHttpManager());
